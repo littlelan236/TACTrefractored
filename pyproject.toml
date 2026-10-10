@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tact-reproduction"
+version = "0.1.0"
+description = "Independent SWE-bench TACT research and baseline execution"
+requires-python = ">=3.12"
+dependencies = ["PyYAML>=6", "pydantic>=2", "requests>=2"]
+
+[project.scripts]
+tact = "tact.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
