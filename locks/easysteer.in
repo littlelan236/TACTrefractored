@@ -1,0 +1,12 @@
+# Runtime wheel is overlaid with vendor/easysteer-vllm by the installer.
+vllm==0.29.0
+transformers==5.16.1
+numpy
+gguf
+scikit-learn
+ninja
+setuptools
+wheel
+pytest
+ruff
+pre-commit

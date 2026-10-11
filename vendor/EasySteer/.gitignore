@@ -1,0 +1,30 @@
+__pycache__/
+# Local development records, environments, and test runs are not project docs.
+/.local/
+/.venv/
+.runtime/
+.environment-records/
+.pytest_cache/
+.ruff_cache/
+build/
+dist/
+.idea/
+/temp/
+easysteer.egg-info/
+
+# Regenerable capture artifact; 128MB exceeds GitHub's file limit
+replications/sake/edit_uk_capital_to_paris.pkl
+
+# MkDocs local build output
+site/
+
+# Datasets and inference artifacts are not committed (fetch/build them
+# locally using the corresponding experiment or notebook).
+experiment/math/*.json
+replications/*/math500.json
+replications/*/math500_problems.json
+replications/cast/alpaca.json
+
+# New Vite frontend (frontend/app): dependencies and build output
+frontend/app/node_modules/
+frontend/app/dist/

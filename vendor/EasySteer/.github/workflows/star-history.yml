@@ -1,0 +1,55 @@
+name: star-history
+
+# Render charts with the repository token and publish stable README images.
+on:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/star-history.yml"
+      - ".github/actions/star-history/**"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: star-history
+  cancel-in-progress: false
+
+jobs:
+  chart:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/checkout@v7
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      # Keep the data signature alongside the charts to detect unchanged runs.
+      - name: Render star history charts
+        uses: ./.github/actions/star-history
+        with:
+          output-dir: gh-pages
+          commit: "false"
+          update-readme: "false"
+
+      - name: Publish to gh-pages
+        run: |
+          cd gh-pages
+          git rm --ignore-unmatch -- star-history.svg
+          git add -- star-history-light.svg \
+            star-history-dark.svg star-history.png .star-history.sig
+          if git diff --cached --quiet; then
+            echo "chart unchanged; nothing to publish"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Update star history chart"
+          # Documentation deployments also publish to this branch.
+          git pull --rebase origin gh-pages
+          git push origin HEAD:gh-pages

@@ -51,9 +51,9 @@ def test_real_config_override_and_unimplemented_backend():
     assert cfg["timeouts"]["tool_command_seconds"] == 17
     assert cfg["timeouts"]["evaluation_seconds"] == 300
     assert cfg["generation"]["seed"] == 31
-    with pytest.raises(ValueError, match="deferred"):
+    with pytest.raises(ValueError, match="cannot steer"):
         resolve_config(overrides=["steering.strategy=cap"])
-    with pytest.raises(ValueError, match="deferred"):
+    with pytest.raises(ValueError, match="all_generated"):
         resolve_config(overrides=["serving.backend=easysteer"])
 
 

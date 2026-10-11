@@ -1,34 +1,25 @@
-# Runtime outputs, imported artifacts, and benchmark/model resources.
+# Runtime outputs and local model/benchmark assets.
+/assets/
 /runs/
 /artifacts/
-/assets/
-/data/
 /imports/
 /logs/
 /reports/
 /results/
 /outputs/
 /state/
+/data/swebench/requirements-cache/
 
-# Local environments and their generated dependency snapshots.
-/.venvs/
-/.venv/
-/venv/
-/env/
-/locks/
-.env
-.env.*
-.python-version
-site-packages/
-node_modules/
-
-# Python build products, test results, and caches.
+# Virtual environments, caches, and Python build products.
+.venvs/
+.venv/
+venv/
 __pycache__/
 *.py[cod]
 *.egg-info/
 *.egg
-/build/
-/dist/
+build/
+dist/
 .cache/
 .pytest_cache/
 .ruff_cache/
@@ -40,11 +31,28 @@ __pycache__/
 .coverage.*
 coverage.xml
 htmlcov/
+node_modules/
 
-# Large/generated artifact formats and archives.
+# Local secrets and editor/OS files.
+.env
+.env.*
+!.env.example
+!.env.sample
+*.pem
+*.key
+id_rsa*
+id_ed25519*
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Generated research/model products and downloads.
 *.traj.json
 *.capture.jsonl
-*.jsonl
 *.npz
 *.npy
 *.safetensors
@@ -52,7 +60,6 @@ htmlcov/
 *.pt
 *.pth
 *.ckpt
-*.bin
 *.whl
 *.tar
 *.tar.gz
@@ -66,15 +73,18 @@ htmlcov/
 *.sqlite3
 *.db
 
-# Local editor, OS, and credential files.
-.idea/
-.vscode/
-.DS_Store
-Thumbs.db
-*.swp
-*.swo
-*~
-*.pem
-*.key
-id_rsa*
-id_ed25519*
+# Keep the native-wheel Python overlay, not a second full vLLM build checkout.
+/vendor/easysteer-runtime.json
+/vendor/easysteer-vllm/*
+!/vendor/easysteer-vllm/vllm/
+!/vendor/easysteer-vllm/LICENSE
+!/vendor/easysteer-vllm/README.md
+!/vendor/easysteer-vllm/pyproject.toml
+
+# EasySteer uses ../easysteer-vllm, not this duplicate upstream checkout.
+/vendor/EasySteer/vllm-steer/
+/vendor/EasySteer/figures/
+/vendor/EasySteer/experiment/
+/vendor/EasySteer/replications/
+/vendor/EasySteer/vectors/
+/vendor/EasySteer/docs/assets/

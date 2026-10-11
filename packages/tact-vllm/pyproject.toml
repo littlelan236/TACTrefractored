@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tact-vllm-registry"
+version = "0.1.0"
+requires-python = ">=3.12"
+description = "Qwen TACT models for the native vLLM server"
+dependencies = ["numpy>=1.26", "vllm==0.30.0"]
+
+[project.entry-points."vllm.general_plugins"]
+tact_registry = "tact_vllm.plugin:register"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+tact_vllm = ["upstream.json"]
+
+[tool.ruff]
+line-length = 100

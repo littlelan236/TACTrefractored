@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "excluded": [
+    "pydicom__pydicom-995",
+    "pydicom__pydicom-1439",
+    "pydicom__pydicom-1458",
+    "pyvista__pyvista-4315",
+    "pyvista__pyvista-432"
+  ],
+  "reasons": {
+    "pydicom__pydicom-995": "Dataset test IDs contain machine-specific absolute paths; gold harness cannot match them.",
+    "pydicom__pydicom-1439": "Dataset test IDs contain machine-specific absolute paths; gold harness cannot match them.",
+    "pydicom__pydicom-1458": "Dataset test IDs contain machine-specific absolute paths; gold harness cannot match them.",
+    "pyvista__pyvista-4315": "Image lacks libGL.so.1; gold harness fails package import.",
+    "pyvista__pyvista-432": "Image lacks libGL.so.1; gold harness fails package import."
+  }
+}

@@ -12,7 +12,7 @@ from tact.contracts import model_descriptor
 
 
 class Strict(BaseModel):
-    model_config = ConfigDict(extra="forbid", frozen=True)
+    model_config = ConfigDict(extra="forbid", frozen=True, allow_inf_nan=False)
 
 
 class Benchmark(Strict):
@@ -48,6 +48,8 @@ class Serving(Strict):
     startup_seconds: int = Field(default=1200, gt=0)
     api_key_env: str = "TACT_API_KEY"
     external_manifest: str | None = None
+    registry_evidence: bool = True
+    easysteer_diagnostics: bool = False
 
 
 class Generation(Strict):
@@ -108,10 +110,10 @@ class Steering(Strict):
     strategy: Literal["none", "add", "cap", "gated"] = "none"
     axes: str | None = None
     k: float = Field(default=2, ge=0)
-    lambda_: float = Field(default=0.5, alias="lambda", ge=0, le=1)
+    lambda_: float = Field(default=0.5, alias="lambda", ge=0)
     additive_scale: float = -0.5
     sites: Literal["from_bundle"] = "from_bundle"
-    trigger: Literal["first_generated_think_close"] = "first_generated_think_close"
+    trigger: Literal["first_generated_think_close", "all_generated_think_close"] = "first_generated_think_close"
 
 
 class Research(Strict):
@@ -199,8 +201,13 @@ def resolve_config(path: Path | None = None, overrides: list[str] = ()) -> dict:
                 raise TypeError(f"Invalid override path: {key}")
         cursor[parts[-1]] = value
     cfg = Experiment.model_validate(raw).model_dump(mode="json", by_alias=True)
-    if cfg["serving"]["backend"] != "native_vllm" or cfg["steering"]["strategy"] != "none":
-        raise ValueError("Only native_vllm + strategy=none is implemented; steering is deferred")
+    backend = cfg["serving"]["backend"]
+    if backend == "registry_vllm" and cfg["steering"]["lambda"] > 1:
+        raise ValueError("Registry lambda is limited to 0..1")
+    if backend == "registry_vllm" and cfg["steering"]["trigger"] != "first_generated_think_close":
+        raise ValueError("Registry requires first_generated_think_close")
+    if backend == "native_vllm" and cfg["steering"]["strategy"] != "none":
+        raise ValueError("Native vLLM cannot steer; select registry_vllm")
     s, t = cfg["serving"], cfg["timeouts"]
     if not s["gpus"] or len(set(s["gpus"])) != len(s["gpus"]) or min(s["gpus"]) < 0:
         raise ValueError("GPU IDs must be non-empty, unique and non-negative")
@@ -218,7 +225,16 @@ def resolve_config(path: Path | None = None, overrides: list[str] = ()) -> dict:
         for key in keys:
             cfg[section][key] = str(project_path(root, cfg[section][key]))
     cfg["model_descriptor"] = model_descriptor(Path(cfg["model"]["path"]))
+    if cfg["steering"]["axes"] is not None:
+        cfg["steering"]["axes"] = str(project_path(root, cfg["steering"]["axes"]))
+    if backend == "registry_vllm":
+        from tact.backends.registry_vllm import validate_registry
+        cfg["registry"] = validate_registry(cfg)
     cfg["project_root"] = str(root)
+    if backend == "easysteer":
+        from tact.backends.easysteer import compile_request, validate_easysteer
+        cfg["easysteer"] = validate_easysteer(cfg)
+        cfg["easysteer"]["request"] = compile_request(cfg)
     cfg["sources"] = sources
     selected, _ = select_instances(cfg)
     cfg["selected_ids"] = [row["instance_id"] for row in selected]

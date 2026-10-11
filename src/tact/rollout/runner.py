@@ -9,7 +9,7 @@ from pathlib import Path
 import yaml
 
 from tact.artifacts import identifier, now, read_json, update_status, write_json
-from tact.backends.native_vllm import BackendProcessManager, model_config
+from tact.backends import model_config, process_manager
 from tact.config import select_instances
 from tact.environments.containers import ContainerFactory, TaskContext
 
@@ -131,11 +131,12 @@ def run_rollout(cfg: dict, run: Path) -> dict:
     update_status(run / "status.json", "preflight")
     try:
         write_json(run / "images.json", factory.lock_images(rows))
-        with BackendProcessManager(cfg, run / "serving"):
+        with process_manager(cfg, run / "serving") as backend:
             update_status(run / "status.json", "rollout")
             with concurrent.futures.ThreadPoolExecutor(max_workers=cfg["execution"]["rollout_workers"]) as pool:
                 futures = [pool.submit(process_task, cfg, run, row, factory) for row in rows]
                 results = [future.result() for future in concurrent.futures.as_completed(futures)]
+            backend.validate_run_evidence()
         generate_predictions(run, cfg)
         failures = [r["instance_id"] for r in results if r["exit_status"] not in TERMINAL]
         update_status(run / "status.json", "rollout_failed" if failures else "rollout_complete",

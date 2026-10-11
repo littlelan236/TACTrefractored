@@ -61,22 +61,22 @@ class EnvironmentPolicy:
 
 
 PROBE_CODE = """import json,sys,subprocess,importlib,os,re
-from importlib.metadata import version,PackageNotFoundError
 try:
     from packaging.requirements import Requirement
 except ImportError:
     from pip._vendor.packaging.requirements import Requirement
 constraints=open('/tmp/tact-constraints.txt').read().splitlines()
+packages=json.loads(subprocess.check_output([sys.executable,'-m','pip','list','--format=json']))
+versions={p['name'].lower().replace('_','-'):p['version'] for p in packages}
 checks=[]
 for text in constraints:
     if not text.strip():continue
     requirement=Requirement(text)
     name=requirement.name
-    try: actual=version(name)
-    except PackageNotFoundError: actual=None
+    actual=versions.get(name.lower().replace('_','-'))
     checks.append({'spec':text,'package':name,'actual':actual,'satisfied':actual is not None and actual in requirement.specifier})
 data={'python':sys.version,'executable':sys.executable,'conda':os.environ.get('CONDA_DEFAULT_ENV'),
-      'constraints':checks,'packages':json.loads(subprocess.check_output([sys.executable,'-m','pip','list','--format=json'])),
+      'constraints':checks,'packages':packages,
       'variables':{k:os.environ.get(k) for k in ['LANG','LC_ALL','PIP_CONSTRAINT','PIP_FIND_LINKS']}}
 print(json.dumps(data))
 sys.exit(0 if all(c['satisfied'] for c in checks) else 3)

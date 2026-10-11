@@ -1,0 +1,143 @@
+# EasySteer Frontend
+
+The Vue UI sends generation requests to a separate vllm-steer
+OpenAI-compatible server. The Flask job backend handles vector extraction,
+native steering training, and SAE exploration. A built UI and `/api` are served from
+one origin so Workshop and SAE requests reach the job backend.
+
+![EasySteer Frontend](../figures/demosys.png)
+
+## Setup
+
+First install EasySteer and vllm-steer using the
+[installation guide](../docs/getting-started/installation.md). Use that
+Python environment for the job backend. From the repository root:
+
+```bash
+python -m pip install -e '.[training]' -r frontend/requirements.txt
+cd frontend/app
+npm ci
+npm run build
+cd ../..
+bash frontend/start.sh
+```
+
+Open `http://localhost:8111`. The script also binds port 5000 for direct
+job API clients. Both ports serve the same application. Set
+`EASYSTEER_FRONTEND_PORT` and `EASYSTEER_BACKEND_PORT` to change them; set both
+to the same value to use one port. `EASYSTEER_HOST` defaults to `127.0.0.1`;
+set it to `0.0.0.0` when exposing the demo through your deployment.
+`EASYSTEER_PYTHON=/path/to/python` selects the installed environment.
+The script works from any directory and does not install packages at startup.
+Gunicorn runs one worker with threads because job status and model instances
+are held in process memory. Ctrl+C stops the server and its worker.
+
+Start a vllm-steer server separately, declaring the algorithms you plan to
+use, as shown in the [server guide](../docs/user-guide/openai-server.md).
+In the UI, set its base URL (default `http://localhost:8000/v1`) and served
+model name. The URL must be reachable by your browser; a remote deployment
+may require a reverse proxy or server CORS configuration. Extraction and
+training model paths are resolved by the job backend; inference vector paths
+are resolved by vllm-steer. Use matching model weights and compatible vectors.
+
+Extraction requires the V2 model runner, which vLLM 0.29.0 uses by default.
+V1 fallback paths and standalone multimodal encoder workers do not support
+capture. See the [capture guide](../docs/user-guide/hidden-state-capture.md).
+
+Workshop extraction calls `easysteer.capture` and the shared
+`easysteer.extraction.extract` API. DiffMean and approximate incremental PCA
+consume capture batches incrementally; exact PCA and LAT use one bounded
+capture. The token position selects a row in each input prompt before it is
+copied from the GPU. The extraction working-memory setting maps to
+`max_working_bytes` (256 MiB by default); capture has separate finite CPU,
+device-buffer, staging, and fetch budgets. These limits exclude model weights,
+KV cache, and runtime overhead. Multiple GPU IDs select tensor parallelism.
+
+SAE extraction requires an explicit target `layer` in `POST /api/sae/extract-vector`.
+The UI supplies the selected layer and receives a canonical direction payload,
+so **Use on Steer page** works without resolving a `.pt` path on the inference
+server. The job backend also retains the `.pt` file for reuse.
+
+## Development
+
+Run these commands from the repository root in separate terminals:
+
+```bash
+# Job backend; add FLASK_DEBUG=1 only when debugging locally.
+python frontend/app.py
+```
+
+```bash
+cd frontend/app
+npm ci
+npm run dev
+```
+
+Vite serves port 5173 and proxies `/api` to the backend on port 5000.
+Set `EASYSTEER_BACKEND_PORT` in both terminals when changing the backend port.
+For UI-only work, choose `http://localhost:5173/mock/v1` and model
+`mock-model` in Settings. This development mock returns canned text and
+accepts steering specs; it does not run steering or training.
+
+```bash
+cd frontend/app
+npm test
+npm run typecheck
+npm run build
+```
+
+The Python checks cover routing, model-cache configuration, training requests,
+and payload JSON encoding. They use mocked GPU/job imports and the submodule's
+CPU payload definitions:
+
+```bash
+python -m pip install -r frontend/requirements.txt numpy pytest
+python -m pytest frontend/tests -q
+```
+
+## Training demonstration
+
+`demo_training.py` trains through the Flask API. Its optional inference
+step calls a separately running vllm-steer server with the saved checkpoint
+converted by `easysteer.training.load_checkpoint(path).to_spec()`:
+
+```bash
+python frontend/demo_training.py --model Qwen/Qwen2.5-1.5B-Instruct \
+  --gpu 0 --preset emoji --test \
+  --api-url http://localhost:8000/v1 --api-model your-served-model
+```
+
+Run the script in the same checkout/filesystem as the job backend so it can
+read `frontend/results/demo_emoji_training`. The inference server must use the
+same model and declare `loreft` (or `direct` for a bias checkpoint).
+`VLLM_API_KEY` supplies authentication when required. The script trains a checkpoint
+and generates responses through the inference server.
+
+Training presets use the same fields as `POST /api/train`: `model_path`,
+`algorithm`, `output_dir`, an array of `[input, output]` pairs in
+`training_examples`, and the `steering_config` / `training_args` objects. Presets
+can therefore be sent directly to the endpoint.
+
+`steering_config.apply` accepts the same prompt/generation token selectors as
+vllm-steer. Omitting it selects the last prompt token. The Workshop selector
+editor preserves these rules through training and export to the Steer page,
+and the native checkpoint stores them for `load_checkpoint(...).to_spec()`.
+When training finishes, the backend returns that checkpoint's canonical
+steering spec. **Use on Steer page** loads its payload and saved selection
+directly, and Python/JSON exports preserve the payload. Gallery references to
+checkpoint files that have not been loaded remain placeholders; their Python
+exports include the adapter call to substitute.
+The trained model name and checkpoint prompt template travel with the result.
+Playground comparisons use `/v1/completions` with that exact template, and Python
+and curl exports preserve it. The inference server must serve the training
+model; its configured served-model alias can still be selected in Settings.
+Training uses reference response tokens when matching generation selectors;
+inference uses the generated tokens. `generation_positions: [0]` transforms
+the first response token's state while predicting the second token.
+
+The web job runs on one GPU and rejects multiple IDs in `gpu_devices`. Run
+multi-GPU training from the command line with `torchrun`; see the
+[training guide](../docs/user-guide/reft-training.md#train-on-multiple-gpus).
+DDP keeps one complete base model per GPU, synchronizes adapter gradients, and
+writes checkpoints only on rank zero. It does not reduce the base model's
+per-GPU memory requirement.

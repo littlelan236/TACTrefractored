@@ -13,9 +13,12 @@ Completed in the first refactor slice:
 
 Not included:
 
-- No custom registry model implementation.
+- Registry implementation and current validation are described in
+  [REGISTRY-BACKEND.md](REGISTRY-BACKEND.md) and [REGISTRY-VALIDATION.md](REGISTRY-VALIDATION.md).
 - No EasySteer integration.
-- No CUDA Graph steering claim or replay validation.
-- No full rollout was started by this implementation slice; smoke harness and environment checks are separate validation stages.
+- CUDA Graph registry mechanism tests use synthetic axes; they do not establish
+  TACT research effectiveness.
+- A one-task registry SWE smoke completed rollout and harness wiring; it was
+  deliberately limited to two agent steps and ended `LimitsExceeded`/`MissingPatch`.
 
 The baseline backend still requires a model smoke on an available GPU set before a full SWE rollout. The native serving lock is separate from the runner and analysis locks.

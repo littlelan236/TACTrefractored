@@ -46,7 +46,10 @@ def model_descriptor(path: Path) -> dict:
         raise ValueError("Import the model and create its weight identity manifest first")
     identity = json.loads(identity_path.read_text())
     for item in identity["files"]:
-        file = path / Path(item["destination"]).name
+        relative = Path(item["destination"]).relative_to(Path("assets/models") / path.name)
+        file = path / relative
+        if not file.resolve().is_relative_to(path.resolve()) or file.is_symlink():
+            raise ValueError(f"Model identity path escapes physical model directory: {file}")
         if not file.is_file() or file.stat().st_size != item["bytes"]:
             raise ValueError(f"Model identity size mismatch: {file}")
     return {
