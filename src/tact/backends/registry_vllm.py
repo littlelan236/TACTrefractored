@@ -85,6 +85,9 @@ class RegistryProcessManager(BackendProcessManager):
             "hidden_size": cfg["model_descriptor"]["hidden_size"],
             "sites": registry["sites"],
             "close_id": close[0],
+            "consumer_check": cfg["serving"].get("steering_consumer_check", False),
+            "consumer_check_rows": cfg["serving"].get("steering_consumer_check_rows", 32),
+            "consumer_log_limit": cfg["serving"].get("steering_consumer_log_limit", 20000),
             "token_capacity": cfg["serving"]["max_num_batched_tokens"],
             "request_capacity": cfg["serving"]["max_num_seqs"],
             "axes_path": str(Path(cfg["steering"]["axes"]) / "axes.npz")
@@ -149,9 +152,17 @@ class RegistryProcessManager(BackendProcessManager):
             and len(replay_workers) != self.cfg["serving"]["tensor_parallel_size"]
         ):
             raise RuntimeError("Required FULL graph replay was not observed on every TP worker")
+        consumer = [r for r in records if r["type"] == "consumer_check"]
+        consumer_enabled = self.cfg["serving"].get("steering_consumer_check", False)
+        if (consumer_enabled and self.cfg["steering"]["strategy"] != "none"
+                and (not consumer or any(not r["all_elements_equal"] for r in consumer))):
+            raise RuntimeError("Registry producer/consumer check missing or mismatched")
         write_json(
             self.directory / "verification.json",
             {
+                "consumer_check_enabled": consumer_enabled,
+                "consumer_records": len(consumer),
+                "consumer_all_equal": bool(consumer) and all(r["all_elements_equal"] for r in consumer),
                 "custom_backbone_workers": len(loaded),
                 "full_replay_dispatches": len(replay),
                 "full_replay_workers": replay_workers,

@@ -1,0 +1,1627 @@
+{
+  "schema_version": 1,
+  "tasks": [
+    {
+      "instance_id": "django__django-10880",
+      "category": "orm_database",
+      "category_zh": "ORM、SQL 与数据库迁移",
+      "selection_reason": "条件聚合与 DISTINCT 的 SQL 边界",
+      "repo": "django/django",
+      "difficulty": "<15 min fix",
+      "issue_title": "Query syntax error with condition and distinct combination",
+      "base_commit": "838e432e3e5519c5383d12018e6c78f8ec7833c1",
+      "gold_patch": {
+        "files": [
+          "django/db/models/aggregates.py"
+        ],
+        "file_count": 1,
+        "added_lines": 1,
+        "deleted_lines": 1,
+        "changed_lines": 2,
+        "hunks": 1
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.django_1776_django-10880:latest"
+    },
+    {
+      "instance_id": "django__django-15368",
+      "category": "orm_database",
+      "category_zh": "ORM、SQL 与数据库迁移",
+      "selection_reason": "bulk_update 的表达式识别",
+      "repo": "django/django",
+      "difficulty": "<15 min fix",
+      "issue_title": "bulk_update() does not work with plain F('...') expressions.",
+      "base_commit": "e972620ada4f9ed7bc57f28e133e85c85b0a7b20",
+      "gold_patch": {
+        "files": [
+          "django/db/models/query.py"
+        ],
+        "file_count": 1,
+        "added_lines": 2,
+        "deleted_lines": 2,
+        "changed_lines": 4,
+        "hunks": 2
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.django_1776_django-15368:latest"
+    },
+    {
+      "instance_id": "django__django-11265",
+      "category": "orm_database",
+      "category_zh": "ORM、SQL 与数据库迁移",
+      "selection_reason": "排除查询与 FilteredRelation 的关联语义",
+      "repo": "django/django",
+      "difficulty": "15 min - 1 hour",
+      "issue_title": "Using exclude on annotated FilteredRelation doesn't work",
+      "base_commit": "21aa2a5e785eef1f47beb1c3760fdd7d8915ae09",
+      "gold_patch": {
+        "files": [
+          "django/db/models/sql/query.py"
+        ],
+        "file_count": 1,
+        "added_lines": 8,
+        "deleted_lines": 3,
+        "changed_lines": 11,
+        "hunks": 2
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.django_1776_django-11265:latest"
+    },
+    {
+      "instance_id": "django__django-11734",
+      "category": "orm_database",
+      "category_zh": "ORM、SQL 与数据库迁移",
+      "selection_reason": "OuterRef 跨字段与查询模块的修复",
+      "repo": "django/django",
+      "difficulty": "15 min - 1 hour",
+      "issue_title": "OuterRef in exclude() or ~Q() uses wrong model.",
+      "base_commit": "999891bd80b3d02dd916731a7a239e1036174885",
+      "gold_patch": {
+        "files": [
+          "django/db/models/fields/__init__.py",
+          "django/db/models/fields/related_lookups.py",
+          "django/db/models/sql/query.py"
+        ],
+        "file_count": 3,
+        "added_lines": 4,
+        "deleted_lines": 6,
+        "changed_lines": 10,
+        "hunks": 3
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.django_1776_django-11734:latest"
+    },
+    {
+      "instance_id": "django__django-16315",
+      "category": "orm_database",
+      "category_zh": "ORM、SQL 与数据库迁移",
+      "selection_reason": "批量插入与混合大小写列名",
+      "repo": "django/django",
+      "difficulty": "15 min - 1 hour",
+      "issue_title": "QuerySet.bulk_create() crashes on mixed case columns in unique_fields/update_fields.",
+      "base_commit": "7d5329852f19c6ae78c6f6f3d3e41835377bf295",
+      "gold_patch": {
+        "files": [
+          "django/db/models/query.py",
+          "django/db/models/sql/compiler.py"
+        ],
+        "file_count": 2,
+        "added_lines": 6,
+        "deleted_lines": 7,
+        "changed_lines": 13,
+        "hunks": 4
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.django_1776_django-16315:latest"
+    },
+    {
+      "instance_id": "django__django-10554",
+      "category": "orm_database",
+      "category_zh": "ORM、SQL 与数据库迁移",
+      "selection_reason": "派生 union 查询的排序与编译协同",
+      "repo": "django/django",
+      "difficulty": "1-4 hours",
+      "issue_title": "Union queryset with ordering breaks on ordering with derived querysets",
+      "base_commit": "14d026cccb144c6877294ba4cd4e03ebf0842498",
+      "gold_patch": {
+        "files": [
+          "django/db/models/sql/compiler.py",
+          "django/db/models/sql/query.py"
+        ],
+        "file_count": 2,
+        "added_lines": 10,
+        "deleted_lines": 1,
+        "changed_lines": 11,
+        "hunks": 2
+      },
+      "fail_to_pass_count": 2,
+      "docker_image": "swebench/sweb.eval.x86_64.django_1776_django-10554:latest"
+    },
+    {
+      "instance_id": "django__django-16263",
+      "category": "orm_database",
+      "category_zh": "ORM、SQL 与数据库迁移",
+      "selection_reason": "count 查询裁剪注解，跨表达式与查询处理",
+      "repo": "django/django",
+      "difficulty": "1-4 hours",
+      "issue_title": "Strip unused annotations from count queries",
+      "base_commit": "321ecb40f4da842926e1bc07e11df4aabe53ca4b",
+      "gold_patch": {
+        "files": [
+          "django/db/models/expressions.py",
+          "django/db/models/query_utils.py",
+          "django/db/models/sql/query.py",
+          "django/db/models/sql/where.py"
+        ],
+        "file_count": 4,
+        "added_lines": 70,
+        "deleted_lines": 23,
+        "changed_lines": 93,
+        "hunks": 14
+      },
+      "fail_to_pass_count": 3,
+      "docker_image": "swebench/sweb.eval.x86_64.django_1776_django-16263:latest"
+    },
+    {
+      "instance_id": "pallets__flask-5014",
+      "category": "web_http",
+      "category_zh": "Web、HTTP、路由与安全",
+      "selection_reason": "Blueprint 名称输入验证",
+      "repo": "pallets/flask",
+      "difficulty": "<15 min fix",
+      "issue_title": "Require a non-empty name for Blueprints",
+      "base_commit": "7ee9ceb71e868944a46e1ff00b506772a53a4f1d",
+      "gold_patch": {
+        "files": [
+          "src/flask/blueprints.py"
+        ],
+        "file_count": 1,
+        "added_lines": 3,
+        "deleted_lines": 0,
+        "changed_lines": 3,
+        "hunks": 1
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.pallets_1776_flask-5014:latest"
+    },
+    {
+      "instance_id": "psf__requests-5414",
+      "category": "web_http",
+      "category_zh": "Web、HTTP、路由与安全",
+      "selection_reason": "非法主机名的异常类型与 URL 验证",
+      "repo": "psf/requests",
+      "difficulty": "<15 min fix",
+      "issue_title": "Getting http://.example.com raises UnicodeError",
+      "base_commit": "39d0fdd9096f7dceccbc8f82e1eda7dd64717a8e",
+      "gold_patch": {
+        "files": [
+          "requests/models.py"
+        ],
+        "file_count": 1,
+        "added_lines": 1,
+        "deleted_lines": 1,
+        "changed_lines": 2,
+        "hunks": 1
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.psf_1776_requests-5414:latest"
+    },
+    {
+      "instance_id": "django__django-11099",
+      "category": "web_http",
+      "category_zh": "Web、HTTP、路由与安全",
+      "selection_reason": "用户名验证器的正则边界",
+      "repo": "django/django",
+      "difficulty": "<15 min fix",
+      "issue_title": "UsernameValidator allows trailing newline in usernames",
+      "base_commit": "d26b2424437dabeeca94d7900b37d2df4410da0c",
+      "gold_patch": {
+        "files": [
+          "django/contrib/auth/validators.py"
+        ],
+        "file_count": 1,
+        "added_lines": 2,
+        "deleted_lines": 2,
+        "changed_lines": 4,
+        "hunks": 2
+      },
+      "fail_to_pass_count": 3,
+      "docker_image": "swebench/sweb.eval.x86_64.django_1776_django-11099:latest"
+    },
+    {
+      "instance_id": "psf__requests-6028",
+      "category": "web_http",
+      "category_zh": "Web、HTTP、路由与安全",
+      "selection_reason": "HTTP 代理认证处理",
+      "repo": "psf/requests",
+      "difficulty": "15 min - 1 hour",
+      "issue_title": "Proxy authentication bug",
+      "base_commit": "0192aac24123735b3eaf9b08df46429bb770c283",
+      "gold_patch": {
+        "files": [
+          "requests/utils.py"
+        ],
+        "file_count": 1,
+        "added_lines": 4,
+        "deleted_lines": 0,
+        "changed_lines": 4,
+        "hunks": 1
+      },
+      "fail_to_pass_count": 2,
+      "docker_image": "swebench/sweb.eval.x86_64.psf_1776_requests-6028:latest"
+    },
+    {
+      "instance_id": "django__django-11333",
+      "category": "web_http",
+      "category_zh": "Web、HTTP、路由与安全",
+      "selection_reason": "URL resolver 构造与缓存优化",
+      "repo": "django/django",
+      "difficulty": "15 min - 1 hour",
+      "issue_title": "Optimization: Multiple URLResolvers may be unintentionally be constructed by calls to `django.urls.resolvers.get_resolver`",
+      "base_commit": "55b68de643b5c2d5f0a8ea7587ab3b2966021ccc",
+      "gold_patch": {
+        "files": [
+          "django/urls/base.py",
+          "django/urls/resolvers.py"
+        ],
+        "file_count": 2,
+        "added_lines": 7,
+        "deleted_lines": 3,
+        "changed_lines": 10,
+        "hunks": 3
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.django_1776_django-11333:latest"
+    },
+    {
+      "instance_id": "django__django-11149",
+      "category": "web_http",
+      "category_zh": "Web、HTTP、路由与安全",
+      "selection_reason": "admin 多对多内联的权限控制",
+      "repo": "django/django",
+      "difficulty": "15 min - 1 hour",
+      "issue_title": "Admin inlines for auto-created ManyToManyFields are editable if the user only has the view permission",
+      "base_commit": "e245046bb6e8b32360aa48b8a41fb7050f0fc730",
+      "gold_patch": {
+        "files": [
+          "django/contrib/admin/options.py"
+        ],
+        "file_count": 1,
+        "added_lines": 30,
+        "deleted_lines": 26,
+        "changed_lines": 56,
+        "hunks": 1
+      },
+      "fail_to_pass_count": 2,
+      "docker_image": "swebench/sweb.eval.x86_64.django_1776_django-11149:latest"
+    },
+    {
+      "instance_id": "django__django-13344",
+      "category": "web_http",
+      "category_zh": "Web、HTTP、路由与安全",
+      "selection_reason": "异步响应在多个 middleware 间的兼容",
+      "repo": "django/django",
+      "difficulty": "1-4 hours",
+      "issue_title": "Coroutine passed to the first middleware's process_response() instead of HttpResponse.",
+      "base_commit": "e39e727ded673e74016b5d3658d23cbe20234d11",
+      "gold_patch": {
+        "files": [
+          "django/contrib/sessions/middleware.py",
+          "django/middleware/cache.py",
+          "django/middleware/security.py"
+        ],
+        "file_count": 3,
+        "added_lines": 12,
+        "deleted_lines": 20,
+        "changed_lines": 32,
+        "hunks": 7
+      },
+      "fail_to_pass_count": 2,
+      "docker_image": "swebench/sweb.eval.x86_64.django_1776_django-13344:latest"
+    },
+    {
+      "instance_id": "sympy__sympy-12481",
+      "category": "symbolic_math",
+      "category_zh": "符号代数、数论与概率计算",
+      "selection_reason": "重叠置换循环的构造语义",
+      "repo": "sympy/sympy",
+      "difficulty": "<15 min fix",
+      "issue_title": "`Permutation` constructor fails with non-disjoint cycles",
+      "base_commit": "c807dfe7569692cad24f02a08477b70c1679a4dd",
+      "gold_patch": {
+        "files": [
+          "sympy/combinatorics/permutations.py"
+        ],
+        "file_count": 1,
+        "added_lines": 2,
+        "deleted_lines": 6,
+        "changed_lines": 8,
+        "hunks": 1
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.sympy_1776_sympy-12481:latest"
+    },
+    {
+      "instance_id": "sympy__sympy-15875",
+      "category": "symbolic_math",
+      "category_zh": "符号代数、数论与概率计算",
+      "selection_reason": "复整数的零值判定",
+      "repo": "sympy/sympy",
+      "difficulty": "<15 min fix",
+      "issue_title": "is_zero is incorrect on complex integer",
+      "base_commit": "b506169ad727ee39cb3d60c8b3ff5e315d443d8e",
+      "gold_patch": {
+        "files": [
+          "sympy/core/add.py"
+        ],
+        "file_count": 1,
+        "added_lines": 1,
+        "deleted_lines": 1,
+        "changed_lines": 2,
+        "hunks": 1
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.sympy_1776_sympy-15875:latest"
+    },
+    {
+      "instance_id": "sympy__sympy-13091",
+      "category": "symbolic_math",
+      "category_zh": "符号代数、数论与概率计算",
+      "selection_reason": "跨多个模块的富比较 NotImplemented 协议",
+      "repo": "sympy/sympy",
+      "difficulty": "15 min - 1 hour",
+      "issue_title": "Return NotImplemented, not False, upon rich comparison with unknown type",
+      "base_commit": "d1320814eda6549996190618a21eaf212cfd4d1e",
+      "gold_patch": {
+        "files": [
+          "sympy/core/basic.py",
+          "sympy/core/exprtools.py",
+          "sympy/core/numbers.py",
+          "sympy/geometry/entity.py",
+          "sympy/physics/optics/medium.py",
+          "sympy/physics/vector/dyadic.py",
+          "sympy/physics/vector/frame.py",
+          "sympy/physics/vector/vector.py",
+          "sympy/polys/agca/modules.py",
+          "sympy/polys/domains/domain.py",
+          "sympy/polys/domains/expressiondomain.py",
+          "sympy/polys/domains/pythonrational.py",
+          "sympy/polys/domains/quotientring.py",
+          "sympy/polys/fields.py",
+          "sympy/polys/monomials.py",
+          "sympy/polys/polyclasses.py",
+          "sympy/polys/polytools.py",
+          "sympy/polys/rings.py",
+          "sympy/polys/rootoftools.py",
+          "sympy/tensor/array/ndim_array.py",
+          "sympy/utilities/enumerative.py"
+        ],
+        "file_count": 21,
+        "added_lines": 56,
+        "deleted_lines": 56,
+        "changed_lines": 112,
+        "hunks": 45
+      },
+      "fail_to_pass_count": 2,
+      "docker_image": "swebench/sweb.eval.x86_64.sympy_1776_sympy-13091:latest"
+    },
+    {
+      "instance_id": "sympy__sympy-24443",
+      "category": "symbolic_math",
+      "category_zh": "符号代数、数论与概率计算",
+      "selection_reason": "置换群同态检验算法",
+      "repo": "sympy/sympy",
+      "difficulty": "15 min - 1 hour",
+      "issue_title": "`_check_homomorphism` is broken on PermutationGroups",
+      "base_commit": "809c53c077485ca48a206cee78340389cb83b7f1",
+      "gold_patch": {
+        "files": [
+          "sympy/combinatorics/homomorphisms.py"
+        ],
+        "file_count": 1,
+        "added_lines": 22,
+        "deleted_lines": 33,
+        "changed_lines": 55,
+        "hunks": 1
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.sympy_1776_sympy-24443:latest"
+    },
+    {
+      "instance_id": "sympy__sympy-16597",
+      "category": "symbolic_math",
+      "category_zh": "符号代数、数论与概率计算",
+      "selection_reason": "有限性假设在多模块间的传播",
+      "repo": "sympy/sympy",
+      "difficulty": "1-4 hours",
+      "issue_title": "a.is_even does not imply a.is_finite",
+      "base_commit": "6fd65310fa3167b9626c38a5487e171ca407d988",
+      "gold_patch": {
+        "files": [
+          "sympy/assumptions/ask.py",
+          "sympy/assumptions/ask_generated.py",
+          "sympy/core/assumptions.py",
+          "sympy/core/power.py",
+          "sympy/printing/tree.py",
+          "sympy/tensor/indexed.py"
+        ],
+        "file_count": 6,
+        "added_lines": 44,
+        "deleted_lines": 26,
+        "changed_lines": 70,
+        "hunks": 14
+      },
+      "fail_to_pass_count": 3,
+      "docker_image": "swebench/sweb.eval.x86_64.sympy_1776_sympy-16597:latest"
+    },
+    {
+      "instance_id": "sympy__sympy-18199",
+      "category": "symbolic_math",
+      "category_zh": "符号代数、数论与概率计算",
+      "selection_reason": "模 n 次根遗漏零根的数论边界",
+      "repo": "sympy/sympy",
+      "difficulty": "1-4 hours",
+      "issue_title": "nthroot_mod function misses one root of x = 0 mod p.",
+      "base_commit": "ba80d1e493f21431b4bf729b3e0452cd47eb9566",
+      "gold_patch": {
+        "files": [
+          "sympy/ntheory/residue_ntheory.py"
+        ],
+        "file_count": 1,
+        "added_lines": 47,
+        "deleted_lines": 3,
+        "changed_lines": 50,
+        "hunks": 3
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.sympy_1776_sympy-18199:latest"
+    },
+    {
+      "instance_id": "sympy__sympy-13878",
+      "category": "symbolic_math",
+      "category_zh": "符号代数、数论与概率计算",
+      "selection_reason": "多种连续分布 CDF 的预计算；官方 >4h",
+      "repo": "sympy/sympy",
+      "difficulty": ">4 hours",
+      "issue_title": "Precompute the CDF of several distributions where integration doesn't work well",
+      "base_commit": "7b127bdf71a36d85216315f80c1b54d22b060818",
+      "gold_patch": {
+        "files": [
+          "sympy/stats/crv_types.py"
+        ],
+        "file_count": 1,
+        "added_lines": 142,
+        "deleted_lines": 14,
+        "changed_lines": 156,
+        "hunks": 45
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.sympy_1776_sympy-13878:latest"
+    },
+    {
+      "instance_id": "pydata__xarray-4075",
+      "category": "scientific_arrays",
+      "category_zh": "科学数组、坐标与单位",
+      "selection_reason": "布尔权重在加权均值中的 dtype 处理",
+      "repo": "pydata/xarray",
+      "difficulty": "<15 min fix",
+      "issue_title": "[bug] when passing boolean weights to weighted mean",
+      "base_commit": "19b088636eb7d3f65ab7a1046ac672e0689371d8",
+      "gold_patch": {
+        "files": [
+          "xarray/core/weighted.py"
+        ],
+        "file_count": 1,
+        "added_lines": 8,
+        "deleted_lines": 1,
+        "changed_lines": 9,
+        "hunks": 1
+      },
+      "fail_to_pass_count": 2,
+      "docker_image": "swebench/sweb.eval.x86_64.pydata_1776_xarray-4075:latest"
+    },
+    {
+      "instance_id": "pydata__xarray-4629",
+      "category": "scientific_arrays",
+      "category_zh": "科学数组、坐标与单位",
+      "selection_reason": "合并属性时的拷贝与引用语义",
+      "repo": "pydata/xarray",
+      "difficulty": "<15 min fix",
+      "issue_title": "merge(combine_attrs='override') does not copy attrs but instead references attrs from the first object",
+      "base_commit": "a41edc7bf5302f2ea327943c0c48c532b12009bc",
+      "gold_patch": {
+        "files": [
+          "xarray/core/merge.py"
+        ],
+        "file_count": 1,
+        "added_lines": 1,
+        "deleted_lines": 1,
+        "changed_lines": 2,
+        "hunks": 1
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.pydata_1776_xarray-4629:latest"
+    },
+    {
+      "instance_id": "astropy__astropy-13977",
+      "category": "scientific_arrays",
+      "category_zh": "科学数组、坐标与单位",
+      "selection_reason": "Quantity 的 numpy ufunc 互操作与异常边界",
+      "repo": "astropy/astropy",
+      "difficulty": "15 min - 1 hour",
+      "issue_title": "Should `Quantity.__array_ufunc__()` return `NotImplemented` instead of raising `ValueError` if the inputs are incompatible?",
+      "base_commit": "5250b2442501e6c671c6b380536f1edb352602d1",
+      "gold_patch": {
+        "files": [
+          "astropy/units/quantity.py"
+        ],
+        "file_count": 1,
+        "added_lines": 56,
+        "deleted_lines": 39,
+        "changed_lines": 95,
+        "hunks": 1
+      },
+      "fail_to_pass_count": 20,
+      "docker_image": "swebench/sweb.eval.x86_64.astropy_1776_astropy-13977:latest"
+    },
+    {
+      "instance_id": "pydata__xarray-6938",
+      "category": "scientific_arrays",
+      "category_zh": "科学数组、坐标与单位",
+      "selection_reason": "维度交换中的输入对象意外变更",
+      "repo": "pydata/xarray",
+      "difficulty": "15 min - 1 hour",
+      "issue_title": "`.swap_dims()` can modify original object",
+      "base_commit": "c4e40d991c28be51de9ac560ce895ac7f9b14924",
+      "gold_patch": {
+        "files": [
+          "xarray/core/dataset.py",
+          "xarray/core/variable.py"
+        ],
+        "file_count": 2,
+        "added_lines": 13,
+        "deleted_lines": 11,
+        "changed_lines": 24,
+        "hunks": 6
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.pydata_1776_xarray-6938:latest"
+    },
+    {
+      "instance_id": "astropy__astropy-13398",
+      "category": "scientific_arrays",
+      "category_zh": "科学数组、坐标与单位",
+      "selection_reason": "地球坐标系的多模块坐标变换",
+      "repo": "astropy/astropy",
+      "difficulty": "1-4 hours",
+      "issue_title": "A direct approach to ITRS to Observed transformations that stays within the ITRS.",
+      "base_commit": "6500928dc0e57be8f06d1162eacc3ba5e2eff692",
+      "gold_patch": {
+        "files": [
+          "astropy/coordinates/builtin_frames/__init__.py",
+          "astropy/coordinates/builtin_frames/intermediate_rotation_transforms.py",
+          "astropy/coordinates/builtin_frames/itrs.py",
+          "astropy/coordinates/builtin_frames/itrs_observed_transforms.py"
+        ],
+        "file_count": 4,
+        "added_lines": 202,
+        "deleted_lines": 13,
+        "changed_lines": 215,
+        "hunks": 8
+      },
+      "fail_to_pass_count": 4,
+      "docker_image": "swebench/sweb.eval.x86_64.astropy_1776_astropy-13398:latest"
+    },
+    {
+      "instance_id": "astropy__astropy-13579",
+      "category": "scientific_arrays",
+      "category_zh": "科学数组、坐标与单位",
+      "selection_reason": "切片 WCS 的像素坐标语义；小 patch 但官方 1–4h",
+      "repo": "astropy/astropy",
+      "difficulty": "1-4 hours",
+      "issue_title": "Inconsistent behavior of `world_to_pixel` in `SlicedLowLevelWCS` ",
+      "base_commit": "0df94ff7097961e92fd7812036a24b145bc13ca8",
+      "gold_patch": {
+        "files": [
+          "astropy/wcs/wcsapi/wrappers/sliced_wcs.py"
+        ],
+        "file_count": 1,
+        "added_lines": 3,
+        "deleted_lines": 1,
+        "changed_lines": 4,
+        "hunks": 2
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.astropy_1776_astropy-13579:latest"
+    },
+    {
+      "instance_id": "pydata__xarray-6992",
+      "category": "scientific_arrays",
+      "category_zh": "科学数组、坐标与单位",
+      "selection_reason": "Dataset 索引重构与变量/坐标一致性；官方 >4h",
+      "repo": "pydata/xarray",
+      "difficulty": ">4 hours",
+      "issue_title": "index refactor: more `_coord_names` than `_variables` on Dataset",
+      "base_commit": "45c0a114e2b7b27b83c9618bc05b36afac82183c",
+      "gold_patch": {
+        "files": [
+          "xarray/core/dataset.py",
+          "xarray/core/indexes.py"
+        ],
+        "file_count": 2,
+        "added_lines": 85,
+        "deleted_lines": 38,
+        "changed_lines": 123,
+        "hunks": 8
+      },
+      "fail_to_pass_count": 12,
+      "docker_image": "swebench/sweb.eval.x86_64.pydata_1776_xarray-6992:latest"
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-13142",
+      "category": "machine_learning",
+      "category_zh": "机器学习算法与估计器 API",
+      "selection_reason": "GaussianMixture 多次初始化的一致性",
+      "repo": "scikit-learn/scikit-learn",
+      "difficulty": "<15 min fix",
+      "issue_title": "GaussianMixture predict and fit_predict disagree when n_init>1",
+      "base_commit": "1c8668b0a021832386470ddf740d834e02c66f69",
+      "gold_patch": {
+        "files": [
+          "sklearn/mixture/base.py"
+        ],
+        "file_count": 1,
+        "added_lines": 5,
+        "deleted_lines": 5,
+        "changed_lines": 10,
+        "hunks": 2
+      },
+      "fail_to_pass_count": 2,
+      "docker_image": "swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-13142:latest"
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-14496",
+      "category": "machine_learning",
+      "category_zh": "机器学习算法与估计器 API",
+      "selection_reason": "OPTICS 的 min_samples 与近邻实例化",
+      "repo": "scikit-learn/scikit-learn",
+      "difficulty": "<15 min fix",
+      "issue_title": "[BUG] Optics float min_samples NN instantiation",
+      "base_commit": "d49a6f13af2f22228d430ac64ac2b518937800d0",
+      "gold_patch": {
+        "files": [
+          "sklearn/cluster/optics_.py"
+        ],
+        "file_count": 1,
+        "added_lines": 9,
+        "deleted_lines": 13,
+        "changed_lines": 22,
+        "hunks": 6
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-14496:latest"
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-12682",
+      "category": "machine_learning",
+      "category_zh": "机器学习算法与估计器 API",
+      "selection_reason": "SparseCoder 向 Lasso 传递迭代参数",
+      "repo": "scikit-learn/scikit-learn",
+      "difficulty": "15 min - 1 hour",
+      "issue_title": "`SparseCoder` doesn't expose `max_iter` for `Lasso`",
+      "base_commit": "d360ffa7c5896a91ae498b3fb9cf464464ce8f34",
+      "gold_patch": {
+        "files": [
+          "examples/decomposition/plot_sparse_coding.py",
+          "sklearn/decomposition/dict_learning.py"
+        ],
+        "file_count": 2,
+        "added_lines": 66,
+        "deleted_lines": 24,
+        "changed_lines": 90,
+        "hunks": 24
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-12682:latest"
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-14629",
+      "category": "machine_learning",
+      "category_zh": "机器学习算法与估计器 API",
+      "selection_reason": "多输出分类器的 cross_val_predict 接口",
+      "repo": "scikit-learn/scikit-learn",
+      "difficulty": "15 min - 1 hour",
+      "issue_title": "AttributeError with cross_val_predict(method='predict_proba') when using MultiOuputClassifier",
+      "base_commit": "4aded39b5663d943f6a4809abacfa9cae3d7fb6a",
+      "gold_patch": {
+        "files": [
+          "sklearn/multioutput.py"
+        ],
+        "file_count": 1,
+        "added_lines": 23,
+        "deleted_lines": 1,
+        "changed_lines": 24,
+        "hunks": 2
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-14629:latest"
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-25931",
+      "category": "machine_learning",
+      "category_zh": "机器学习算法与估计器 API",
+      "selection_reason": "IsolationForest 中特征名校验与内部调用",
+      "repo": "scikit-learn/scikit-learn",
+      "difficulty": "15 min - 1 hour",
+      "issue_title": "X does not have valid feature names, but IsolationForest was fitted with feature names",
+      "base_commit": "e3d1f9ac39e4bf0f31430e779acc50fb05fe1b64",
+      "gold_patch": {
+        "files": [
+          "sklearn/ensemble/_iforest.py"
+        ],
+        "file_count": 1,
+        "added_lines": 16,
+        "deleted_lines": 8,
+        "changed_lines": 24,
+        "hunks": 2
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-25931:latest"
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-26323",
+      "category": "machine_learning",
+      "category_zh": "机器学习算法与估计器 API",
+      "selection_reason": "ColumnTransformer 输出模式向 remainder 传播",
+      "repo": "scikit-learn/scikit-learn",
+      "difficulty": "15 min - 1 hour",
+      "issue_title": "`ColumnTransformer.set_output` ignores the `remainder` if it's an estimator",
+      "base_commit": "586f4318ffcdfbd9a1093f35ad43e81983740b66",
+      "gold_patch": {
+        "files": [
+          "sklearn/compose/_column_transformer.py"
+        ],
+        "file_count": 1,
+        "added_lines": 4,
+        "deleted_lines": 0,
+        "changed_lines": 4,
+        "hunks": 2
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-26323:latest"
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-25102",
+      "category": "machine_learning",
+      "category_zh": "机器学习算法与估计器 API",
+      "selection_reason": "DataFrame 输出和多估计器 dtype 保留",
+      "repo": "scikit-learn/scikit-learn",
+      "difficulty": "1-4 hours",
+      "issue_title": "Preserving dtypes for DataFrame output by transformers that do not modify the input values",
+      "base_commit": "f9a1cf072da9d7375d6c2163f68a6038b13b310f",
+      "gold_patch": {
+        "files": [
+          "sklearn/base.py",
+          "sklearn/feature_selection/_base.py"
+        ],
+        "file_count": 2,
+        "added_lines": 22,
+        "deleted_lines": 7,
+        "changed_lines": 29,
+        "hunks": 7
+      },
+      "fail_to_pass_count": 2,
+      "docker_image": "swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-25102:latest"
+    },
+    {
+      "instance_id": "matplotlib__matplotlib-13989",
+      "category": "visualization",
+      "category_zh": "绘图、渲染与交互",
+      "selection_reason": "hist density 模式的范围处理",
+      "repo": "matplotlib/matplotlib",
+      "difficulty": "<15 min fix",
+      "issue_title": "hist() no longer respects range=... when density=True",
+      "base_commit": "a3e2897bfaf9eaac1d6649da535c4e721c89fa69",
+      "gold_patch": {
+        "files": [
+          "lib/matplotlib/axes/_axes.py"
+        ],
+        "file_count": 1,
+        "added_lines": 1,
+        "deleted_lines": 1,
+        "changed_lines": 2,
+        "hunks": 1
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.matplotlib_1776_matplotlib-13989:latest"
+    },
+    {
+      "instance_id": "matplotlib__matplotlib-25479",
+      "category": "visualization",
+      "category_zh": "绘图、渲染与交互",
+      "selection_reason": "颜色映射名称与对象参数处理",
+      "repo": "matplotlib/matplotlib",
+      "difficulty": "<15 min fix",
+      "issue_title": "Confusing (broken?) colormap name handling",
+      "base_commit": "7fdf772201e4c9bafbc16dfac23b5472d6a53fa2",
+      "gold_patch": {
+        "files": [
+          "lib/matplotlib/cm.py",
+          "lib/matplotlib/colors.py"
+        ],
+        "file_count": 2,
+        "added_lines": 6,
+        "deleted_lines": 1,
+        "changed_lines": 7,
+        "hunks": 2
+      },
+      "fail_to_pass_count": 2,
+      "docker_image": "swebench/sweb.eval.x86_64.matplotlib_1776_matplotlib-25479:latest"
+    },
+    {
+      "instance_id": "matplotlib__matplotlib-14623",
+      "category": "visualization",
+      "category_zh": "绘图、渲染与交互",
+      "selection_reason": "对数坐标反转的多模块修复",
+      "repo": "matplotlib/matplotlib",
+      "difficulty": "15 min - 1 hour",
+      "issue_title": "Inverting an axis using its limits does not work for log scale",
+      "base_commit": "d65c9ca20ddf81ef91199e6d819f9d3506ef477c",
+      "gold_patch": {
+        "files": [
+          "lib/matplotlib/axes/_base.py",
+          "lib/matplotlib/ticker.py",
+          "lib/mpl_toolkits/mplot3d/axes3d.py"
+        ],
+        "file_count": 3,
+        "added_lines": 17,
+        "deleted_lines": 2,
+        "changed_lines": 19,
+        "hunks": 6
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.matplotlib_1776_matplotlib-14623:latest"
+    },
+    {
+      "instance_id": "matplotlib__matplotlib-24870",
+      "category": "visualization",
+      "category_zh": "绘图、渲染与交互",
+      "selection_reason": "等高线自动识别布尔输入，二维与三角网格协同",
+      "repo": "matplotlib/matplotlib",
+      "difficulty": "15 min - 1 hour",
+      "issue_title": "[ENH]: Auto-detect bool arrays passed to contour()?",
+      "base_commit": "6091437be9776139d3672cde28a19cbe6c09dcd5",
+      "gold_patch": {
+        "files": [
+          "lib/matplotlib/contour.py",
+          "lib/matplotlib/tri/_tricontour.py"
+        ],
+        "file_count": 2,
+        "added_lines": 19,
+        "deleted_lines": 14,
+        "changed_lines": 33,
+        "hunks": 5
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.matplotlib_1776_matplotlib-24870:latest"
+    },
+    {
+      "instance_id": "matplotlib__matplotlib-25775",
+      "category": "visualization",
+      "category_zh": "绘图、渲染与交互",
+      "selection_reason": "文本抗锯齿接口与多个渲染 backend",
+      "repo": "matplotlib/matplotlib",
+      "difficulty": "15 min - 1 hour",
+      "issue_title": "[ENH]: Add get/set_antialiased to Text objects",
+      "base_commit": "26224d96066b5c60882296c551f54ca7732c0af0",
+      "gold_patch": {
+        "files": [
+          "lib/matplotlib/backends/backend_agg.py",
+          "lib/matplotlib/backends/backend_cairo.py",
+          "lib/matplotlib/text.py"
+        ],
+        "file_count": 3,
+        "added_lines": 34,
+        "deleted_lines": 5,
+        "changed_lines": 39,
+        "hunks": 12
+      },
+      "fail_to_pass_count": 7,
+      "docker_image": "swebench/sweb.eval.x86_64.matplotlib_1776_matplotlib-25775:latest"
+    },
+    {
+      "instance_id": "mwaskom__seaborn-3069",
+      "category": "visualization",
+      "category_zh": "绘图、渲染与交互",
+      "selection_reason": "类别尺度的绘制一致性",
+      "repo": "mwaskom/seaborn",
+      "difficulty": "15 min - 1 hour",
+      "issue_title": "Nominal scale should be drawn the same way as categorical scales",
+      "base_commit": "54cab15bdacfaa05a88fbc5502a5b322d99f148e",
+      "gold_patch": {
+        "files": [
+          "seaborn/_core/plot.py"
+        ],
+        "file_count": 1,
+        "added_lines": 13,
+        "deleted_lines": 2,
+        "changed_lines": 15,
+        "hunks": 4
+      },
+      "fail_to_pass_count": 2,
+      "docker_image": "swebench/sweb.eval.x86_64.mwaskom_1776_seaborn-3069:latest"
+    },
+    {
+      "instance_id": "mwaskom__seaborn-3187",
+      "category": "visualization",
+      "category_zh": "绘图、渲染与交互",
+      "selection_reason": "大数范围图例的格式化与偏移量",
+      "repo": "mwaskom/seaborn",
+      "difficulty": "15 min - 1 hour",
+      "issue_title": "Wrong legend values of large ranges",
+      "base_commit": "22cdfb0c93f8ec78492d87edb810f10cb7f57a31",
+      "gold_patch": {
+        "files": [
+          "seaborn/_core/scales.py",
+          "seaborn/utils.py"
+        ],
+        "file_count": 2,
+        "added_lines": 12,
+        "deleted_lines": 0,
+        "changed_lines": 12,
+        "hunks": 2
+      },
+      "fail_to_pass_count": 2,
+      "docker_image": "swebench/sweb.eval.x86_64.mwaskom_1776_seaborn-3187:latest"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-8595",
+      "category": "documentation",
+      "category_zh": "文档生成、解析与交叉引用",
+      "selection_reason": "autodoc 对空 __all__ 的处理",
+      "repo": "sphinx-doc/sphinx",
+      "difficulty": "<15 min fix",
+      "issue_title": "autodoc: empty __all__ attribute is ignored",
+      "base_commit": "b19bce971e82f2497d67fdacdeca8db08ae0ba56",
+      "gold_patch": {
+        "files": [
+          "sphinx/ext/autodoc/__init__.py"
+        ],
+        "file_count": 1,
+        "added_lines": 1,
+        "deleted_lines": 1,
+        "changed_lines": 2,
+        "hunks": 1
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-8595:latest"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-9230",
+      "category": "documentation",
+      "category_zh": "文档生成、解析与交叉引用",
+      "selection_reason": "复杂参数类型的文档渲染",
+      "repo": "sphinx-doc/sphinx",
+      "difficulty": "<15 min fix",
+      "issue_title": "Doc rendering is incorrect when :param has datatype dict(str,str)",
+      "base_commit": "567ff22716ac258b9edd2c1711d766b440ac0b11",
+      "gold_patch": {
+        "files": [
+          "sphinx/util/docfields.py"
+        ],
+        "file_count": 1,
+        "added_lines": 1,
+        "deleted_lines": 1,
+        "changed_lines": 2,
+        "hunks": 1
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-9230:latest"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-7748",
+      "category": "documentation",
+      "category_zh": "文档生成、解析与交叉引用",
+      "selection_reason": "重载方法签名的 autodoc 解析",
+      "repo": "sphinx-doc/sphinx",
+      "difficulty": "15 min - 1 hour",
+      "issue_title": "autodoc_docstring_signature with overloaded methods",
+      "base_commit": "9988d5ce267bf0df4791770b469431b1fb00dcdd",
+      "gold_patch": {
+        "files": [
+          "sphinx/ext/autodoc/__init__.py"
+        ],
+        "file_count": 1,
+        "added_lines": 63,
+        "deleted_lines": 27,
+        "changed_lines": 90,
+        "hunks": 4
+      },
+      "fail_to_pass_count": 2,
+      "docker_image": "swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-7748:latest"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-10673",
+      "category": "documentation",
+      "category_zh": "文档生成、解析与交叉引用",
+      "selection_reason": "toctree 的特殊页面跨模块支持",
+      "repo": "sphinx-doc/sphinx",
+      "difficulty": "15 min - 1 hour",
+      "issue_title": "toctree contains reference to nonexisting document 'genindex', 'modindex', 'search'",
+      "base_commit": "f35d2a6cc726f97d0e859ca7a0e1729f7da8a6c8",
+      "gold_patch": {
+        "files": [
+          "sphinx/directives/other.py",
+          "sphinx/environment/adapters/toctree.py",
+          "sphinx/environment/collectors/toctree.py"
+        ],
+        "file_count": 3,
+        "added_lines": 23,
+        "deleted_lines": 3,
+        "changed_lines": 26,
+        "hunks": 9
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-10673:latest"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-8548",
+      "category": "documentation",
+      "category_zh": "文档生成、解析与交叉引用",
+      "selection_reason": "继承属性的文档查找与 importer",
+      "repo": "sphinx-doc/sphinx",
+      "difficulty": "1-4 hours",
+      "issue_title": "autodoc inherited-members won't work for inherited attributes (data members).",
+      "base_commit": "dd1615c59dc6fff633e27dbb3861f2d27e1fb976",
+      "gold_patch": {
+        "files": [
+          "sphinx/ext/autodoc/__init__.py",
+          "sphinx/ext/autodoc/importer.py"
+        ],
+        "file_count": 2,
+        "added_lines": 29,
+        "deleted_lines": 21,
+        "changed_lines": 50,
+        "hunks": 4
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-8548:latest"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-9461",
+      "category": "documentation",
+      "category_zh": "文档生成、解析与交叉引用",
+      "selection_reason": "classmethod/property 的反射与文档协同",
+      "repo": "sphinx-doc/sphinx",
+      "difficulty": "1-4 hours",
+      "issue_title": "Methods decorated with @classmethod and @property do not get documented.",
+      "base_commit": "939c7bb7ff7c53a4d27df067cea637540f0e1dad",
+      "gold_patch": {
+        "files": [
+          "sphinx/domains/python.py",
+          "sphinx/ext/autodoc/__init__.py",
+          "sphinx/util/inspect.py"
+        ],
+        "file_count": 3,
+        "added_lines": 47,
+        "deleted_lines": 5,
+        "changed_lines": 52,
+        "hunks": 7
+      },
+      "fail_to_pass_count": 3,
+      "docker_image": "swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-9461:latest"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-7590",
+      "category": "documentation",
+      "category_zh": "文档生成、解析与交叉引用",
+      "selection_reason": "C/C++ 用户定义字面量解析；官方 >4h",
+      "repo": "sphinx-doc/sphinx",
+      "difficulty": ">4 hours",
+      "issue_title": "C++ User Defined Literals not supported",
+      "base_commit": "2e506c5ab457cba743bb47eb5b8c8eb9dd51d23d",
+      "gold_patch": {
+        "files": [
+          "sphinx/domains/c.py",
+          "sphinx/domains/cpp.py",
+          "sphinx/util/cfamily.py"
+        ],
+        "file_count": 3,
+        "added_lines": 89,
+        "deleted_lines": 18,
+        "changed_lines": 107,
+        "hunks": 14
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-7590:latest"
+    },
+    {
+      "instance_id": "pytest-dev__pytest-10081",
+      "category": "test_framework",
+      "category_zh": "测试发现、标记、fixtures 与日志",
+      "selection_reason": "unittest skip 与 pdb 的 teardown 行为",
+      "repo": "pytest-dev/pytest",
+      "difficulty": "<15 min fix",
+      "issue_title": "unittest.TestCase.tearDown executed for classes marked with `unittest.skip` when running --pdb",
+      "base_commit": "da9a2b584eb7a6c7e924b2621ed0ddaeca0a7bea",
+      "gold_patch": {
+        "files": [
+          "src/_pytest/unittest.py"
+        ],
+        "file_count": 1,
+        "added_lines": 4,
+        "deleted_lines": 1,
+        "changed_lines": 5,
+        "hunks": 1
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-10081:latest"
+    },
+    {
+      "instance_id": "pytest-dev__pytest-7432",
+      "category": "test_framework",
+      "category_zh": "测试发现、标记、fixtures 与日志",
+      "selection_reason": "runxfail 和 skip 的报告位置",
+      "repo": "pytest-dev/pytest",
+      "difficulty": "<15 min fix",
+      "issue_title": "skipping: --runxfail breaks pytest.mark.skip location reporting",
+      "base_commit": "e6e300e729dd33956e5448d8be9a0b1540b4e53a",
+      "gold_patch": {
+        "files": [
+          "src/_pytest/skipping.py"
+        ],
+        "file_count": 1,
+        "added_lines": 2,
+        "deleted_lines": 1,
+        "changed_lines": 3,
+        "hunks": 1
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-7432:latest"
+    },
+    {
+      "instance_id": "pytest-dev__pytest-5631",
+      "category": "test_framework",
+      "category_zh": "测试发现、标记、fixtures 与日志",
+      "selection_reason": "带数组属性的对象在测试收集时比较",
+      "repo": "pytest-dev/pytest",
+      "difficulty": "15 min - 1 hour",
+      "issue_title": "ValueError when collecting tests that patch an array ",
+      "base_commit": "cb828ebe70b4fa35cd5f9a7ee024272237eab351",
+      "gold_patch": {
+        "files": [
+          "src/_pytest/compat.py"
+        ],
+        "file_count": 1,
+        "added_lines": 12,
+        "deleted_lines": 7,
+        "changed_lines": 19,
+        "hunks": 1
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-5631:latest"
+    },
+    {
+      "instance_id": "pytest-dev__pytest-7490",
+      "category": "test_framework",
+      "category_zh": "测试发现、标记、fixtures 与日志",
+      "selection_reason": "运行中新增 xfail 标记",
+      "repo": "pytest-dev/pytest",
+      "difficulty": "15 min - 1 hour",
+      "issue_title": "Pytest 6: Dynamically adding xfail marker in test no longer ignores failure",
+      "base_commit": "7f7a36478abe7dd1fa993b115d22606aa0e35e88",
+      "gold_patch": {
+        "files": [
+          "src/_pytest/skipping.py"
+        ],
+        "file_count": 1,
+        "added_lines": 11,
+        "deleted_lines": 10,
+        "changed_lines": 21,
+        "hunks": 2
+      },
+      "fail_to_pass_count": 2,
+      "docker_image": "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-7490:latest"
+    },
+    {
+      "instance_id": "pytest-dev__pytest-8399",
+      "category": "test_framework",
+      "category_zh": "测试发现、标记、fixtures 与日志",
+      "selection_reason": "unittest setUpClass 的 fixture 可见性",
+      "repo": "pytest-dev/pytest",
+      "difficulty": "15 min - 1 hour",
+      "issue_title": "Starting v6.2.0, unittest setUpClass fixtures are no longer \"private\"",
+      "base_commit": "6e7dc8bac831cd8cf7a53b08efa366bd84f0c0fe",
+      "gold_patch": {
+        "files": [
+          "src/_pytest/python.py",
+          "src/_pytest/unittest.py"
+        ],
+        "file_count": 2,
+        "added_lines": 5,
+        "deleted_lines": 5,
+        "changed_lines": 10,
+        "hunks": 5
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-8399:latest"
+    },
+    {
+      "instance_id": "pytest-dev__pytest-10356",
+      "category": "test_framework",
+      "category_zh": "测试发现、标记、fixtures 与日志",
+      "selection_reason": "多继承 MRO 下的 marker 合并",
+      "repo": "pytest-dev/pytest",
+      "difficulty": "1-4 hours",
+      "issue_title": "Consider MRO when obtaining marks for classes",
+      "base_commit": "3c1534944cbd34e8a41bc9e76818018fadefc9a1",
+      "gold_patch": {
+        "files": [
+          "src/_pytest/mark/structures.py"
+        ],
+        "file_count": 1,
+        "added_lines": 30,
+        "deleted_lines": 7,
+        "changed_lines": 37,
+        "hunks": 2
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-10356:latest"
+    },
+    {
+      "instance_id": "pytest-dev__pytest-6197",
+      "category": "test_framework",
+      "category_zh": "测试发现、标记、fixtures 与日志",
+      "selection_reason": "测试发现范围与 __init__.py 导入回归",
+      "repo": "pytest-dev/pytest",
+      "difficulty": "1-4 hours",
+      "issue_title": "Regression in 5.2.3: pytest tries to collect random __init__.py files",
+      "base_commit": "e856638ba086fcf5bebf1bebea32d5cf78de87b4",
+      "gold_patch": {
+        "files": [
+          "src/_pytest/python.py"
+        ],
+        "file_count": 1,
+        "added_lines": 6,
+        "deleted_lines": 18,
+        "changed_lines": 24,
+        "hunks": 3
+      },
+      "fail_to_pass_count": 2,
+      "docker_image": "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-6197:latest"
+    },
+    {
+      "instance_id": "pylint-dev__pylint-6903",
+      "category": "static_analysis",
+      "category_zh": "静态分析、类型提示与 CLI 配置",
+      "selection_reason": "容器 CPU 配额与 jobs=0 的并行预算",
+      "repo": "pylint-dev/pylint",
+      "difficulty": "<15 min fix",
+      "issue_title": "Running pylint in Kubernetes Pod with --jobs=0 fails",
+      "base_commit": "ca80f03a43bc39e4cc2c67dc99817b3c9f13b8a6",
+      "gold_patch": {
+        "files": [
+          "pylint/lint/run.py"
+        ],
+        "file_count": 1,
+        "added_lines": 7,
+        "deleted_lines": 0,
+        "changed_lines": 7,
+        "hunks": 1
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.pylint-dev_1776_pylint-6903:latest"
+    },
+    {
+      "instance_id": "pylint-dev__pylint-7277",
+      "category": "static_analysis",
+      "category_zh": "静态分析、类型提示与 CLI 配置",
+      "selection_reason": "runpy 下 sys.path 的正确处理",
+      "repo": "pylint-dev/pylint",
+      "difficulty": "<15 min fix",
+      "issue_title": "`pylint` removes first item from `sys.path` when running from `runpy`.",
+      "base_commit": "684a1d6aa0a6791e20078bc524f97c8906332390",
+      "gold_patch": {
+        "files": [
+          "pylint/__init__.py"
+        ],
+        "file_count": 1,
+        "added_lines": 3,
+        "deleted_lines": 2,
+        "changed_lines": 5,
+        "hunks": 1
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.pylint-dev_1776_pylint-7277:latest"
+    },
+    {
+      "instance_id": "pylint-dev__pylint-4604",
+      "category": "static_analysis",
+      "category_zh": "静态分析、类型提示与 CLI 配置",
+      "selection_reason": "type comment 中导入使用的误报",
+      "repo": "pylint-dev/pylint",
+      "difficulty": "15 min - 1 hour",
+      "issue_title": "unused-import false positive for a module used in a type comment",
+      "base_commit": "1e55ae64624d28c5fe8b63ad7979880ee2e6ef3f",
+      "gold_patch": {
+        "files": [
+          "pylint/checkers/variables.py",
+          "pylint/constants.py"
+        ],
+        "file_count": 2,
+        "added_lines": 6,
+        "deleted_lines": 0,
+        "changed_lines": 6,
+        "hunks": 3
+      },
+      "fail_to_pass_count": 21,
+      "docker_image": "swebench/sweb.eval.x86_64.pylint-dev_1776_pylint-4604:latest"
+    },
+    {
+      "instance_id": "pylint-dev__pylint-6528",
+      "category": "static_analysis",
+      "category_zh": "静态分析、类型提示与 CLI 配置",
+      "selection_reason": "递归扫描与忽略规则的多模块一致性",
+      "repo": "pylint-dev/pylint",
+      "difficulty": "15 min - 1 hour",
+      "issue_title": "Pylint does not respect ignores in `--recursive=y` mode",
+      "base_commit": "273a8b25620467c1e5686aa8d2a1dbb8c02c78d0",
+      "gold_patch": {
+        "files": [
+          "pylint/lint/expand_modules.py",
+          "pylint/lint/pylinter.py"
+        ],
+        "file_count": 2,
+        "added_lines": 28,
+        "deleted_lines": 7,
+        "changed_lines": 35,
+        "hunks": 5
+      },
+      "fail_to_pass_count": 4,
+      "docker_image": "swebench/sweb.eval.x86_64.pylint-dev_1776_pylint-6528:latest"
+    },
+    {
+      "instance_id": "pylint-dev__pylint-7080",
+      "category": "static_analysis",
+      "category_zh": "静态分析、类型提示与 CLI 配置",
+      "selection_reason": "递归模式的 ignore-paths 过滤",
+      "repo": "pylint-dev/pylint",
+      "difficulty": "15 min - 1 hour",
+      "issue_title": "`--recursive=y` ignores `ignore-paths`",
+      "base_commit": "3c5eca2ded3dd2b59ebaf23eb289453b5d2930f0",
+      "gold_patch": {
+        "files": [
+          "pylint/lint/expand_modules.py"
+        ],
+        "file_count": 1,
+        "added_lines": 1,
+        "deleted_lines": 0,
+        "changed_lines": 1,
+        "hunks": 1
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.pylint-dev_1776_pylint-7080:latest"
+    },
+    {
+      "instance_id": "pylint-dev__pylint-4551",
+      "category": "static_analysis",
+      "category_zh": "静态分析、类型提示与 CLI 配置",
+      "selection_reason": "从 Python 类型提示提取 UML 关系",
+      "repo": "pylint-dev/pylint",
+      "difficulty": "1-4 hours",
+      "issue_title": "Use Python type hints for UML generation",
+      "base_commit": "99589b08de8c5a2c6cc61e13a37420a868c80599",
+      "gold_patch": {
+        "files": [
+          "pylint/pyreverse/diagrams.py",
+          "pylint/pyreverse/inspector.py",
+          "pylint/pyreverse/utils.py",
+          "pylint/pyreverse/writer.py"
+        ],
+        "file_count": 4,
+        "added_lines": 99,
+        "deleted_lines": 27,
+        "changed_lines": 126,
+        "hunks": 7
+      },
+      "fail_to_pass_count": 10,
+      "docker_image": "swebench/sweb.eval.x86_64.pylint-dev_1776_pylint-4551:latest"
+    },
+    {
+      "instance_id": "pylint-dev__pylint-8898",
+      "category": "static_analysis",
+      "category_zh": "静态分析、类型提示与 CLI 配置",
+      "selection_reason": "正则表达式中的逗号与 CLI 参数解析",
+      "repo": "pylint-dev/pylint",
+      "difficulty": "1-4 hours",
+      "issue_title": "bad-names-rgxs mangles regular expressions with commas",
+      "base_commit": "1f8c4d9eb185c16a2c1d881c054f015e1c2eb334",
+      "gold_patch": {
+        "files": [
+          "pylint/config/argument.py",
+          "pylint/utils/__init__.py",
+          "pylint/utils/utils.py"
+        ],
+        "file_count": 3,
+        "added_lines": 30,
+        "deleted_lines": 2,
+        "changed_lines": 32,
+        "hunks": 5
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.pylint-dev_1776_pylint-8898:latest"
+    },
+    {
+      "instance_id": "django__django-10999",
+      "category": "serialization_formatting",
+      "category_zh": "序列化、文件格式与字符串输出",
+      "selection_reason": "负时间间隔的解析",
+      "repo": "django/django",
+      "difficulty": "<15 min fix",
+      "issue_title": "Fix parse_duration() for some negative durations",
+      "base_commit": "36300ef336e3f130a0dadc1143163ff3d23dc843",
+      "gold_patch": {
+        "files": [
+          "django/utils/dateparse.py"
+        ],
+        "file_count": 1,
+        "added_lines": 4,
+        "deleted_lines": 3,
+        "changed_lines": 7,
+        "hunks": 1
+      },
+      "fail_to_pass_count": 2,
+      "docker_image": "swebench/sweb.eval.x86_64.django_1776_django-10999:latest"
+    },
+    {
+      "instance_id": "django__django-12125",
+      "category": "serialization_formatting",
+      "category_zh": "序列化、文件格式与字符串输出",
+      "selection_reason": "嵌套类的迁移序列化路径",
+      "repo": "django/django",
+      "difficulty": "<15 min fix",
+      "issue_title": "makemigrations produces incorrect path for inner classes",
+      "base_commit": "89d41cba392b759732ba9f1db4ff29ed47da6a56",
+      "gold_patch": {
+        "files": [
+          "django/db/migrations/serializer.py"
+        ],
+        "file_count": 1,
+        "added_lines": 1,
+        "deleted_lines": 1,
+        "changed_lines": 2,
+        "hunks": 1
+      },
+      "fail_to_pass_count": 2,
+      "docker_image": "swebench/sweb.eval.x86_64.django_1776_django-12125:latest"
+    },
+    {
+      "instance_id": "django__django-14580",
+      "category": "serialization_formatting",
+      "category_zh": "序列化、文件格式与字符串输出",
+      "selection_reason": "序列化后缺失 models 导入",
+      "repo": "django/django",
+      "difficulty": "<15 min fix",
+      "issue_title": "Missing import statement in generated migration (NameError: name 'models' is not defined)",
+      "base_commit": "36fa071d6ebd18a61c4d7f1b5c9d17106134bd44",
+      "gold_patch": {
+        "files": [
+          "django/db/migrations/serializer.py"
+        ],
+        "file_count": 1,
+        "added_lines": 1,
+        "deleted_lines": 1,
+        "changed_lines": 2,
+        "hunks": 1
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.django_1776_django-14580:latest"
+    },
+    {
+      "instance_id": "astropy__astropy-8707",
+      "category": "serialization_formatting",
+      "category_zh": "序列化、文件格式与字符串输出",
+      "selection_reason": "FITS header 的 bytes/string 兼容",
+      "repo": "astropy/astropy",
+      "difficulty": "15 min - 1 hour",
+      "issue_title": "Header.fromstring does not accept Python 3 bytes",
+      "base_commit": "a85a0747c54bac75e9c3b2fe436b105ea029d6cf",
+      "gold_patch": {
+        "files": [
+          "astropy/io/fits/card.py",
+          "astropy/io/fits/header.py"
+        ],
+        "file_count": 2,
+        "added_lines": 66,
+        "deleted_lines": 9,
+        "changed_lines": 75,
+        "hunks": 6
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.astropy_1776_astropy-8707:latest"
+    },
+    {
+      "instance_id": "pydata__xarray-4966",
+      "category": "serialization_formatting",
+      "category_zh": "序列化、文件格式与字符串输出",
+      "selection_reason": "netCDF/OPeNDAP 有符号字节与无符号解码",
+      "repo": "pydata/xarray",
+      "difficulty": "15 min - 1 hour",
+      "issue_title": "Handling of signed bytes from OPeNDAP via pydap",
+      "base_commit": "37522e991a32ee3c0ad1a5ff8afe8e3eb1885550",
+      "gold_patch": {
+        "files": [
+          "xarray/coding/variables.py"
+        ],
+        "file_count": 1,
+        "added_lines": 8,
+        "deleted_lines": 0,
+        "changed_lines": 8,
+        "hunks": 1
+      },
+      "fail_to_pass_count": 4,
+      "docker_image": "swebench/sweb.eval.x86_64.pydata_1776_xarray-4966:latest"
+    },
+    {
+      "instance_id": "sympy__sympy-19346",
+      "category": "serialization_formatting",
+      "category_zh": "序列化、文件格式与字符串输出",
+      "selection_reason": "srepr 的 dict/set 输出",
+      "repo": "sympy/sympy",
+      "difficulty": "15 min - 1 hour",
+      "issue_title": "srepr not printing dict and set properly",
+      "base_commit": "94fb720696f5f5d12bad8bc813699fd696afd2fb",
+      "gold_patch": {
+        "files": [
+          "sympy/printing/repr.py"
+        ],
+        "file_count": 1,
+        "added_lines": 10,
+        "deleted_lines": 0,
+        "changed_lines": 10,
+        "hunks": 1
+      },
+      "fail_to_pass_count": 1,
+      "docker_image": "swebench/sweb.eval.x86_64.sympy_1776_sympy-19346:latest"
+    },
+    {
+      "instance_id": "sympy__sympy-14248",
+      "category": "serialization_formatting",
+      "category_zh": "序列化、文件格式与字符串输出",
+      "selection_reason": "矩阵符号差在 LaTeX/pretty/string 三种输出中一致",
+      "repo": "sympy/sympy",
+      "difficulty": "1-4 hours",
+      "issue_title": "The difference of MatrixSymbols prints as a sum with (-1) coefficient",
+      "base_commit": "9986b38181cdd556a3f3411e553864f11912244e",
+      "gold_patch": {
+        "files": [
+          "sympy/printing/latex.py",
+          "sympy/printing/pretty/pretty.py",
+          "sympy/printing/str.py"
+        ],
+        "file_count": 3,
+        "added_lines": 56,
+        "deleted_lines": 9,
+        "changed_lines": 65,
+        "hunks": 4
+      },
+      "fail_to_pass_count": 2,
+      "docker_image": "swebench/sweb.eval.x86_64.sympy_1776_sympy-14248:latest"
+    }
+  ],
+  "categories": {
+    "orm_database": "ORM、SQL 与数据库迁移",
+    "web_http": "Web、HTTP、路由与安全",
+    "symbolic_math": "符号代数、数论与概率计算",
+    "scientific_arrays": "科学数组、坐标与单位",
+    "machine_learning": "机器学习算法与估计器 API",
+    "visualization": "绘图、渲染与交互",
+    "documentation": "文档生成、解析与交叉引用",
+    "test_framework": "测试发现、标记、fixtures 与日志",
+    "static_analysis": "静态分析、类型提示与 CLI 配置",
+    "serialization_formatting": "序列化、文件格式与字符串输出"
+  },
+  "difficulty_source": "official Verified human fix-time labels",
+  "gold_trajectory_steps": null,
+  "difficulty_note": "Fix-time labels are not agent trajectory lengths. Gold patch size is supplementary implementation-scope evidence, not a measured difficulty score."
+}

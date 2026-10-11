@@ -90,3 +90,48 @@ def test_capture_empty_then_replay_band_add_gate_and_mask_changes(width, dtype, 
     mask.fill_(1)
     graph.replay()
     assert torch.equal(output.view(torch.uint8), baseline.view(torch.uint8))
+
+
+def test_detailed_logs_record_actual_writeback_without_changing_output():
+    from vllm.model_hooks.steering.graph.tact_kernel import apply_tact_families
+
+    width = 8
+    hidden = torch.tensor([[2.0, -3.0] + [0.0] * 6,
+                           [1.0] * 8], device="cuda", dtype=torch.bfloat16)
+    residual = torch.full_like(hidden, 0.25)
+    ot = torch.zeros((2, width), device="cuda")
+    oa = torch.zeros_like(ot)
+    ot[1, 0], oa[1, 1] = 1, 1
+    tables = {"tact_band": {
+        "V_OT": ot, "V_OA": oa, "MU": torch.zeros_like(ot),
+        "TAU_OT": torch.tensor([0.0, 0.5], device="cuda"),
+        "TAU_OA": torch.tensor([0.0, 1.0], device="cuda"),
+        "BETA": torch.tensor([0.0, 1.0], device="cuda"),
+    }}
+    rows = torch.tensor([1, 0], device="cuda")
+    mask = torch.tensor([1.0, 0.0], device="cuda")
+    details = torch.zeros((2, 11), device="cuda")
+    ordinary = apply_tact_families(tables, mask, rows, hidden, residual)
+    # Capture with disabled rows, then enable only the first row on replay.
+    mask.zero_()
+    stream = torch.cuda.Stream()
+    stream.wait_stream(torch.cuda.current_stream())
+    with torch.cuda.stream(stream):
+        for _ in range(3):
+            apply_tact_families(tables, mask, rows, hidden, residual, details=details)
+    torch.cuda.current_stream().wait_stream(stream)
+    graph = torch.cuda.CUDAGraph()
+    with torch.cuda.graph(graph):
+        output = apply_tact_families(
+            tables, mask, rows, hidden, residual, details=details)
+    mask[0] = 1
+    graph.replay()
+    torch.testing.assert_close(output, ordinary, rtol=0, atol=0)
+    logged = details.cpu()
+    torch.testing.assert_close(logged[0, :8], torch.tensor(
+        [1, 1, 2.25, -2.75, 0.5, 1.0, 0.5, -1.0]))
+    assert logged[0, 8] > 0 and logged[0, 10] == 1
+    assert logged[1, 0] == 0
+    mask.zero_()
+    graph.replay()
+    assert details[:, 0].sum().item() == 0

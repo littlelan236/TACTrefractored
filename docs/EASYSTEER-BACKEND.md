@@ -121,3 +121,11 @@ not enabled by the adapter. A multi-token think boundary is rejected.
 
 Performance results, validation coverage, limitations, and artifact locations
 are recorded separately in `EASYSTEER-VALIDATION.md`.
+
+## Optional token diagnostics
+
+See [detailed logging](EASYSTEER-DIAGNOSTICS.md) and the [actual fitted-axis diagnosis](EASYSTEER-DIAGNOSIS-20261011.md). Detailed logging is off by default.
+
+## Optional tensor consumer verification
+
+See [consumer check](STEERING-CONSUMER-CHECK.md) and [actual GPU results](STEERING-CONSUMER-RESULT-20261011.md). Disabled by default.

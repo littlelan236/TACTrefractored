@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "source": {
+    "dataset": "princeton-nlp/SWE-bench_Verified",
+    "split": "test",
+    "revision": "c104f840cc67f8b6eec6f759ebc8b2693d585d4a",
+    "rows": 500,
+    "files": [
+      {
+        "url": "https://huggingface.co/datasets/princeton-nlp/SWE-bench_Verified/resolve/c104f840cc67f8b6eec6f759ebc8b2693d585d4a/data/test-00000-of-00001.parquet",
+        "file": "test-00000-of-00001.parquet",
+        "sha256": "a45b1fe4e2f0c8390b2b2938ac83e92ed5979000856808f3679c07812e9e6dcd",
+        "bytes": 2096679
+      }
+    ]
+  },
+  "count": 70,
+  "category_counts": {
+    "orm_database": 7,
+    "web_http": 7,
+    "symbolic_math": 7,
+    "scientific_arrays": 7,
+    "machine_learning": 7,
+    "visualization": 7,
+    "documentation": 7,
+    "test_framework": 7,
+    "static_analysis": 7,
+    "serialization_formatting": 7
+  },
+  "repo_counts": {
+    "django/django": 14,
+    "pallets/flask": 1,
+    "psf/requests": 2,
+    "sympy/sympy": 9,
+    "pydata/xarray": 5,
+    "astropy/astropy": 4,
+    "scikit-learn/scikit-learn": 7,
+    "matplotlib/matplotlib": 5,
+    "mwaskom/seaborn": 2,
+    "sphinx-doc/sphinx": 7,
+    "pytest-dev/pytest": 7,
+    "pylint-dev/pylint": 7
+  },
+  "difficulty_counts": {
+    "<15 min fix": 22,
+    "15 min - 1 hour": 30,
+    "1-4 hours": 15,
+    ">4 hours": 3
+  },
+  "selection_method": "Curated functional categories plus official fix-time labels and gold-patch scope; no model performance or gold test outcomes used to sample.",
+  "official_gt4h_tasks": [
+    "sympy__sympy-13878",
+    "pydata__xarray-6992",
+    "sphinx-doc__sphinx-7590"
+  ],
+  "overlap_original_instances": [],
+  "file_hashes": {
+    "source-500.json": "35f8a8acae99057b2bfd0236508fb43df43e9dbfe44110be7f002a963c9b2199",
+    "source-provenance.json": "596fcf25e70467c51f6c591d692f7f32bfd69f1e92021aefaf8385a5ed7a30d7",
+    "selection.json": "5b1fe2127a87a02e67d22924049e72cc5e5458de41eb429a936c837cc8cabf3d",
+    "instances.json": "10dca7fabaf0cfc5e1a9fc4ef55b6420641285563b99fa9235d2d3d430c8e54f",
+    "splits.json": "ca26ce556f2541d869a28f56782e20e9ed3ddc020492584b1ffc4af89d3ab966",
+    "exclusions.json": "08675fb2171feb8527c0ad49b8694f984d883ba3dce161308ad4b7bfbe882028",
+    "fit-exclusions.json": "6aea891bb2d434dd9e91b336011e5b73bad655dac7aac8601163dbae6d80b744",
+    "catalog.json": "dc05156d7c4d786b78237a179073b105cfe297920a4cee7349ee6b68a6e2f8bc"
+  },
+  "image_derivations": {
+    "matplotlib__matplotlib-25479": "assets/images/verified70-rootless/matplotlib__matplotlib-25479/derivation.json",
+    "matplotlib__matplotlib-25775": "assets/images/verified70-rootless/matplotlib__matplotlib-25775/derivation.json",
+    "matplotlib__matplotlib-24870": "assets/images/verified70-rootless/matplotlib__matplotlib-24870/derivation.json"
+  },
+  "active_eval_count": 67,
+  "gold_excluded": [
+    "pallets__flask-5014",
+    "psf__requests-5414",
+    "psf__requests-6028"
+  ]
+}

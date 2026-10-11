@@ -97,7 +97,8 @@ class EasySteerProcessManager(BackendProcessManager):
         env["VLLM_CACHE_ROOT"] = str(
             root
             / "assets/vllm-cache/easysteer"
-            / ("diagnostics" if self.cfg["serving"]["easysteer_diagnostics"] else "production")
+            / ("detailed-v1" if self.cfg["serving"].get("easysteer_detail_log") else
+               "diagnostics" if self.cfg["serving"]["easysteer_diagnostics"] else "production")
         )
         if validate_easysteer(self.cfg) != {
             k: v for k, v in self.cfg["easysteer"].items() if k != "request"
@@ -143,6 +144,15 @@ class EasySteerProcessManager(BackendProcessManager):
         )
         self.evidence_directory = self.directory / "evidence" / uuid.uuid4().hex
         env["TACT_EASYSTEER_EVIDENCE_DIR"] = str(self.evidence_directory)
+        if self.cfg["serving"].get("steering_consumer_check"):
+            env["TACT_CONSUMER_CHECK"] = "1"
+            env["TACT_CONSUMER_CHECK_ROWS"] = str(self.cfg["serving"]["steering_consumer_check_rows"])
+            env["TACT_CONSUMER_LOG_LIMIT"] = str(self.cfg["serving"]["steering_consumer_log_limit"])
+            env["VLLM_CACHE_ROOT"] = str(root / "assets/vllm-cache/easysteer/consumer-check-v1")
+        if self.cfg["serving"].get("easysteer_detail_log"):
+            env["TACT_EASYSTEER_DETAIL_LOG"] = "1"
+            env["TACT_EASYSTEER_DETAIL_LOG_LIMIT"] = str(
+                self.cfg["serving"]["easysteer_detail_log_limit"])
         if self.cfg["serving"]["easysteer_diagnostics"]:
             env["TACT_EASYSTEER_DIAGNOSTICS"] = "1"
         write_json(self.directory / "easysteer-config.json", self.cfg["easysteer"])
@@ -177,14 +187,29 @@ class EasySteerProcessManager(BackendProcessManager):
         count = self.cfg["serving"]["tensor_parallel_size"]
         if required and len(pids) != count:
             raise RuntimeError("EasySteer actual graph replay not observed on every TP worker")
+        consumer = [json.loads(line)
+            for path in self.evidence_directory.glob("consumer-checks-*.jsonl")
+            for line in path.read_text().splitlines()]
+        consumer_enabled = self.cfg["serving"].get("steering_consumer_check", False)
+        if (consumer_enabled and self.cfg["steering"]["strategy"] != "none"
+                and (not consumer or any(not r["all_elements_equal"] for r in consumer))):
+            raise RuntimeError("EasySteer producer/consumer check missing or mismatched")
         write_json(
             self.directory / "verification.json",
             {
+                "consumer_check_enabled": consumer_enabled,
+                "consumer_records": len(consumer),
+                "consumer_all_equal": bool(consumer) and all(r["all_elements_equal"] for r in consumer),
                 "steering_integration": "in_graph",
                 "actual_replay_workers": sorted(pids),
                 "actual_replay_attested": len(pids) == count,
                 "selection": "all_generated_think_close",
                 "request_hash": hash_json(self.cfg["easysteer"]["request"]),
-                "note": "Per-site aggregate diagnostics; numerical and selection validation are separate",
+                "detailed_logging": self.cfg["serving"].get("easysteer_detail_log", False),
+                "detail_records": sum(r.get("detail_records", 0) for r in
+                    {record["pid"]: record for record in records}.values()),
+                "detail_dropped": sum(r.get("detail_dropped", 0) for r in
+                    {record["pid"]: record for record in records}.values()),
+                "note": "Replay attestation is separate from numerical mechanism validation",
             },
         )

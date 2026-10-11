@@ -112,3 +112,7 @@ NONE/CAP/GATED/ADD parameter changes, projection math, concurrent mixed requests
 and actual FULL replay.
 
 Validation results and paths are recorded in `REGISTRY-VALIDATION.md`.
+
+## Optional tensor consumer verification
+
+See [consumer check](STEERING-CONSUMER-CHECK.md) and [actual GPU results](STEERING-CONSUMER-RESULT-20261011.md). Disabled by default.

@@ -410,6 +410,9 @@ class GPUModelRunner(
 
             components = discover_components(self.model)
             self._attach_steering_hooks(components)
+            if self.steer_vector_manager is not None:
+                self.steer_vector_manager.init_consumer_checks(
+                    self.model, components.get("tact_states", []))
             # Capture observes the outputs after steering has run.
             self._attach_capture_hooks(self.model, components)
 
@@ -1467,12 +1470,19 @@ class GPUModelRunner(
             # before computing the partial-vocab logits, so that the all-to-all
             # produces full-vocab logits for just the locally-owned requests.
             sample_hidden_states = hidden_states[sorted_logits_indices]
+            if self.steer_vector_manager is not None:
+                self.steer_vector_manager.set_consumer_logits_indices(sorted_logits_indices)
             local_logits = self.model.compute_logits_local(sample_hidden_states)
             logits = all_to_all_logits(local_logits, shard_metadata)
             logits = logits[:, : self.vocab_size]
         else:
             sample_hidden_states = hidden_states[input_batch.logits_indices]
+            if self.steer_vector_manager is not None:
+                self.steer_vector_manager.set_consumer_logits_indices(input_batch.logits_indices)
             logits = self.model.compute_logits(sample_hidden_states)
+
+        if self.steer_vector_manager is not None:
+            self.steer_vector_manager.write_consumer_checks()
 
         if grammar_output is not None:
             # Apply grammar bitmask to the logits in-place.
@@ -1864,6 +1874,12 @@ class GPUModelRunner(
         )
         self.step_timing.forward_start()
 
+        if manager is not None and not dummy_run:
+            manager.reset_tact_step_details(input_batch.num_tokens_after_padding)
+
+        if manager is not None and not dummy_run:
+            manager.begin_consumer_step(batch_geometry, batch_desc.cg_mode.name)
+
         # Run model.
         steering_errors: dict[str, str] = {}
         if batch_desc.cg_mode == CUDAGraphMode.FULL:
@@ -1941,6 +1957,9 @@ class GPUModelRunner(
                 else:
                     # Eager (NONE): call the raw model directly.
                     model_output = self.model(**model_inputs)
+
+        if has_steering and not dummy_run and batch_geometry is not None:
+            manager.write_tact_step_details(batch_geometry, batch_desc.cg_mode.name)
 
         if self.is_last_pp_rank:
             if self.use_aux_hidden_state_outputs:

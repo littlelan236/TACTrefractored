@@ -152,6 +152,7 @@ def apply_decoder_families(
     hidden_states: torch.Tensor,
     residual: torch.Tensor | None,
     evidence: torch.Tensor | None = None,
+    details: torch.Tensor | None = None,
 ) -> torch.Tensor:
     """The captured decoder-layer steering kernel.
 
@@ -176,7 +177,7 @@ def apply_decoder_families(
         if not set(tables).issubset({"tact_band", "additive"}):
             raise ValueError("TACT band tables require the TACT component")
         return apply_tact_families(
-            tables, graph_mask, token_rows, hidden_states, residual, evidence
+            tables, graph_mask, token_rows, hidden_states, residual, evidence, details
         )
     if not tables:
         return hidden_states

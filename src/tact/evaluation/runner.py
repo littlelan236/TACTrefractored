@@ -27,7 +27,8 @@ def install_harness_adapter(cfg: dict, factory: ContainerFactory, rows: list[dic
     original_get = sb_python.requests.get
 
     # Keep exact downloaded metadata content in the project, then prefer it offline.
-    cache = Path(cfg["project_root"]) / "data/swebench/requirements-cache"
+    cache = Path(cfg["environment"].get("requirements_cache",
+        str(Path(cfg["project_root"]) / "data/swebench/requirements-cache")))
     cache.mkdir(parents=True, exist_ok=True)
     def cached_get(url, *args, **kwargs):
         import requests
@@ -40,9 +41,13 @@ def install_harness_adapter(cfg: dict, factory: ContainerFactory, rows: list[dic
             response._content = p.read_bytes()
             response.url = url
             return response
-        kwargs.setdefault("timeout", 30)
+        kwargs.setdefault("timeout", cfg["timeouts"].get("metadata_request_seconds", 30))
         try:
             response = original_get(url, *args, **kwargs)
+            # Official requirements lookup tries several candidate paths.
+            # A real missing file must reach that lookup, not abort it here.
+            if response.status_code in (404, 410):
+                return response
             response.raise_for_status()
         except requests.RequestException:
             parts = url.removeprefix("https://raw.githubusercontent.com/").split("/", 3)
@@ -51,6 +56,8 @@ def install_harness_adapter(cfg: dict, factory: ContainerFactory, rows: list[dic
             owner, repo, revision, path = parts
             response = original_get(f"https://cdn.jsdelivr.net/gh/{owner}/{repo}@{revision}/{path}",
                                     *args, **kwargs)
+            if response.status_code in (404, 410):
+                return response
             response.raise_for_status()
         p.write_bytes(response.content)
         return response

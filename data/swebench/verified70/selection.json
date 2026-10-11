@@ -1,0 +1,437 @@
+{
+  "schema_version": 1,
+  "categories": {
+    "orm_database": "ORM、SQL 与数据库迁移",
+    "web_http": "Web、HTTP、路由与安全",
+    "symbolic_math": "符号代数、数论与概率计算",
+    "scientific_arrays": "科学数组、坐标与单位",
+    "machine_learning": "机器学习算法与估计器 API",
+    "visualization": "绘图、渲染与交互",
+    "documentation": "文档生成、解析与交叉引用",
+    "test_framework": "测试发现、标记、fixtures 与日志",
+    "static_analysis": "静态分析、类型提示与 CLI 配置",
+    "serialization_formatting": "序列化、文件格式与字符串输出"
+  },
+  "tasks": [
+    {
+      "instance_id": "django__django-10880",
+      "category": "orm_database",
+      "category_zh": "ORM、SQL 与数据库迁移",
+      "selection_reason": "条件聚合与 DISTINCT 的 SQL 边界"
+    },
+    {
+      "instance_id": "django__django-15368",
+      "category": "orm_database",
+      "category_zh": "ORM、SQL 与数据库迁移",
+      "selection_reason": "bulk_update 的表达式识别"
+    },
+    {
+      "instance_id": "django__django-11265",
+      "category": "orm_database",
+      "category_zh": "ORM、SQL 与数据库迁移",
+      "selection_reason": "排除查询与 FilteredRelation 的关联语义"
+    },
+    {
+      "instance_id": "django__django-11734",
+      "category": "orm_database",
+      "category_zh": "ORM、SQL 与数据库迁移",
+      "selection_reason": "OuterRef 跨字段与查询模块的修复"
+    },
+    {
+      "instance_id": "django__django-16315",
+      "category": "orm_database",
+      "category_zh": "ORM、SQL 与数据库迁移",
+      "selection_reason": "批量插入与混合大小写列名"
+    },
+    {
+      "instance_id": "django__django-10554",
+      "category": "orm_database",
+      "category_zh": "ORM、SQL 与数据库迁移",
+      "selection_reason": "派生 union 查询的排序与编译协同"
+    },
+    {
+      "instance_id": "django__django-16263",
+      "category": "orm_database",
+      "category_zh": "ORM、SQL 与数据库迁移",
+      "selection_reason": "count 查询裁剪注解，跨表达式与查询处理"
+    },
+    {
+      "instance_id": "pallets__flask-5014",
+      "category": "web_http",
+      "category_zh": "Web、HTTP、路由与安全",
+      "selection_reason": "Blueprint 名称输入验证"
+    },
+    {
+      "instance_id": "psf__requests-5414",
+      "category": "web_http",
+      "category_zh": "Web、HTTP、路由与安全",
+      "selection_reason": "非法主机名的异常类型与 URL 验证"
+    },
+    {
+      "instance_id": "django__django-11099",
+      "category": "web_http",
+      "category_zh": "Web、HTTP、路由与安全",
+      "selection_reason": "用户名验证器的正则边界"
+    },
+    {
+      "instance_id": "psf__requests-6028",
+      "category": "web_http",
+      "category_zh": "Web、HTTP、路由与安全",
+      "selection_reason": "HTTP 代理认证处理"
+    },
+    {
+      "instance_id": "django__django-11333",
+      "category": "web_http",
+      "category_zh": "Web、HTTP、路由与安全",
+      "selection_reason": "URL resolver 构造与缓存优化"
+    },
+    {
+      "instance_id": "django__django-11149",
+      "category": "web_http",
+      "category_zh": "Web、HTTP、路由与安全",
+      "selection_reason": "admin 多对多内联的权限控制"
+    },
+    {
+      "instance_id": "django__django-13344",
+      "category": "web_http",
+      "category_zh": "Web、HTTP、路由与安全",
+      "selection_reason": "异步响应在多个 middleware 间的兼容"
+    },
+    {
+      "instance_id": "sympy__sympy-12481",
+      "category": "symbolic_math",
+      "category_zh": "符号代数、数论与概率计算",
+      "selection_reason": "重叠置换循环的构造语义"
+    },
+    {
+      "instance_id": "sympy__sympy-15875",
+      "category": "symbolic_math",
+      "category_zh": "符号代数、数论与概率计算",
+      "selection_reason": "复整数的零值判定"
+    },
+    {
+      "instance_id": "sympy__sympy-13091",
+      "category": "symbolic_math",
+      "category_zh": "符号代数、数论与概率计算",
+      "selection_reason": "跨多个模块的富比较 NotImplemented 协议"
+    },
+    {
+      "instance_id": "sympy__sympy-24443",
+      "category": "symbolic_math",
+      "category_zh": "符号代数、数论与概率计算",
+      "selection_reason": "置换群同态检验算法"
+    },
+    {
+      "instance_id": "sympy__sympy-16597",
+      "category": "symbolic_math",
+      "category_zh": "符号代数、数论与概率计算",
+      "selection_reason": "有限性假设在多模块间的传播"
+    },
+    {
+      "instance_id": "sympy__sympy-18199",
+      "category": "symbolic_math",
+      "category_zh": "符号代数、数论与概率计算",
+      "selection_reason": "模 n 次根遗漏零根的数论边界"
+    },
+    {
+      "instance_id": "sympy__sympy-13878",
+      "category": "symbolic_math",
+      "category_zh": "符号代数、数论与概率计算",
+      "selection_reason": "多种连续分布 CDF 的预计算；官方 >4h"
+    },
+    {
+      "instance_id": "pydata__xarray-4075",
+      "category": "scientific_arrays",
+      "category_zh": "科学数组、坐标与单位",
+      "selection_reason": "布尔权重在加权均值中的 dtype 处理"
+    },
+    {
+      "instance_id": "pydata__xarray-4629",
+      "category": "scientific_arrays",
+      "category_zh": "科学数组、坐标与单位",
+      "selection_reason": "合并属性时的拷贝与引用语义"
+    },
+    {
+      "instance_id": "astropy__astropy-13977",
+      "category": "scientific_arrays",
+      "category_zh": "科学数组、坐标与单位",
+      "selection_reason": "Quantity 的 numpy ufunc 互操作与异常边界"
+    },
+    {
+      "instance_id": "pydata__xarray-6938",
+      "category": "scientific_arrays",
+      "category_zh": "科学数组、坐标与单位",
+      "selection_reason": "维度交换中的输入对象意外变更"
+    },
+    {
+      "instance_id": "astropy__astropy-13398",
+      "category": "scientific_arrays",
+      "category_zh": "科学数组、坐标与单位",
+      "selection_reason": "地球坐标系的多模块坐标变换"
+    },
+    {
+      "instance_id": "astropy__astropy-13579",
+      "category": "scientific_arrays",
+      "category_zh": "科学数组、坐标与单位",
+      "selection_reason": "切片 WCS 的像素坐标语义；小 patch 但官方 1–4h"
+    },
+    {
+      "instance_id": "pydata__xarray-6992",
+      "category": "scientific_arrays",
+      "category_zh": "科学数组、坐标与单位",
+      "selection_reason": "Dataset 索引重构与变量/坐标一致性；官方 >4h"
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-13142",
+      "category": "machine_learning",
+      "category_zh": "机器学习算法与估计器 API",
+      "selection_reason": "GaussianMixture 多次初始化的一致性"
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-14496",
+      "category": "machine_learning",
+      "category_zh": "机器学习算法与估计器 API",
+      "selection_reason": "OPTICS 的 min_samples 与近邻实例化"
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-12682",
+      "category": "machine_learning",
+      "category_zh": "机器学习算法与估计器 API",
+      "selection_reason": "SparseCoder 向 Lasso 传递迭代参数"
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-14629",
+      "category": "machine_learning",
+      "category_zh": "机器学习算法与估计器 API",
+      "selection_reason": "多输出分类器的 cross_val_predict 接口"
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-25931",
+      "category": "machine_learning",
+      "category_zh": "机器学习算法与估计器 API",
+      "selection_reason": "IsolationForest 中特征名校验与内部调用"
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-26323",
+      "category": "machine_learning",
+      "category_zh": "机器学习算法与估计器 API",
+      "selection_reason": "ColumnTransformer 输出模式向 remainder 传播"
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-25102",
+      "category": "machine_learning",
+      "category_zh": "机器学习算法与估计器 API",
+      "selection_reason": "DataFrame 输出和多估计器 dtype 保留"
+    },
+    {
+      "instance_id": "matplotlib__matplotlib-13989",
+      "category": "visualization",
+      "category_zh": "绘图、渲染与交互",
+      "selection_reason": "hist density 模式的范围处理"
+    },
+    {
+      "instance_id": "matplotlib__matplotlib-25479",
+      "category": "visualization",
+      "category_zh": "绘图、渲染与交互",
+      "selection_reason": "颜色映射名称与对象参数处理"
+    },
+    {
+      "instance_id": "matplotlib__matplotlib-14623",
+      "category": "visualization",
+      "category_zh": "绘图、渲染与交互",
+      "selection_reason": "对数坐标反转的多模块修复"
+    },
+    {
+      "instance_id": "matplotlib__matplotlib-24870",
+      "category": "visualization",
+      "category_zh": "绘图、渲染与交互",
+      "selection_reason": "等高线自动识别布尔输入，二维与三角网格协同"
+    },
+    {
+      "instance_id": "matplotlib__matplotlib-25775",
+      "category": "visualization",
+      "category_zh": "绘图、渲染与交互",
+      "selection_reason": "文本抗锯齿接口与多个渲染 backend"
+    },
+    {
+      "instance_id": "mwaskom__seaborn-3069",
+      "category": "visualization",
+      "category_zh": "绘图、渲染与交互",
+      "selection_reason": "类别尺度的绘制一致性"
+    },
+    {
+      "instance_id": "mwaskom__seaborn-3187",
+      "category": "visualization",
+      "category_zh": "绘图、渲染与交互",
+      "selection_reason": "大数范围图例的格式化与偏移量"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-8595",
+      "category": "documentation",
+      "category_zh": "文档生成、解析与交叉引用",
+      "selection_reason": "autodoc 对空 __all__ 的处理"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-9230",
+      "category": "documentation",
+      "category_zh": "文档生成、解析与交叉引用",
+      "selection_reason": "复杂参数类型的文档渲染"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-7748",
+      "category": "documentation",
+      "category_zh": "文档生成、解析与交叉引用",
+      "selection_reason": "重载方法签名的 autodoc 解析"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-10673",
+      "category": "documentation",
+      "category_zh": "文档生成、解析与交叉引用",
+      "selection_reason": "toctree 的特殊页面跨模块支持"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-8548",
+      "category": "documentation",
+      "category_zh": "文档生成、解析与交叉引用",
+      "selection_reason": "继承属性的文档查找与 importer"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-9461",
+      "category": "documentation",
+      "category_zh": "文档生成、解析与交叉引用",
+      "selection_reason": "classmethod/property 的反射与文档协同"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-7590",
+      "category": "documentation",
+      "category_zh": "文档生成、解析与交叉引用",
+      "selection_reason": "C/C++ 用户定义字面量解析；官方 >4h"
+    },
+    {
+      "instance_id": "pytest-dev__pytest-10081",
+      "category": "test_framework",
+      "category_zh": "测试发现、标记、fixtures 与日志",
+      "selection_reason": "unittest skip 与 pdb 的 teardown 行为"
+    },
+    {
+      "instance_id": "pytest-dev__pytest-7432",
+      "category": "test_framework",
+      "category_zh": "测试发现、标记、fixtures 与日志",
+      "selection_reason": "runxfail 和 skip 的报告位置"
+    },
+    {
+      "instance_id": "pytest-dev__pytest-5631",
+      "category": "test_framework",
+      "category_zh": "测试发现、标记、fixtures 与日志",
+      "selection_reason": "带数组属性的对象在测试收集时比较"
+    },
+    {
+      "instance_id": "pytest-dev__pytest-7490",
+      "category": "test_framework",
+      "category_zh": "测试发现、标记、fixtures 与日志",
+      "selection_reason": "运行中新增 xfail 标记"
+    },
+    {
+      "instance_id": "pytest-dev__pytest-8399",
+      "category": "test_framework",
+      "category_zh": "测试发现、标记、fixtures 与日志",
+      "selection_reason": "unittest setUpClass 的 fixture 可见性"
+    },
+    {
+      "instance_id": "pytest-dev__pytest-10356",
+      "category": "test_framework",
+      "category_zh": "测试发现、标记、fixtures 与日志",
+      "selection_reason": "多继承 MRO 下的 marker 合并"
+    },
+    {
+      "instance_id": "pytest-dev__pytest-6197",
+      "category": "test_framework",
+      "category_zh": "测试发现、标记、fixtures 与日志",
+      "selection_reason": "测试发现范围与 __init__.py 导入回归"
+    },
+    {
+      "instance_id": "pylint-dev__pylint-6903",
+      "category": "static_analysis",
+      "category_zh": "静态分析、类型提示与 CLI 配置",
+      "selection_reason": "容器 CPU 配额与 jobs=0 的并行预算"
+    },
+    {
+      "instance_id": "pylint-dev__pylint-7277",
+      "category": "static_analysis",
+      "category_zh": "静态分析、类型提示与 CLI 配置",
+      "selection_reason": "runpy 下 sys.path 的正确处理"
+    },
+    {
+      "instance_id": "pylint-dev__pylint-4604",
+      "category": "static_analysis",
+      "category_zh": "静态分析、类型提示与 CLI 配置",
+      "selection_reason": "type comment 中导入使用的误报"
+    },
+    {
+      "instance_id": "pylint-dev__pylint-6528",
+      "category": "static_analysis",
+      "category_zh": "静态分析、类型提示与 CLI 配置",
+      "selection_reason": "递归扫描与忽略规则的多模块一致性"
+    },
+    {
+      "instance_id": "pylint-dev__pylint-7080",
+      "category": "static_analysis",
+      "category_zh": "静态分析、类型提示与 CLI 配置",
+      "selection_reason": "递归模式的 ignore-paths 过滤"
+    },
+    {
+      "instance_id": "pylint-dev__pylint-4551",
+      "category": "static_analysis",
+      "category_zh": "静态分析、类型提示与 CLI 配置",
+      "selection_reason": "从 Python 类型提示提取 UML 关系"
+    },
+    {
+      "instance_id": "pylint-dev__pylint-8898",
+      "category": "static_analysis",
+      "category_zh": "静态分析、类型提示与 CLI 配置",
+      "selection_reason": "正则表达式中的逗号与 CLI 参数解析"
+    },
+    {
+      "instance_id": "django__django-10999",
+      "category": "serialization_formatting",
+      "category_zh": "序列化、文件格式与字符串输出",
+      "selection_reason": "负时间间隔的解析"
+    },
+    {
+      "instance_id": "django__django-12125",
+      "category": "serialization_formatting",
+      "category_zh": "序列化、文件格式与字符串输出",
+      "selection_reason": "嵌套类的迁移序列化路径"
+    },
+    {
+      "instance_id": "django__django-14580",
+      "category": "serialization_formatting",
+      "category_zh": "序列化、文件格式与字符串输出",
+      "selection_reason": "序列化后缺失 models 导入"
+    },
+    {
+      "instance_id": "astropy__astropy-8707",
+      "category": "serialization_formatting",
+      "category_zh": "序列化、文件格式与字符串输出",
+      "selection_reason": "FITS header 的 bytes/string 兼容"
+    },
+    {
+      "instance_id": "pydata__xarray-4966",
+      "category": "serialization_formatting",
+      "category_zh": "序列化、文件格式与字符串输出",
+      "selection_reason": "netCDF/OPeNDAP 有符号字节与无符号解码"
+    },
+    {
+      "instance_id": "sympy__sympy-19346",
+      "category": "serialization_formatting",
+      "category_zh": "序列化、文件格式与字符串输出",
+      "selection_reason": "srepr 的 dict/set 输出"
+    },
+    {
+      "instance_id": "sympy__sympy-14248",
+      "category": "serialization_formatting",
+      "category_zh": "序列化、文件格式与字符串输出",
+      "selection_reason": "矩阵符号差在 LaTeX/pretty/string 三种输出中一致"
+    }
+  ]
+}

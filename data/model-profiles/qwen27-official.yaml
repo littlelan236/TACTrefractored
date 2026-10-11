@@ -1,0 +1,37 @@
+schema_version: 1
+
+# Qwen3.5/3.6 dense 27B local checkpoint profile.
+# Sampling values follow the Qwen thinking-mode recommendation:
+# temperature=0.6, top_p=0.95, top_k=20, min_p=0.
+model:
+  path: assets/models/Qwen3.6-27B
+  served_name: qwen3.6-27b
+  max_model_len: 262144
+  dtype: bfloat16
+  trust_remote_code: false
+
+serving:
+  # TP is an infrastructure choice. Keep the project's validated 8-GPU
+  # topology; change only after a separate memory/throughput validation.
+  tensor_parallel_size: 8
+  max_num_seqs: 8
+  max_num_batched_tokens: 8192
+  gpu_memory_utilization: 0.9
+  enable_prefix_caching: false
+  language_model_only: true
+  tool_parser: qwen3_xml
+  reasoning_parser: qwen3
+
+generation:
+  # Official Qwen thinking-mode sampling recommendation.
+  temperature: 0.6
+  top_p: 0.95
+  top_k: 20
+  min_p: 0.0
+  repetition_penalty: 1.0
+  presence_penalty: 0.0
+  seed: 0
+  enable_thinking: true
+  preserve_thinking: true
+  # Agent budget, not an official Qwen sampling recommendation.
+  max_tokens: 81920

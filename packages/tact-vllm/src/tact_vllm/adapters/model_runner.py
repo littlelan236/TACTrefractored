@@ -25,6 +25,8 @@ class TactGPUModelRunner(GPUModelRunner):
         self._tact_dummy = False
         self._tact_log = None
         self._tact_sequence = 0
+        self._tact_consumer_records = 0
+        self._tact_consumer_dropped = 0
         capacity = self.tact_manifest["token_capacity"]
         self._tact_rows = torch.zeros(capacity, dtype=torch.int32, pin_memory=True)
         self._tact_eligible = torch.zeros(capacity, dtype=torch.bool, pin_memory=True)
@@ -43,6 +45,10 @@ class TactGPUModelRunner(GPUModelRunner):
         if len(runtimes) != 1:
             raise RuntimeError("Registry model did not construct exactly one TACT backbone")
         self.tact_runtime = runtimes[0]
+        if self.tact_runtime.consumer_check and self.tact_runtime.final_site is not None:
+            processor = self.get_model().language_model.logits_processor
+            probe = self.tact_runtime.consumer_probes[self.tact_runtime.final_site]
+            processor.register_forward_pre_hook(probe.logits_hook, with_kwargs=True)
         self._write(
             {
                 "type": "loaded",
@@ -87,7 +93,11 @@ class TactGPUModelRunner(GPUModelRunner):
             )
         self._tact_scheduler = scheduler_output
         try:
-            return super().execute_model(scheduler_output, intermediate_tensors)
+            sequence_before = self._tact_sequence
+            result = super().execute_model(scheduler_output, intermediate_tensors)
+            if runtime.consumer_check and self._tact_sequence != sequence_before:
+                self._write_consumer_checks()
+            return result
         finally:
             self._tact_scheduler = None
 
@@ -136,6 +146,14 @@ class TactGPUModelRunner(GPUModelRunner):
         runtime.eligible[:n].copy_(self._tact_eligible[:n], non_blocking=False)
         runtime.token_ids[:n].copy_(self.input_ids.gpu[:n])
         runtime.fill_decision_mask()
+        if runtime.consumer_check:
+            for probe in runtime.consumer_probes:
+                probe.reset()
+            if runtime.final_site is not None:
+                indices = np.cumsum([r["count"] for r in staged]) - 1
+                runtime.consumer_probes[runtime.final_site].logits_indices = torch.tensor(
+                    indices, device=runtime.token_ids.device)
+            self._tact_consumer_staged = staged
         return staged
 
     def _model_forward(
@@ -162,6 +180,7 @@ class TactGPUModelRunner(GPUModelRunner):
         staged = self._stage(n)
         context = get_forward_context()
         mode = context.cudagraph_runtime_mode.name
+        self._tact_consumer_mode = mode
         descriptor = context.batch_descriptor
         wrappers = [
             w
@@ -198,6 +217,47 @@ class TactGPUModelRunner(GPUModelRunner):
             }
         )
         return result
+
+    def _write_consumer_checks(self):
+        runtime = self.tact_runtime
+        offset = 0
+        for site, probe in enumerate(runtime.consumer_probes):
+            stats = probe.stats.cpu().numpy()
+            overflow = int(probe.overflow.cpu().item())
+            if overflow:
+                self._write({"type": "consumer_overflow", "site": site, "tokens": overflow})
+                raise RuntimeError("Consumer check capacity exceeded")
+            offset = 0
+            for request in self._tact_consumer_staged:
+                for flat in range(offset, min(offset + request["count"], probe.capacity)):
+                    value = stats[flat]
+                    if value[0] == 0:
+                        continue
+                    if self._tact_consumer_records >= self.tact_manifest["consumer_log_limit"]:
+                        self._tact_consumer_dropped += 1
+                        continue
+                    record = {"type": "consumer_check", "request_id": request["request_id"],
+                        "site": runtime.sites[site], "flat_position": flat,
+                        "token_id": int(runtime.token_ids[flat].cpu().item()),
+                        "absolute_position": request["start"] + flat - offset,
+                        "mode": self._tact_consumer_mode,
+                        "consumer": "logits_processor_input" if site == runtime.final_site
+                            else "next_input_layernorm",
+                        "producer_count": float(value[0]), "consumer_count": float(value[1]),
+                        "hidden_max_abs_diff": float(value[2]),
+                        "residual_max_abs_diff": float(value[3]),
+                        "hidden_mismatched_elements": int(value[4]),
+                        "residual_mismatched_elements": int(value[5]),
+                        "actual_delta_norm": float(value[6]),
+                        "all_elements_equal": bool(value[1] == 1 and value[4] == value[5] == 0),
+                        "hidden_size": runtime.manifest["hidden_size"]}
+                    self._write(record)
+                    self._tact_consumer_records += 1
+                offset += request["count"]
+        if self._tact_consumer_dropped:
+            self._write({"type": "consumer_log_overflow",
+                         "dropped": self._tact_consumer_dropped})
+            raise RuntimeError("Consumer check log limit reached; verification incomplete")
 
     def _dummy_run(self, *args, **kwargs):
         previous = self._tact_dummy

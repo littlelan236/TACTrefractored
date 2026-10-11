@@ -200,7 +200,10 @@ class HiddenStatesController(SteeringController):
                 hidden_states,
                 residual,
                 evidence=getattr(self, "tact_evidence", None),
+                details=getattr(self, "tact_details", None),
             )
+            if self.component_id == "tact_states":
+                self.record_consumer_output(steered, residual, hidden_states)
             return adapter.write_output(
                 steered, residual, other_outputs, original_format, output
             )

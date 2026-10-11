@@ -5,13 +5,19 @@
     "pydicom__pydicom-1439",
     "pydicom__pydicom-1458",
     "pyvista__pyvista-4315",
-    "pyvista__pyvista-432"
+    "pyvista__pyvista-432",
+    "pallets__flask-5014",
+    "psf__requests-5414",
+    "psf__requests-6028"
   ],
   "reasons": {
     "pydicom__pydicom-995": "Dataset test IDs contain machine-specific absolute paths; gold harness cannot match them.",
     "pydicom__pydicom-1439": "Dataset test IDs contain machine-specific absolute paths; gold harness cannot match them.",
     "pydicom__pydicom-1458": "Dataset test IDs contain machine-specific absolute paths; gold harness cannot match them.",
     "pyvista__pyvista-4315": "Image lacks libGL.so.1; gold harness fails package import.",
-    "pyvista__pyvista-432": "Image lacks libGL.so.1; gold harness fails package import."
+    "pyvista__pyvista-432": "Image lacks libGL.so.1; gold harness fails package import.",
+    "pallets__flask-5014": "Offline numpy wheelhouse has no compatible wheel for this image Python; bootstrap fails.",
+    "psf__requests-5414": "Image conda activation exports proxies; proxy behavior tests fail and missing httpbin fixtures cause errors.",
+    "psf__requests-6028": "Image conda activation exports proxies; proxy behavior tests fail and pytest-mock fixtures are missing."
   }
 }

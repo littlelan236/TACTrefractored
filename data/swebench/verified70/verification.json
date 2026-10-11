@@ -1,0 +1,510 @@
+{
+  "complete": true,
+  "tasks": 70,
+  "config_hash": "f19a14e28a18088f6684d616575d403d1c0d851912afa5288e159a35afc5c5b7",
+  "manifest_sha256": "73252eea0a7d00c655514b695017746a60a088273c8fee5c95a22f58b94c4a29",
+  "images": {
+    "django__django-10880": {
+      "image_id": "sha256:94e6ba5d96b1a1db8bc6fd117c03728d6a7453ddb723dc4484f48bd22efc968d",
+      "requested": "swebench/sweb.eval.x86_64.django_1776_django-10880:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.django_1776_django-10880@sha256:94e6ba5d96b1a1db8bc6fd117c03728d6a7453ddb723dc4484f48bd22efc968d"
+      ]
+    },
+    "django__django-15368": {
+      "image_id": "sha256:f41ed3068a209a8372d6e78847c4be434c582ef63550c87b86c5d3acc3da0f43",
+      "requested": "swebench/sweb.eval.x86_64.django_1776_django-15368:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.django_1776_django-15368@sha256:f41ed3068a209a8372d6e78847c4be434c582ef63550c87b86c5d3acc3da0f43"
+      ]
+    },
+    "django__django-11265": {
+      "image_id": "sha256:70a39003fb3ce8f01ee82dfeb16b09bc3714ab669d3743fb3e1e5689f18ea1ef",
+      "requested": "swebench/sweb.eval.x86_64.django_1776_django-11265:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.django_1776_django-11265@sha256:70a39003fb3ce8f01ee82dfeb16b09bc3714ab669d3743fb3e1e5689f18ea1ef"
+      ]
+    },
+    "django__django-11734": {
+      "image_id": "sha256:774206c89be84e276b5e609071934e11c41b02a3e7e804558f50759914fdcf38",
+      "requested": "swebench/sweb.eval.x86_64.django_1776_django-11734:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.django_1776_django-11734@sha256:774206c89be84e276b5e609071934e11c41b02a3e7e804558f50759914fdcf38"
+      ]
+    },
+    "django__django-16315": {
+      "image_id": "sha256:be87c2c69b5436da575e6cb587ac9f1cd1198b55aefed4a136def12ba8364349",
+      "requested": "swebench/sweb.eval.x86_64.django_1776_django-16315:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.django_1776_django-16315@sha256:be87c2c69b5436da575e6cb587ac9f1cd1198b55aefed4a136def12ba8364349"
+      ]
+    },
+    "django__django-10554": {
+      "image_id": "sha256:3e799bbbf2aa8ad8201cf7fa1302d3a8c2d0885bcd8141dbfcf67ae9d68ab2d1",
+      "requested": "swebench/sweb.eval.x86_64.django_1776_django-10554:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.django_1776_django-10554@sha256:3e799bbbf2aa8ad8201cf7fa1302d3a8c2d0885bcd8141dbfcf67ae9d68ab2d1"
+      ]
+    },
+    "django__django-16263": {
+      "image_id": "sha256:82700a720fd444baafe5b0a83a16784dad712f8da1dc2c2b7070a5c6650e0739",
+      "requested": "swebench/sweb.eval.x86_64.django_1776_django-16263:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.django_1776_django-16263@sha256:82700a720fd444baafe5b0a83a16784dad712f8da1dc2c2b7070a5c6650e0739"
+      ]
+    },
+    "pallets__flask-5014": {
+      "image_id": "sha256:bde4fbdafa36141d4396944da88ec37aabdef612ed36920090675bccd0ca5d72",
+      "requested": "swebench/sweb.eval.x86_64.pallets_1776_flask-5014:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.pallets_1776_flask-5014@sha256:bde4fbdafa36141d4396944da88ec37aabdef612ed36920090675bccd0ca5d72"
+      ]
+    },
+    "psf__requests-5414": {
+      "image_id": "sha256:71c78211f16803c111ed1807ded20f8defd5f6917fb958ace4e076d5ea7d8b10",
+      "requested": "swebench/sweb.eval.x86_64.psf_1776_requests-5414:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.psf_1776_requests-5414@sha256:71c78211f16803c111ed1807ded20f8defd5f6917fb958ace4e076d5ea7d8b10"
+      ]
+    },
+    "django__django-11099": {
+      "image_id": "sha256:cca302934edd881cc4f1e4647a389a25cdaa3c02bfa33667a4204934a09c4fb1",
+      "requested": "swebench/sweb.eval.x86_64.django_1776_django-11099:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.django_1776_django-11099@sha256:cca302934edd881cc4f1e4647a389a25cdaa3c02bfa33667a4204934a09c4fb1"
+      ]
+    },
+    "psf__requests-6028": {
+      "image_id": "sha256:639088346355ea7076bc6faf2eadb23b1e1f1ed4f34b291e843061b2fc87cbe2",
+      "requested": "swebench/sweb.eval.x86_64.psf_1776_requests-6028:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.psf_1776_requests-6028@sha256:639088346355ea7076bc6faf2eadb23b1e1f1ed4f34b291e843061b2fc87cbe2"
+      ]
+    },
+    "django__django-11333": {
+      "image_id": "sha256:ac29b993b4361ddb0d77756862f5738f64a1d3332591f09e5a1d222e5dda78c9",
+      "requested": "swebench/sweb.eval.x86_64.django_1776_django-11333:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.django_1776_django-11333@sha256:ac29b993b4361ddb0d77756862f5738f64a1d3332591f09e5a1d222e5dda78c9"
+      ]
+    },
+    "django__django-11149": {
+      "image_id": "sha256:275c2ed9e322b52aea53ce7045403c7bf0f851a6455c5747b224f6f4040340f2",
+      "requested": "swebench/sweb.eval.x86_64.django_1776_django-11149:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.django_1776_django-11149@sha256:275c2ed9e322b52aea53ce7045403c7bf0f851a6455c5747b224f6f4040340f2"
+      ]
+    },
+    "django__django-13344": {
+      "image_id": "sha256:bb7a5fef7132badf4cc18c9ae47d3f1fbc8f9102c447772d0c5fa0b27d85fad4",
+      "requested": "swebench/sweb.eval.x86_64.django_1776_django-13344:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.django_1776_django-13344@sha256:bb7a5fef7132badf4cc18c9ae47d3f1fbc8f9102c447772d0c5fa0b27d85fad4"
+      ]
+    },
+    "sympy__sympy-12481": {
+      "image_id": "sha256:bb526b7d1c4a160d96d3ab925a6b382194a19bf77a72df71e220ce19fe924e7f",
+      "requested": "swebench/sweb.eval.x86_64.sympy_1776_sympy-12481:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.sympy_1776_sympy-12481@sha256:bb526b7d1c4a160d96d3ab925a6b382194a19bf77a72df71e220ce19fe924e7f"
+      ]
+    },
+    "sympy__sympy-15875": {
+      "image_id": "sha256:e2812656720310590f43b2773a81f896dafe9e36efa151494a6663bb26ec49f0",
+      "requested": "swebench/sweb.eval.x86_64.sympy_1776_sympy-15875:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.sympy_1776_sympy-15875@sha256:e2812656720310590f43b2773a81f896dafe9e36efa151494a6663bb26ec49f0"
+      ]
+    },
+    "sympy__sympy-13091": {
+      "image_id": "sha256:0b025245e81c4ce1d888f3b3088ef220f20661d8241c0c50797ebf3a46d393ac",
+      "requested": "swebench/sweb.eval.x86_64.sympy_1776_sympy-13091:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.sympy_1776_sympy-13091@sha256:0b025245e81c4ce1d888f3b3088ef220f20661d8241c0c50797ebf3a46d393ac"
+      ]
+    },
+    "sympy__sympy-24443": {
+      "image_id": "sha256:0d6610c1dd6f38eb68ee0923a74aebc6103fabc063f5cceec45a4cc0cb8a8cd4",
+      "requested": "swebench/sweb.eval.x86_64.sympy_1776_sympy-24443:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.sympy_1776_sympy-24443@sha256:0d6610c1dd6f38eb68ee0923a74aebc6103fabc063f5cceec45a4cc0cb8a8cd4"
+      ]
+    },
+    "sympy__sympy-16597": {
+      "image_id": "sha256:80716265dd8eef4052cb15f07ded4cbf2ddcd5957d7d526597be6808c56bb55e",
+      "requested": "swebench/sweb.eval.x86_64.sympy_1776_sympy-16597:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.sympy_1776_sympy-16597@sha256:80716265dd8eef4052cb15f07ded4cbf2ddcd5957d7d526597be6808c56bb55e"
+      ]
+    },
+    "sympy__sympy-18199": {
+      "image_id": "sha256:3fbc4ff81609eecb1f26540433cbc24b8f6e5454472545e19180137e51883e3e",
+      "requested": "swebench/sweb.eval.x86_64.sympy_1776_sympy-18199:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.sympy_1776_sympy-18199@sha256:3fbc4ff81609eecb1f26540433cbc24b8f6e5454472545e19180137e51883e3e"
+      ]
+    },
+    "sympy__sympy-13878": {
+      "image_id": "sha256:d0796de4f7c4749e36e32b043edc2c98b3c6f7127691af37c325944726aa7d0a",
+      "requested": "swebench/sweb.eval.x86_64.sympy_1776_sympy-13878:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.sympy_1776_sympy-13878@sha256:d0796de4f7c4749e36e32b043edc2c98b3c6f7127691af37c325944726aa7d0a"
+      ]
+    },
+    "pydata__xarray-4075": {
+      "image_id": "sha256:3d56429d0a07d2b74c0342c12e19f4d7b1510023f87edb6a11cadbfd993de56d",
+      "requested": "swebench/sweb.eval.x86_64.pydata_1776_xarray-4075:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.pydata_1776_xarray-4075@sha256:3d56429d0a07d2b74c0342c12e19f4d7b1510023f87edb6a11cadbfd993de56d"
+      ]
+    },
+    "pydata__xarray-4629": {
+      "image_id": "sha256:033589865b8522fd28ad477db28dccb4fcfcc3e56174bbc95e7996b2a948135b",
+      "requested": "swebench/sweb.eval.x86_64.pydata_1776_xarray-4629:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.pydata_1776_xarray-4629@sha256:033589865b8522fd28ad477db28dccb4fcfcc3e56174bbc95e7996b2a948135b"
+      ]
+    },
+    "astropy__astropy-13977": {
+      "image_id": "sha256:ec43fcbcea2c26b6f74796a177fbbaceb754a1152b0ce47ecbe4fab2e04caca7",
+      "requested": "swebench/sweb.eval.x86_64.astropy_1776_astropy-13977:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.astropy_1776_astropy-13977@sha256:ec43fcbcea2c26b6f74796a177fbbaceb754a1152b0ce47ecbe4fab2e04caca7"
+      ]
+    },
+    "pydata__xarray-6938": {
+      "image_id": "sha256:478bec70c00955b969d68ce630cee233560c0d43ac4f01784f05b38105f654dd",
+      "requested": "swebench/sweb.eval.x86_64.pydata_1776_xarray-6938:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.pydata_1776_xarray-6938@sha256:478bec70c00955b969d68ce630cee233560c0d43ac4f01784f05b38105f654dd"
+      ]
+    },
+    "astropy__astropy-13398": {
+      "image_id": "sha256:49cfb8e47c492fac9570ee66f8d5e4a7aa2a2516e18cf5663aa73e5b352b670a",
+      "requested": "swebench/sweb.eval.x86_64.astropy_1776_astropy-13398:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.astropy_1776_astropy-13398@sha256:49cfb8e47c492fac9570ee66f8d5e4a7aa2a2516e18cf5663aa73e5b352b670a"
+      ]
+    },
+    "astropy__astropy-13579": {
+      "image_id": "sha256:f3dc11a37649430d6a7a3aac4858477db8f19d9a941f056f875e8e566066ffe3",
+      "requested": "swebench/sweb.eval.x86_64.astropy_1776_astropy-13579:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.astropy_1776_astropy-13579@sha256:f3dc11a37649430d6a7a3aac4858477db8f19d9a941f056f875e8e566066ffe3"
+      ]
+    },
+    "pydata__xarray-6992": {
+      "image_id": "sha256:a70eb8c7e98b984c8c9a75c8e165d564d2f0bd16c1717320dbab40f771691112",
+      "requested": "swebench/sweb.eval.x86_64.pydata_1776_xarray-6992:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.pydata_1776_xarray-6992@sha256:a70eb8c7e98b984c8c9a75c8e165d564d2f0bd16c1717320dbab40f771691112"
+      ]
+    },
+    "scikit-learn__scikit-learn-13142": {
+      "image_id": "sha256:4c8ca46bcd30baef533c24ebbabe64158d2936e563be493b8a3224da52d17c84",
+      "requested": "swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-13142:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-13142@sha256:4c8ca46bcd30baef533c24ebbabe64158d2936e563be493b8a3224da52d17c84"
+      ]
+    },
+    "scikit-learn__scikit-learn-14496": {
+      "image_id": "sha256:9fb17db38a54b0ddc8663bea55f1dab894491ebc6d75e4899a1ba76662d0c51b",
+      "requested": "swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-14496:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-14496@sha256:9fb17db38a54b0ddc8663bea55f1dab894491ebc6d75e4899a1ba76662d0c51b"
+      ]
+    },
+    "scikit-learn__scikit-learn-12682": {
+      "image_id": "sha256:28a50b218863fd192bb09a63aa68917d7dd722aab1f0f601d5722553c90f0c2c",
+      "requested": "swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-12682:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-12682@sha256:28a50b218863fd192bb09a63aa68917d7dd722aab1f0f601d5722553c90f0c2c"
+      ]
+    },
+    "scikit-learn__scikit-learn-14629": {
+      "image_id": "sha256:66bce6f57afd4d7633046f74364ffc3c2c6944da953e013db667af550f54adc9",
+      "requested": "swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-14629:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-14629@sha256:66bce6f57afd4d7633046f74364ffc3c2c6944da953e013db667af550f54adc9"
+      ]
+    },
+    "scikit-learn__scikit-learn-25931": {
+      "image_id": "sha256:ec4f5c634599ba3c73bf945583d28efe04bb59c58a205932f66c420351e59602",
+      "requested": "swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-25931:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-25931@sha256:ec4f5c634599ba3c73bf945583d28efe04bb59c58a205932f66c420351e59602"
+      ]
+    },
+    "scikit-learn__scikit-learn-26323": {
+      "image_id": "sha256:b39ec40bfd83dd1b8ebf5997db582ca459c5c835e6488f35f157cf076bbb7ecb",
+      "requested": "swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-26323:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-26323@sha256:b39ec40bfd83dd1b8ebf5997db582ca459c5c835e6488f35f157cf076bbb7ecb"
+      ]
+    },
+    "scikit-learn__scikit-learn-25102": {
+      "image_id": "sha256:a867569ffda421d052245801f98064f13460291d06f439b2e6a05ab7c3135d57",
+      "requested": "swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-25102:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-25102@sha256:a867569ffda421d052245801f98064f13460291d06f439b2e6a05ab7c3135d57"
+      ]
+    },
+    "matplotlib__matplotlib-13989": {
+      "image_id": "sha256:c84876a26e80d717b571a98a4bb339d0645ed601190c2078658788f0c9cc66ae",
+      "requested": "swebench/sweb.eval.x86_64.matplotlib_1776_matplotlib-13989:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.matplotlib_1776_matplotlib-13989@sha256:c84876a26e80d717b571a98a4bb339d0645ed601190c2078658788f0c9cc66ae"
+      ]
+    },
+    "matplotlib__matplotlib-25479": {
+      "image_id": "sha256:8e49a4f335e2c57ff428bd2b1a5e9dbaede676e006c76082f7f5bf97341c284b",
+      "requested": "tact-verified70-rootless/matplotlib-matplotlib-25479:v1",
+      "repo_digests": [
+        "tact-verified70-rootless/matplotlib-matplotlib-25479@sha256:8e49a4f335e2c57ff428bd2b1a5e9dbaede676e006c76082f7f5bf97341c284b"
+      ]
+    },
+    "matplotlib__matplotlib-14623": {
+      "image_id": "sha256:5f6acd976c3bc2b2f293704f88b1188307d116baa87b87e5fa82a67976f157a9",
+      "requested": "swebench/sweb.eval.x86_64.matplotlib_1776_matplotlib-14623:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.matplotlib_1776_matplotlib-14623@sha256:5f6acd976c3bc2b2f293704f88b1188307d116baa87b87e5fa82a67976f157a9"
+      ]
+    },
+    "matplotlib__matplotlib-24870": {
+      "image_id": "sha256:fbf33ef5285a1847dd7353b1e1858be85aa1dc2dbc26efaa4e669bcdd6913071",
+      "requested": "tact-verified70-rootless/matplotlib-matplotlib-24870:v1",
+      "repo_digests": [
+        "tact-verified70-rootless/matplotlib-matplotlib-24870@sha256:fbf33ef5285a1847dd7353b1e1858be85aa1dc2dbc26efaa4e669bcdd6913071"
+      ]
+    },
+    "matplotlib__matplotlib-25775": {
+      "image_id": "sha256:32f6a6ab8f163605ea25195f7bd778b7f5ae9a1151e8342088f1e8a5687158ca",
+      "requested": "tact-verified70-rootless/matplotlib-matplotlib-25775:v1",
+      "repo_digests": [
+        "tact-verified70-rootless/matplotlib-matplotlib-25775@sha256:32f6a6ab8f163605ea25195f7bd778b7f5ae9a1151e8342088f1e8a5687158ca"
+      ]
+    },
+    "mwaskom__seaborn-3069": {
+      "image_id": "sha256:10f78850ebb5de5a4bdb70099159131fa819601dc885955d7be6f1009b23b4ea",
+      "requested": "swebench/sweb.eval.x86_64.mwaskom_1776_seaborn-3069:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.mwaskom_1776_seaborn-3069@sha256:10f78850ebb5de5a4bdb70099159131fa819601dc885955d7be6f1009b23b4ea"
+      ]
+    },
+    "mwaskom__seaborn-3187": {
+      "image_id": "sha256:aea7e43b20703256f5cb807b54cd78a12601f21086d3a62a41de18c254771f4e",
+      "requested": "swebench/sweb.eval.x86_64.mwaskom_1776_seaborn-3187:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.mwaskom_1776_seaborn-3187@sha256:aea7e43b20703256f5cb807b54cd78a12601f21086d3a62a41de18c254771f4e"
+      ]
+    },
+    "sphinx-doc__sphinx-8595": {
+      "image_id": "sha256:d24f9894d781546578028592ad7630cb40973b69af4705582b5e274afc573628",
+      "requested": "swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-8595:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-8595@sha256:d24f9894d781546578028592ad7630cb40973b69af4705582b5e274afc573628"
+      ]
+    },
+    "sphinx-doc__sphinx-9230": {
+      "image_id": "sha256:2a18fa57b69c646bf0e1916f1df157a62de80ca8b55325738f9c9eeff9c38c86",
+      "requested": "swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-9230:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-9230@sha256:2a18fa57b69c646bf0e1916f1df157a62de80ca8b55325738f9c9eeff9c38c86"
+      ]
+    },
+    "sphinx-doc__sphinx-7748": {
+      "image_id": "sha256:572d11650dea6831a1c81bb31ed468c49370f607b9af7dd762b16283c47bbd27",
+      "requested": "swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-7748:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-7748@sha256:572d11650dea6831a1c81bb31ed468c49370f607b9af7dd762b16283c47bbd27"
+      ]
+    },
+    "sphinx-doc__sphinx-10673": {
+      "image_id": "sha256:4654890cc32945f5021445040ad6f2efd3b651f1c9efe679021d3b3da5375eb0",
+      "requested": "swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-10673:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-10673@sha256:4654890cc32945f5021445040ad6f2efd3b651f1c9efe679021d3b3da5375eb0"
+      ]
+    },
+    "sphinx-doc__sphinx-8548": {
+      "image_id": "sha256:2a068d5390185b7b54da95f749fab5fc9e3bcfc4c182a4132d6cf57207d6385a",
+      "requested": "swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-8548:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-8548@sha256:2a068d5390185b7b54da95f749fab5fc9e3bcfc4c182a4132d6cf57207d6385a"
+      ]
+    },
+    "sphinx-doc__sphinx-9461": {
+      "image_id": "sha256:5927ba1f035f87117341343035f83150ab5a57fbdbaf49db13a36b809baaa8c7",
+      "requested": "swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-9461:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-9461@sha256:5927ba1f035f87117341343035f83150ab5a57fbdbaf49db13a36b809baaa8c7"
+      ]
+    },
+    "sphinx-doc__sphinx-7590": {
+      "image_id": "sha256:5c86dab7120b83b3bdb4af86743a3910da328029ed92183477fe9865ea76cb2f",
+      "requested": "swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-7590:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-7590@sha256:5c86dab7120b83b3bdb4af86743a3910da328029ed92183477fe9865ea76cb2f"
+      ]
+    },
+    "pytest-dev__pytest-10081": {
+      "image_id": "sha256:58951c0d236ade36cd508d48e87819c488ed28c60abda963f8d4df99d89c030c",
+      "requested": "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-10081:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-10081@sha256:58951c0d236ade36cd508d48e87819c488ed28c60abda963f8d4df99d89c030c"
+      ]
+    },
+    "pytest-dev__pytest-7432": {
+      "image_id": "sha256:5ec7065f9477542610ea5137247539d8f1c9762112803b0690d5ccb2e64d2f07",
+      "requested": "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-7432:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-7432@sha256:5ec7065f9477542610ea5137247539d8f1c9762112803b0690d5ccb2e64d2f07"
+      ]
+    },
+    "pytest-dev__pytest-5631": {
+      "image_id": "sha256:c76510e12a1765211e064f6e8de09e51ac0f7839f60d72305b374e004308b6a1",
+      "requested": "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-5631:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-5631@sha256:c76510e12a1765211e064f6e8de09e51ac0f7839f60d72305b374e004308b6a1"
+      ]
+    },
+    "pytest-dev__pytest-7490": {
+      "image_id": "sha256:9e10d2e75d41e6f6325949d19d6a8a033d1f5d5fd6d4ce53ad483eb8951a417f",
+      "requested": "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-7490:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-7490@sha256:9e10d2e75d41e6f6325949d19d6a8a033d1f5d5fd6d4ce53ad483eb8951a417f"
+      ]
+    },
+    "pytest-dev__pytest-8399": {
+      "image_id": "sha256:1403b263348f1da02330634d688ebf8dd61fa69f2c301203c89551889946cb0d",
+      "requested": "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-8399:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-8399@sha256:1403b263348f1da02330634d688ebf8dd61fa69f2c301203c89551889946cb0d"
+      ]
+    },
+    "pytest-dev__pytest-10356": {
+      "image_id": "sha256:363458d4698f5d985f6476d189d3f1cf902253cd9518705fd395516cd30138da",
+      "requested": "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-10356:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-10356@sha256:363458d4698f5d985f6476d189d3f1cf902253cd9518705fd395516cd30138da"
+      ]
+    },
+    "pytest-dev__pytest-6197": {
+      "image_id": "sha256:5dbfbcf23210a5a0ccdc4dbf1a55c894255b28fe6c56c13c9a4724d6c13bab4e",
+      "requested": "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-6197:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-6197@sha256:5dbfbcf23210a5a0ccdc4dbf1a55c894255b28fe6c56c13c9a4724d6c13bab4e"
+      ]
+    },
+    "pylint-dev__pylint-6903": {
+      "image_id": "sha256:bad80b1c20eeb5d49a6e82dc485ee40fbd67b91df47b56740e1be5471b678f5b",
+      "requested": "swebench/sweb.eval.x86_64.pylint-dev_1776_pylint-6903:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.pylint-dev_1776_pylint-6903@sha256:bad80b1c20eeb5d49a6e82dc485ee40fbd67b91df47b56740e1be5471b678f5b"
+      ]
+    },
+    "pylint-dev__pylint-7277": {
+      "image_id": "sha256:7fa6347aa793c61e3cc9cfb4fb132b6a4e11b0bb75f7093f4db0b010d8e5a40c",
+      "requested": "swebench/sweb.eval.x86_64.pylint-dev_1776_pylint-7277:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.pylint-dev_1776_pylint-7277@sha256:7fa6347aa793c61e3cc9cfb4fb132b6a4e11b0bb75f7093f4db0b010d8e5a40c"
+      ]
+    },
+    "pylint-dev__pylint-4604": {
+      "image_id": "sha256:df6eb48f445388d0e228108c635625a0cc9f0cf5ed87303e89f75ab6fc3c2b39",
+      "requested": "swebench/sweb.eval.x86_64.pylint-dev_1776_pylint-4604:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.pylint-dev_1776_pylint-4604@sha256:df6eb48f445388d0e228108c635625a0cc9f0cf5ed87303e89f75ab6fc3c2b39"
+      ]
+    },
+    "pylint-dev__pylint-6528": {
+      "image_id": "sha256:47e14a7e2b6d5f6d24ab4632ac11bd1493ab57030a8c6becdc3083c7574d0604",
+      "requested": "swebench/sweb.eval.x86_64.pylint-dev_1776_pylint-6528:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.pylint-dev_1776_pylint-6528@sha256:47e14a7e2b6d5f6d24ab4632ac11bd1493ab57030a8c6becdc3083c7574d0604"
+      ]
+    },
+    "pylint-dev__pylint-7080": {
+      "image_id": "sha256:3389f0d1319ca611d04a209fc30990c131e0bae9acfeb2163938c75ad23479fe",
+      "requested": "swebench/sweb.eval.x86_64.pylint-dev_1776_pylint-7080:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.pylint-dev_1776_pylint-7080@sha256:3389f0d1319ca611d04a209fc30990c131e0bae9acfeb2163938c75ad23479fe"
+      ]
+    },
+    "pylint-dev__pylint-4551": {
+      "image_id": "sha256:910cb070fc5e1c02b715b561c2f5783bb5f5e5935d9a169b4c91bdcfdd015f52",
+      "requested": "swebench/sweb.eval.x86_64.pylint-dev_1776_pylint-4551:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.pylint-dev_1776_pylint-4551@sha256:910cb070fc5e1c02b715b561c2f5783bb5f5e5935d9a169b4c91bdcfdd015f52"
+      ]
+    },
+    "pylint-dev__pylint-8898": {
+      "image_id": "sha256:a78e6034f627c1ae69c67b5a25ae5420192afb7279a4fd032a74095752e707d7",
+      "requested": "swebench/sweb.eval.x86_64.pylint-dev_1776_pylint-8898:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.pylint-dev_1776_pylint-8898@sha256:a78e6034f627c1ae69c67b5a25ae5420192afb7279a4fd032a74095752e707d7"
+      ]
+    },
+    "django__django-10999": {
+      "image_id": "sha256:22a35ae325dc5abdd397b1d474d66aad62da6d23c4e9c8763478e82bcf63af7b",
+      "requested": "swebench/sweb.eval.x86_64.django_1776_django-10999:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.django_1776_django-10999@sha256:22a35ae325dc5abdd397b1d474d66aad62da6d23c4e9c8763478e82bcf63af7b"
+      ]
+    },
+    "django__django-12125": {
+      "image_id": "sha256:4345ad65eec0da8a32063c2c9a32df380e10b4fb4ccebfcfed9c4be9a185e5ff",
+      "requested": "swebench/sweb.eval.x86_64.django_1776_django-12125:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.django_1776_django-12125@sha256:4345ad65eec0da8a32063c2c9a32df380e10b4fb4ccebfcfed9c4be9a185e5ff"
+      ]
+    },
+    "django__django-14580": {
+      "image_id": "sha256:34f0b2435968031cc19f39e942843c395128c10b0a73f4107742e06944aeb338",
+      "requested": "swebench/sweb.eval.x86_64.django_1776_django-14580:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.django_1776_django-14580@sha256:34f0b2435968031cc19f39e942843c395128c10b0a73f4107742e06944aeb338"
+      ]
+    },
+    "astropy__astropy-8707": {
+      "image_id": "sha256:9415ee47831f190ea4ee7971dec718e386d064e7c495feca6ba0fef7b0ede715",
+      "requested": "swebench/sweb.eval.x86_64.astropy_1776_astropy-8707:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.astropy_1776_astropy-8707@sha256:9415ee47831f190ea4ee7971dec718e386d064e7c495feca6ba0fef7b0ede715"
+      ]
+    },
+    "pydata__xarray-4966": {
+      "image_id": "sha256:71780cdb18ee29fba095dff8090508a77cba28826c80f2bb19ac2425acd95cbf",
+      "requested": "swebench/sweb.eval.x86_64.pydata_1776_xarray-4966:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.pydata_1776_xarray-4966@sha256:71780cdb18ee29fba095dff8090508a77cba28826c80f2bb19ac2425acd95cbf"
+      ]
+    },
+    "sympy__sympy-19346": {
+      "image_id": "sha256:d9b5c5a12217199b173e36f50b20c4eaab8af20d086802c0f640f76b3832ed15",
+      "requested": "swebench/sweb.eval.x86_64.sympy_1776_sympy-19346:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.sympy_1776_sympy-19346@sha256:d9b5c5a12217199b173e36f50b20c4eaab8af20d086802c0f640f76b3832ed15"
+      ]
+    },
+    "sympy__sympy-14248": {
+      "image_id": "sha256:eb3a63364062801d29fbdf423d80ac39157f00ec4f30a0ded10c332ecb1090fd",
+      "requested": "swebench/sweb.eval.x86_64.sympy_1776_sympy-14248:latest",
+      "repo_digests": [
+        "swebench/sweb.eval.x86_64.sympy_1776_sympy-14248@sha256:eb3a63364062801d29fbdf423d80ac39157f00ec4f30a0ded10c332ecb1090fd"
+      ]
+    }
+  },
+  "checked_at": "2026-10-11T06:51:25.882075+00:00",
+  "checks": [
+    "pinned source membership",
+    "file hashes",
+    "70 unique tasks",
+    "10x7 categories",
+    "disjoint original 196",
+    "held-out partitions",
+    "canonical config resolver",
+    "ContainerFactory locks all task images (including documented rootless derivatives)"
+  ],
+  "gold_validation": "See reports/verified70/gold-validation.json"
+}

@@ -59,6 +59,12 @@ class TactQwen3_5Model(native.Qwen3_5Model):
         if self.use_sequence_parallel:
             raise ValueError("TACT token sequence parallelism is not implemented")
         self.tact = TactRuntimeBuffers(manifest, device=self.embed_tokens.weight.device)
+        if self.tact.consumer_check:
+            for block, site in self.tact.decoder_sites.items():
+                target = (self.layers[block + 1].input_layernorm
+                          if block + 1 < len(self.layers) else self.norm)
+                target.register_forward_pre_hook(
+                    self.tact.consumer_probes[site].norm_hook, with_kwargs=True)
 
     def forward(self, input_ids, positions, intermediate_tensors=None, inputs_embeds=None):
         if intermediate_tensors is not None or self.aux_hidden_state_layers:

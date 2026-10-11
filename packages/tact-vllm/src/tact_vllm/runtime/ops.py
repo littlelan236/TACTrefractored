@@ -35,4 +35,10 @@ def apply_site(hidden, residual, runtime, site: int):
     values = torch.where(active[:, None], values, torch.zeros_like(values))
     runtime.evidence[:, site].index_add_(0, rows, values)
     runtime.counts[:, site].index_add_(0, rows, active.to(torch.int32))
+    if runtime.consumer_check:
+        next_hidden = result if residual is None else hidden
+        next_residual = None if residual is None else result
+        actual_norm = (result.float() - original.float()).norm(dim=-1)
+        runtime.consumer_probes[site].produce(
+            next_hidden, next_residual, active, actual_norm)
     return result

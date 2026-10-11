@@ -77,6 +77,7 @@ def main():
             if args.command == "config":
                 print(json.dumps(cfg if args.action == "show" else {"valid": True,
                     "tasks": len(cfg["selected_ids"]), "model": cfg["model_descriptor"],
+                    "sources": cfg["sources"],
                     "config_hash": cfg["config_hash"]}, ensure_ascii=False, indent=2))
                 return
             if args.command == "import-run":

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import copy
 import json
 import shutil
 from collections import Counter
@@ -10,7 +11,7 @@ import yaml
 
 from tact.artifacts import now, sha256, write_json
 from tact.backends.axis_bundle import validate_axis_bundle
-from tact.config import resolve_config
+from tact.config import load_config_file, merge_config, resolve_config
 from tact.contracts import model_descriptor
 
 
@@ -124,7 +125,7 @@ arms = [
 ]
 arm_records = []
 for name, backend, gpus, port, strategy, trigger in arms:
-    config = {
+    config = merge_config(copy.deepcopy(load_config_file(root / 'configs/experiment.yaml')), {
         'schema_version': 1,
         'benchmark': {'selection': ids},
         'model': {'path': 'assets/models/Qwen3.6-35B-A3B', 'served_name': 'tact-speed35b', 'max_model_len': 262144},
@@ -135,12 +136,10 @@ for name, backend, gpus, port, strategy, trigger in arms:
             'graph_requirement': 'auto' if backend == 'native_vllm' else 'required',
             'easysteer_diagnostics': False,
         },
-        'generation': json.loads((old / 'configs/runtime.json').read_text()),
-        'timeouts': {'container_lifetime_seconds': 32400},
         'execution': {'rollout_workers': 4, 'infrastructure_retry_limit': 0},
         'steering': {'strategy': strategy, 'axes': str(bundle.relative_to(root)) if strategy != 'none' else None,
                      'k': 2.0, 'trigger': trigger},
-    }
+    })
     generation_keys = ['temperature', 'seed', 'top_p', 'top_k', 'min_p', 'presence_penalty',
                        'repetition_penalty', 'max_tokens', 'enable_thinking', 'preserve_thinking']
     config['generation'] = {k: config['generation'][k] for k in generation_keys}

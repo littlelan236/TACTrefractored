@@ -1,0 +1,71 @@
+instance_id,category,category_zh,repo,official_difficulty,gold_files,gold_changed_lines,gold_hunks,issue_title,selection_reason
+django__django-10880,orm_database,ORM、SQL 与数据库迁移,django/django,<15 min fix,1,2,1,Query syntax error with condition and distinct combination,条件聚合与 DISTINCT 的 SQL 边界
+django__django-15368,orm_database,ORM、SQL 与数据库迁移,django/django,<15 min fix,1,4,2,bulk_update() does not work with plain F('...') expressions.,bulk_update 的表达式识别
+django__django-11265,orm_database,ORM、SQL 与数据库迁移,django/django,15 min - 1 hour,1,11,2,Using exclude on annotated FilteredRelation doesn't work,排除查询与 FilteredRelation 的关联语义
+django__django-11734,orm_database,ORM、SQL 与数据库迁移,django/django,15 min - 1 hour,3,10,3,OuterRef in exclude() or ~Q() uses wrong model.,OuterRef 跨字段与查询模块的修复
+django__django-16315,orm_database,ORM、SQL 与数据库迁移,django/django,15 min - 1 hour,2,13,4,QuerySet.bulk_create() crashes on mixed case columns in unique_fields/update_fields.,批量插入与混合大小写列名
+django__django-10554,orm_database,ORM、SQL 与数据库迁移,django/django,1-4 hours,2,11,2,Union queryset with ordering breaks on ordering with derived querysets,派生 union 查询的排序与编译协同
+django__django-16263,orm_database,ORM、SQL 与数据库迁移,django/django,1-4 hours,4,93,14,Strip unused annotations from count queries,count 查询裁剪注解，跨表达式与查询处理
+pallets__flask-5014,web_http,Web、HTTP、路由与安全,pallets/flask,<15 min fix,1,3,1,Require a non-empty name for Blueprints,Blueprint 名称输入验证
+psf__requests-5414,web_http,Web、HTTP、路由与安全,psf/requests,<15 min fix,1,2,1,Getting http://.example.com raises UnicodeError,非法主机名的异常类型与 URL 验证
+django__django-11099,web_http,Web、HTTP、路由与安全,django/django,<15 min fix,1,4,2,UsernameValidator allows trailing newline in usernames,用户名验证器的正则边界
+psf__requests-6028,web_http,Web、HTTP、路由与安全,psf/requests,15 min - 1 hour,1,4,1,Proxy authentication bug,HTTP 代理认证处理
+django__django-11333,web_http,Web、HTTP、路由与安全,django/django,15 min - 1 hour,2,10,3,Optimization: Multiple URLResolvers may be unintentionally be constructed by calls to `django.urls.resolvers.get_resolver`,URL resolver 构造与缓存优化
+django__django-11149,web_http,Web、HTTP、路由与安全,django/django,15 min - 1 hour,1,56,1,Admin inlines for auto-created ManyToManyFields are editable if the user only has the view permission,admin 多对多内联的权限控制
+django__django-13344,web_http,Web、HTTP、路由与安全,django/django,1-4 hours,3,32,7,Coroutine passed to the first middleware's process_response() instead of HttpResponse.,异步响应在多个 middleware 间的兼容
+sympy__sympy-12481,symbolic_math,符号代数、数论与概率计算,sympy/sympy,<15 min fix,1,8,1,`Permutation` constructor fails with non-disjoint cycles,重叠置换循环的构造语义
+sympy__sympy-15875,symbolic_math,符号代数、数论与概率计算,sympy/sympy,<15 min fix,1,2,1,is_zero is incorrect on complex integer,复整数的零值判定
+sympy__sympy-13091,symbolic_math,符号代数、数论与概率计算,sympy/sympy,15 min - 1 hour,21,112,45,"Return NotImplemented, not False, upon rich comparison with unknown type",跨多个模块的富比较 NotImplemented 协议
+sympy__sympy-24443,symbolic_math,符号代数、数论与概率计算,sympy/sympy,15 min - 1 hour,1,55,1,`_check_homomorphism` is broken on PermutationGroups,置换群同态检验算法
+sympy__sympy-16597,symbolic_math,符号代数、数论与概率计算,sympy/sympy,1-4 hours,6,70,14,a.is_even does not imply a.is_finite,有限性假设在多模块间的传播
+sympy__sympy-18199,symbolic_math,符号代数、数论与概率计算,sympy/sympy,1-4 hours,1,50,3,nthroot_mod function misses one root of x = 0 mod p.,模 n 次根遗漏零根的数论边界
+sympy__sympy-13878,symbolic_math,符号代数、数论与概率计算,sympy/sympy,>4 hours,1,156,45,Precompute the CDF of several distributions where integration doesn't work well,多种连续分布 CDF 的预计算；官方 >4h
+pydata__xarray-4075,scientific_arrays,科学数组、坐标与单位,pydata/xarray,<15 min fix,1,9,1,[bug] when passing boolean weights to weighted mean,布尔权重在加权均值中的 dtype 处理
+pydata__xarray-4629,scientific_arrays,科学数组、坐标与单位,pydata/xarray,<15 min fix,1,2,1,merge(combine_attrs='override') does not copy attrs but instead references attrs from the first object,合并属性时的拷贝与引用语义
+astropy__astropy-13977,scientific_arrays,科学数组、坐标与单位,astropy/astropy,15 min - 1 hour,1,95,1,Should `Quantity.__array_ufunc__()` return `NotImplemented` instead of raising `ValueError` if the inputs are incompatible?,Quantity 的 numpy ufunc 互操作与异常边界
+pydata__xarray-6938,scientific_arrays,科学数组、坐标与单位,pydata/xarray,15 min - 1 hour,2,24,6,`.swap_dims()` can modify original object,维度交换中的输入对象意外变更
+astropy__astropy-13398,scientific_arrays,科学数组、坐标与单位,astropy/astropy,1-4 hours,4,215,8,A direct approach to ITRS to Observed transformations that stays within the ITRS.,地球坐标系的多模块坐标变换
+astropy__astropy-13579,scientific_arrays,科学数组、坐标与单位,astropy/astropy,1-4 hours,1,4,2,Inconsistent behavior of `world_to_pixel` in `SlicedLowLevelWCS` ,切片 WCS 的像素坐标语义；小 patch 但官方 1–4h
+pydata__xarray-6992,scientific_arrays,科学数组、坐标与单位,pydata/xarray,>4 hours,2,123,8,index refactor: more `_coord_names` than `_variables` on Dataset,Dataset 索引重构与变量/坐标一致性；官方 >4h
+scikit-learn__scikit-learn-13142,machine_learning,机器学习算法与估计器 API,scikit-learn/scikit-learn,<15 min fix,1,10,2,GaussianMixture predict and fit_predict disagree when n_init>1,GaussianMixture 多次初始化的一致性
+scikit-learn__scikit-learn-14496,machine_learning,机器学习算法与估计器 API,scikit-learn/scikit-learn,<15 min fix,1,22,6,[BUG] Optics float min_samples NN instantiation,OPTICS 的 min_samples 与近邻实例化
+scikit-learn__scikit-learn-12682,machine_learning,机器学习算法与估计器 API,scikit-learn/scikit-learn,15 min - 1 hour,2,90,24,`SparseCoder` doesn't expose `max_iter` for `Lasso`,SparseCoder 向 Lasso 传递迭代参数
+scikit-learn__scikit-learn-14629,machine_learning,机器学习算法与估计器 API,scikit-learn/scikit-learn,15 min - 1 hour,1,24,2,AttributeError with cross_val_predict(method='predict_proba') when using MultiOuputClassifier,多输出分类器的 cross_val_predict 接口
+scikit-learn__scikit-learn-25931,machine_learning,机器学习算法与估计器 API,scikit-learn/scikit-learn,15 min - 1 hour,1,24,2,"X does not have valid feature names, but IsolationForest was fitted with feature names",IsolationForest 中特征名校验与内部调用
+scikit-learn__scikit-learn-26323,machine_learning,机器学习算法与估计器 API,scikit-learn/scikit-learn,15 min - 1 hour,1,4,2,`ColumnTransformer.set_output` ignores the `remainder` if it's an estimator,ColumnTransformer 输出模式向 remainder 传播
+scikit-learn__scikit-learn-25102,machine_learning,机器学习算法与估计器 API,scikit-learn/scikit-learn,1-4 hours,2,29,7,Preserving dtypes for DataFrame output by transformers that do not modify the input values,DataFrame 输出和多估计器 dtype 保留
+matplotlib__matplotlib-13989,visualization,绘图、渲染与交互,matplotlib/matplotlib,<15 min fix,1,2,1,hist() no longer respects range=... when density=True,hist density 模式的范围处理
+matplotlib__matplotlib-25479,visualization,绘图、渲染与交互,matplotlib/matplotlib,<15 min fix,2,7,2,Confusing (broken?) colormap name handling,颜色映射名称与对象参数处理
+matplotlib__matplotlib-14623,visualization,绘图、渲染与交互,matplotlib/matplotlib,15 min - 1 hour,3,19,6,Inverting an axis using its limits does not work for log scale,对数坐标反转的多模块修复
+matplotlib__matplotlib-24870,visualization,绘图、渲染与交互,matplotlib/matplotlib,15 min - 1 hour,2,33,5,[ENH]: Auto-detect bool arrays passed to contour()?,等高线自动识别布尔输入，二维与三角网格协同
+matplotlib__matplotlib-25775,visualization,绘图、渲染与交互,matplotlib/matplotlib,15 min - 1 hour,3,39,12,[ENH]: Add get/set_antialiased to Text objects,文本抗锯齿接口与多个渲染 backend
+mwaskom__seaborn-3069,visualization,绘图、渲染与交互,mwaskom/seaborn,15 min - 1 hour,1,15,4,Nominal scale should be drawn the same way as categorical scales,类别尺度的绘制一致性
+mwaskom__seaborn-3187,visualization,绘图、渲染与交互,mwaskom/seaborn,15 min - 1 hour,2,12,2,Wrong legend values of large ranges,大数范围图例的格式化与偏移量
+sphinx-doc__sphinx-8595,documentation,文档生成、解析与交叉引用,sphinx-doc/sphinx,<15 min fix,1,2,1,autodoc: empty __all__ attribute is ignored,autodoc 对空 __all__ 的处理
+sphinx-doc__sphinx-9230,documentation,文档生成、解析与交叉引用,sphinx-doc/sphinx,<15 min fix,1,2,1,"Doc rendering is incorrect when :param has datatype dict(str,str)",复杂参数类型的文档渲染
+sphinx-doc__sphinx-7748,documentation,文档生成、解析与交叉引用,sphinx-doc/sphinx,15 min - 1 hour,1,90,4,autodoc_docstring_signature with overloaded methods,重载方法签名的 autodoc 解析
+sphinx-doc__sphinx-10673,documentation,文档生成、解析与交叉引用,sphinx-doc/sphinx,15 min - 1 hour,3,26,9,"toctree contains reference to nonexisting document 'genindex', 'modindex', 'search'",toctree 的特殊页面跨模块支持
+sphinx-doc__sphinx-8548,documentation,文档生成、解析与交叉引用,sphinx-doc/sphinx,1-4 hours,2,50,4,autodoc inherited-members won't work for inherited attributes (data members).,继承属性的文档查找与 importer
+sphinx-doc__sphinx-9461,documentation,文档生成、解析与交叉引用,sphinx-doc/sphinx,1-4 hours,3,52,7,Methods decorated with @classmethod and @property do not get documented.,classmethod/property 的反射与文档协同
+sphinx-doc__sphinx-7590,documentation,文档生成、解析与交叉引用,sphinx-doc/sphinx,>4 hours,3,107,14,C++ User Defined Literals not supported,C/C++ 用户定义字面量解析；官方 >4h
+pytest-dev__pytest-10081,test_framework,测试发现、标记、fixtures 与日志,pytest-dev/pytest,<15 min fix,1,5,1,unittest.TestCase.tearDown executed for classes marked with `unittest.skip` when running --pdb,unittest skip 与 pdb 的 teardown 行为
+pytest-dev__pytest-7432,test_framework,测试发现、标记、fixtures 与日志,pytest-dev/pytest,<15 min fix,1,3,1,skipping: --runxfail breaks pytest.mark.skip location reporting,runxfail 和 skip 的报告位置
+pytest-dev__pytest-5631,test_framework,测试发现、标记、fixtures 与日志,pytest-dev/pytest,15 min - 1 hour,1,19,1,ValueError when collecting tests that patch an array ,带数组属性的对象在测试收集时比较
+pytest-dev__pytest-7490,test_framework,测试发现、标记、fixtures 与日志,pytest-dev/pytest,15 min - 1 hour,1,21,2,Pytest 6: Dynamically adding xfail marker in test no longer ignores failure,运行中新增 xfail 标记
+pytest-dev__pytest-8399,test_framework,测试发现、标记、fixtures 与日志,pytest-dev/pytest,15 min - 1 hour,2,10,5,"Starting v6.2.0, unittest setUpClass fixtures are no longer ""private""",unittest setUpClass 的 fixture 可见性
+pytest-dev__pytest-10356,test_framework,测试发现、标记、fixtures 与日志,pytest-dev/pytest,1-4 hours,1,37,2,Consider MRO when obtaining marks for classes,多继承 MRO 下的 marker 合并
+pytest-dev__pytest-6197,test_framework,测试发现、标记、fixtures 与日志,pytest-dev/pytest,1-4 hours,1,24,3,Regression in 5.2.3: pytest tries to collect random __init__.py files,测试发现范围与 __init__.py 导入回归
+pylint-dev__pylint-6903,static_analysis,静态分析、类型提示与 CLI 配置,pylint-dev/pylint,<15 min fix,1,7,1,Running pylint in Kubernetes Pod with --jobs=0 fails,容器 CPU 配额与 jobs=0 的并行预算
+pylint-dev__pylint-7277,static_analysis,静态分析、类型提示与 CLI 配置,pylint-dev/pylint,<15 min fix,1,5,1,`pylint` removes first item from `sys.path` when running from `runpy`.,runpy 下 sys.path 的正确处理
+pylint-dev__pylint-4604,static_analysis,静态分析、类型提示与 CLI 配置,pylint-dev/pylint,15 min - 1 hour,2,6,3,unused-import false positive for a module used in a type comment,type comment 中导入使用的误报
+pylint-dev__pylint-6528,static_analysis,静态分析、类型提示与 CLI 配置,pylint-dev/pylint,15 min - 1 hour,2,35,5,Pylint does not respect ignores in `--recursive=y` mode,递归扫描与忽略规则的多模块一致性
+pylint-dev__pylint-7080,static_analysis,静态分析、类型提示与 CLI 配置,pylint-dev/pylint,15 min - 1 hour,1,1,1,`--recursive=y` ignores `ignore-paths`,递归模式的 ignore-paths 过滤
+pylint-dev__pylint-4551,static_analysis,静态分析、类型提示与 CLI 配置,pylint-dev/pylint,1-4 hours,4,126,7,Use Python type hints for UML generation,从 Python 类型提示提取 UML 关系
+pylint-dev__pylint-8898,static_analysis,静态分析、类型提示与 CLI 配置,pylint-dev/pylint,1-4 hours,3,32,5,bad-names-rgxs mangles regular expressions with commas,正则表达式中的逗号与 CLI 参数解析
+django__django-10999,serialization_formatting,序列化、文件格式与字符串输出,django/django,<15 min fix,1,7,1,Fix parse_duration() for some negative durations,负时间间隔的解析
+django__django-12125,serialization_formatting,序列化、文件格式与字符串输出,django/django,<15 min fix,1,2,1,makemigrations produces incorrect path for inner classes,嵌套类的迁移序列化路径
+django__django-14580,serialization_formatting,序列化、文件格式与字符串输出,django/django,<15 min fix,1,2,1,Missing import statement in generated migration (NameError: name 'models' is not defined),序列化后缺失 models 导入
+astropy__astropy-8707,serialization_formatting,序列化、文件格式与字符串输出,astropy/astropy,15 min - 1 hour,2,75,6,Header.fromstring does not accept Python 3 bytes,FITS header 的 bytes/string 兼容
+pydata__xarray-4966,serialization_formatting,序列化、文件格式与字符串输出,pydata/xarray,15 min - 1 hour,1,8,1,Handling of signed bytes from OPeNDAP via pydap,netCDF/OPeNDAP 有符号字节与无符号解码
+sympy__sympy-19346,serialization_formatting,序列化、文件格式与字符串输出,sympy/sympy,15 min - 1 hour,1,10,1,srepr not printing dict and set properly,srepr 的 dict/set 输出
+sympy__sympy-14248,serialization_formatting,序列化、文件格式与字符串输出,sympy/sympy,1-4 hours,3,65,4,The difference of MatrixSymbols prints as a sum with (-1) coefficient,矩阵符号差在 LaTeX/pretty/string 三种输出中一致

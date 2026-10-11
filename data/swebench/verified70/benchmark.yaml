@@ -1,0 +1,8 @@
+# Dataset-only overlay; runtime/model/agent/environment defaults remain canonical.
+benchmark:
+  instances: data/swebench/verified70/instances.json
+  splits: data/swebench/verified70/splits.json
+  exclusions: data/swebench/verified70/exclusions.json
+  selection: eval
+research:
+  fit_exclusions: data/swebench/verified70/fit-exclusions.json

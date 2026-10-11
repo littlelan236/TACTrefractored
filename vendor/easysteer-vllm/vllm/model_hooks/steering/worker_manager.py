@@ -6,6 +6,7 @@
 Maps live requests to refcounted config slots; full-graph buffer state
 and admissibility live in graph.state.SteeringGraphState."""
 
+import os
 from dataclasses import dataclass
 
 import torch
@@ -63,6 +64,7 @@ class WorkerSteeringState:
         self._req_fingerprints: dict[str, str] = {}
         self._free_slots: list[int] = []
         self._next_slot = 0
+        self._tact_detail_enabled = os.environ.get("TACT_EASYSTEER_DETAIL_LOG") == "1"
         # Tier-1 full-graph mode state (see graph.state).
         self._graph_full = steer_vector_config.graph_mode == "in_graph"
         self.graph_state = SteeringGraphState(steer_vector_config, device)
@@ -308,6 +310,33 @@ class WorkerSteeringState:
             entry.request.steer_vector_int_id for entry in self._config_slots.values()
         }
 
+    def init_consumer_checks(self, model, targets):
+        self._consumer_enabled = __import__("os").environ.get("TACT_CONSUMER_CHECK") == "1"
+        self._consumer_records = 0
+        self._consumer_dropped = 0
+        if self._consumer_enabled:
+            self._controller_manager.attach_consumers(model, targets)
+
+    def begin_consumer_step(self, geometry, mode):
+        if not getattr(self, "_consumer_enabled", False):
+            return
+        self._consumer_geometry, self._consumer_mode = geometry, mode
+        for controller in self._controller_manager.controllers.values():
+            if getattr(controller, "consumer_probe", None) is not None:
+                controller.consumer_probe.reset()
+
+    def set_consumer_logits_indices(self, indices):
+        if not getattr(self, "_consumer_enabled", False):
+            return
+        for controller in self._controller_manager.controllers.values():
+            if getattr(controller, "site_kind", "") == "final_norm":
+                controller.consumer_probe.logits_indices = indices
+
+    def write_consumer_checks(self):
+        if getattr(self, "_consumer_enabled", False):
+            from vllm.model_hooks.steering.consumer_logging import write_consumer_checks
+            write_consumer_checks(self)
+
     def begin_runtime_evidence(self):
         if getattr(self, "_runtime_evidence_started", False):
             return
@@ -318,6 +347,22 @@ class WorkerSteeringState:
         for wrapper in CUDAGraphWrapper._all_instances:
             wrapper.tact_replay_count = 0
         self._runtime_evidence_started = True
+
+    def reset_tact_step_details(self, num_tokens):
+        if not self._tact_detail_enabled:
+            return
+        if self._controller_manager is not None:
+            for controller in self._controller_manager.controllers.values():
+                details = getattr(controller, "tact_details", None)
+                if details is not None:
+                    details[:num_tokens, 0].zero_()
+
+    def write_tact_step_details(self, geometry, mode):
+        if not self._tact_detail_enabled:
+            return
+        from vllm.model_hooks.steering.diagnostics import write_step_details
+
+        write_step_details(self, geometry, mode)
 
     def tact_runtime_evidence(self):
         from vllm.compilation.counter import compilation_counter
@@ -347,6 +392,8 @@ class WorkerSteeringState:
                 for w in CUDAGraphWrapper._all_instances
             ),
             "sites": sites,
+            "detail_records": getattr(self, "_tact_detail_records", 0),
+            "detail_dropped": getattr(self, "_tact_detail_dropped", 0),
         }
 
     def model_info(self) -> dict[str, dict[int, int | None]]:

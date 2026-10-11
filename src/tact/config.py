@@ -34,9 +34,9 @@ class Serving(Strict):
     backend: Literal["native_vllm", "registry_vllm", "easysteer"] = "native_vllm"
     management: Literal["managed", "external"] = "managed"
     host: str = "127.0.0.1"
-    port: int = Field(default=18030, ge=1024, le=65535)
-    gpus: list[int] = [4, 5, 6, 7]
-    tensor_parallel_size: int = Field(default=4, gt=0)
+    port: int = Field(default=8000, ge=1024, le=65535)
+    gpus: list[int] = [0, 1, 2, 3, 4, 5, 6, 7]
+    tensor_parallel_size: int = Field(default=8, gt=0)
     max_num_seqs: int = Field(default=8, gt=0)
     max_num_batched_tokens: int = Field(default=8192, gt=0)
     gpu_memory_utilization: float = Field(default=0.9, gt=0, lt=1)
@@ -50,6 +50,12 @@ class Serving(Strict):
     external_manifest: str | None = None
     registry_evidence: bool = True
     easysteer_diagnostics: bool = False
+    easysteer_detail_log: bool = False
+    easysteer_detail_log_limit: int = Field(default=20000, gt=0)
+    steering_consumer_check: bool = False
+    steering_consumer_check_rows: int = Field(default=32, ge=1, le=256)
+    steering_consumer_log_limit: int = Field(default=20000, gt=0)
+    async_scheduling: bool | None = None
 
 
 class Generation(Strict):
@@ -70,7 +76,7 @@ class Agent(Strict):
     max_consecutive_format_errors: int = Field(default=10, gt=0)
     cost_limit: float = Field(default=0, ge=0)
     wall_time_limit_seconds: int = Field(default=0, ge=0)
-    template: str = "configs/agent.yaml"
+
 
 
 class Environment(Strict):
@@ -87,16 +93,20 @@ class Environment(Strict):
     }
     network_fallback: bool = False
     variables: dict[str, str] = {}
+    requirements_cache: str = "data/swebench/requirements-cache"
 
 
 class Timeouts(Strict):
-    container_lifetime_seconds: int = Field(default=32400, gt=0)
+    container_lifetime_seconds: int = Field(default=28800, gt=0)
     container_start_seconds: int = Field(default=120, gt=0)
     bootstrap_seconds: int = Field(default=600, gt=0)
     tool_command_seconds: int = Field(default=120, gt=0)
     model_request_seconds: int = Field(default=28800, gt=0)
     evaluation_seconds: int = Field(default=300, gt=0)
     pipeline_wall_seconds: int = Field(default=0, ge=0)
+    metadata_request_seconds: int = Field(default=30, gt=0)
+    server_shutdown_seconds: int = Field(default=30, gt=0)
+    server_kill_seconds: int = Field(default=10, gt=0)
 
 
 class Execution(Strict):
@@ -129,6 +139,13 @@ class Research(Strict):
     ridge: float = Field(default=0.001, gt=0)
 
 
+class Templates(Strict):
+    system_template: str
+    instance_template: str
+    observation_template: str
+    format_error_template: str
+
+
 class Experiment(Strict):
     schema_version: Literal[1] = 1
     benchmark: Benchmark = Benchmark()
@@ -141,10 +158,73 @@ class Experiment(Strict):
     execution: Execution = Execution()
     steering: Steering = Steering()
     research: Research = Research()
+    templates: Templates
 
 
 def root_path() -> Path:
     return Path(__file__).resolve().parents[2]
+
+
+class UniqueKeyLoader(yaml.SafeLoader):
+    """Reject duplicate YAML keys before they can silently replace a setting."""
+
+
+def _unique_mapping(loader, node, deep=False):
+    mapping = {}
+    for key_node, value_node in node.value:
+        key = loader.construct_object(key_node, deep=deep)
+        if key in mapping:
+            raise ValueError(f"Duplicate configuration key: {key}")
+        mapping[key] = loader.construct_object(value_node, deep=deep)
+    return mapping
+
+
+UniqueKeyLoader.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, _unique_mapping)
+
+
+def load_config_file(path: Path) -> dict:
+    raw = yaml.load(Path(path).read_text(encoding="utf-8"), Loader=UniqueKeyLoader)
+    if not isinstance(raw, dict):
+        raise TypeError("Configuration must be a YAML mapping")
+    return raw
+
+
+def merge_config(base: dict, overlay: dict) -> dict:
+    result = dict(base)
+    for key, value in overlay.items():
+        result[key] = merge_config(result[key], value) if (
+            isinstance(value, dict) and isinstance(result.get(key), dict)) else value
+    return result
+
+
+def flatten_config(value: dict, prefix="") -> dict:
+    leaves = {}
+    for key, item in value.items():
+        name = f"{prefix}.{key}" if prefix else key
+        if isinstance(item, dict) and item:
+            leaves.update(flatten_config(item, name))
+        else:
+            leaves[name] = item
+    return leaves
+
+
+def prompt_templates(cfg: dict) -> dict:
+    if "templates" in cfg:
+        return cfg["templates"]
+    # Pre-unification snapshots retain their original hashes and meaning.
+    path = Path(cfg["agent"]["template"])
+    if not path.is_file():
+        path = Path(cfg["project_root"]) / "resources/legacy-agent.yaml"
+    if sha256(path) != cfg["template_hash"]:
+        raise ValueError("Historical agent template hash mismatch")
+    raw = yaml.safe_load(path.read_text(encoding="utf-8"))
+    return {**raw["agent"], **raw["model"]}
+
+
+def agent_config(cfg: dict) -> dict:
+    prompts = prompt_templates(cfg)
+    return {**{k: prompts[k] for k in ["system_template", "instance_template"]},
+            **{k: v for k, v in cfg["agent"].items() if k != "template"}}
 
 
 def select_instances(cfg: dict) -> tuple[list[dict], dict]:
@@ -186,8 +266,12 @@ def select_instances(cfg: dict) -> tuple[list[dict], dict]:
 def resolve_config(path: Path | None = None, overrides: list[str] = ()) -> dict:
     root = root_path()
     path = Path(path or root / "configs/experiment.yaml").resolve()
-    raw = yaml.safe_load(path.read_text(encoding="utf-8"))
-    sources = {"file": str(path), "overrides": list(overrides), "environment_overrides": []}
+    canonical = root / "configs/experiment.yaml"
+    raw = load_config_file(canonical)
+    if path != canonical.resolve():
+        raw = merge_config(raw, load_config_file(path))
+    sources = {"file": str(path), "base_file": str(canonical),
+               "overrides": list(overrides), "environment_overrides": []}
     for entry in overrides:
         key, separator, text = entry.partition("=")
         if not separator:
@@ -215,15 +299,20 @@ def resolve_config(path: Path | None = None, overrides: list[str] = ()) -> dict:
         raise ValueError("Baseline TP must equal the configured visible GPU count")
     if cfg["generation"]["max_tokens"] >= cfg["model"]["max_model_len"]:
         raise ValueError("max_tokens must leave room for the prompt in max_model_len")
-    if t["bootstrap_seconds"] + max(t["tool_command_seconds"], t["evaluation_seconds"],
-                                     t["model_request_seconds"]) > t["container_lifetime_seconds"]:
-        # Requests are sequentially awaited while the task's container remains alive.
-        raise ValueError("Container lifetime must exceed bootstrap plus each operation budget")
+    # A host-side model request and the Docker lifetime have independent clocks.
+    # Check container-side operations individually; do not silently enlarge lifetime.
+    if max(t["bootstrap_seconds"], t["tool_command_seconds"],
+           t["evaluation_seconds"]) > t["container_lifetime_seconds"]:
+        raise ValueError("Container-side operation budget exceeds container lifetime")
+    if backend in {"registry_vllm", "easysteer"} and s["async_scheduling"] is True:
+        raise ValueError("Steering backends currently require synchronous scheduling")
     for section, keys in {"benchmark": ["instances", "splits", "exclusions"],
-                          "model": ["path"], "agent": ["template"],
+                          "model": ["path"],
                           "environment": ["wheelhouse"], "research": ["fit_exclusions"]}.items():
         for key in keys:
             cfg[section][key] = str(project_path(root, cfg[section][key]))
+    cfg["environment"]["requirements_cache"] = str(project_path(
+        root, cfg["environment"]["requirements_cache"], exists=False))
     cfg["model_descriptor"] = model_descriptor(Path(cfg["model"]["path"]))
     if cfg["steering"]["axes"] is not None:
         cfg["steering"]["axes"] = str(project_path(root, cfg["steering"]["axes"]))
@@ -240,7 +329,9 @@ def resolve_config(path: Path | None = None, overrides: list[str] = ()) -> dict:
     cfg["selected_ids"] = [row["instance_id"] for row in selected]
     cfg["input_hashes"] = {key: sha256(Path(cfg["benchmark"][key]))
                            for key in ["instances", "splits", "exclusions"]}
-    cfg["template_hash"] = sha256(Path(cfg["agent"]["template"]))
+    cfg["template_hash"] = hash_json(cfg["templates"])
+    cfg["sources"]["schema_defaults"] = sorted(set(flatten_config(
+        Experiment.model_validate(raw).model_dump(mode="json", by_alias=True))) - set(flatten_config(raw)))
     cfg["config_hash"] = hash_json(cfg)
     return cfg
 

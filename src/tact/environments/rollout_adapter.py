@@ -13,6 +13,8 @@ class RolloutEnvironment:
             image=factory.spec(instance)["image_id"], cwd=cfg["environment"]["cwd"],
             env=factory.policy.variables(), timeout=cfg["timeouts"]["tool_command_seconds"],
             container_timeout=str(cfg["timeouts"]["container_lifetime_seconds"]),
+            executable=cfg["environment"]["docker_executable"],
+            pull_timeout=cfg["timeouts"]["container_start_seconds"],
         )
         self.container = factory.create(instance, context)
         self.container.start()

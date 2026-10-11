@@ -6,11 +6,9 @@ import logging
 import traceback
 from pathlib import Path
 
-import yaml
-
 from tact.artifacts import identifier, now, read_json, update_status, write_json
 from tact.backends import model_config, process_manager
-from tact.config import select_instances
+from tact.config import agent_config, select_instances
 from tact.environments.containers import ContainerFactory, TaskContext
 
 TERMINAL = {"Submitted", "LimitsExceeded", "ContextWindowExceededError", "RepeatedFormatError", "TimeExceeded"}
@@ -72,8 +70,7 @@ def process_task(cfg: dict, run: Path, instance: dict, factory: ContainerFactory
         if result_path.exists():
             return read_json(result_path)
         raise RuntimeError(f"No retry budget remains for interrupted task {iid}")
-    agent_settings = yaml.safe_load(Path(cfg["agent"]["template"]).read_text())["agent"]
-    agent_settings.update({k: v for k, v in cfg["agent"].items() if k != "template"})
+    agent_settings = agent_config(cfg)
     for index in range(offset, offset + remaining):
         attempt_id = f"attempt-{index:03d}"
         output = attempts / attempt_id

@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "excluded": [
+    "pallets__flask-5014",
+    "psf__requests-5414",
+    "psf__requests-6028"
+  ],
+  "reasons": {
+    "pallets__flask-5014": "Offline numpy wheelhouse has no compatible wheel for this image Python; bootstrap fails.",
+    "psf__requests-5414": "Image conda activation exports proxies; proxy behavior tests fail and missing httpbin fixtures cause errors.",
+    "psf__requests-6028": "Image conda activation exports proxies; proxy behavior tests fail and pytest-mock fixtures are missing."
+  }
+}

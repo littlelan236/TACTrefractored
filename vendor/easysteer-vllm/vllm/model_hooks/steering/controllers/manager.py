@@ -7,6 +7,8 @@
 shared with capture.
 """
 
+import os
+
 from vllm.logger import init_logger
 from vllm.model_hooks.components.registry import (
     ATTENTION_HEADS,
@@ -79,6 +81,7 @@ class ControllerManager:
                     else DecoderOutputAdapter
                 )
             controller.layer_id = layer.layer_id
+            controller.site_kind = layer.site_kind
             controller._output_width = layer.width
             controller._global_output_width = layer.global_width
             controller._feature_start = layer.feature_start
@@ -106,6 +109,29 @@ class ControllerManager:
             )
         else:
             logger.warning("No %s modules found for steering", component.id)
+
+    def attach_consumers(self, model, targets):
+        if os.environ.get("TACT_CONSUMER_CHECK") != "1":
+            return
+        decoders = {t.layer_id: t for t in targets if t.site_kind == "decoder_output"}
+        finals = [t for t in targets if t.site_kind == "final_norm"]
+        for target in targets:
+            controller = self.controllers[target.name + "::tact"]
+            probe = controller.consumer_probe
+            if probe is None:
+                raise RuntimeError("Consumer buffers not initialized before attachment")
+            if target.site_kind == "final_norm":
+                processor = model.language_model.logits_processor
+                hook = probe.logits_hook
+            else:
+                following = decoders.get(target.layer_id + 1)
+                processor = (
+                    following.module.input_layernorm if following else finals[0].module
+                )
+                hook = probe.norm_hook
+            self._hook_handles.append(
+                processor.register_forward_pre_hook(hook, with_kwargs=True)
+            )
 
     def controllers_for_layer(
         self, layer_id: int, component_id: str

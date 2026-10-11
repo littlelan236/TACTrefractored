@@ -9,10 +9,9 @@ import time
 from pathlib import Path
 
 import requests
-import yaml
 
 from tact.artifacts import now, read_json, sha256, write_json
-from tact.config import child_environment
+from tact.config import child_environment, prompt_templates
 
 
 def capabilities() -> dict:
@@ -26,9 +25,9 @@ def capabilities() -> dict:
 
 def model_config(cfg: dict) -> dict:
     g, s = cfg["generation"], cfg["serving"]
-    templates = yaml.safe_load(Path(cfg["agent"]["template"]).read_text()).get("model", {})
+    templates = prompt_templates(cfg)
     return {
-        **templates,
+        **{k: templates[k] for k in ["observation_template", "format_error_template"]},
         "model_name": "openai/" + cfg["model"]["served_name"],
         "cost_tracking": "ignore_errors",
         "model_kwargs": {
@@ -107,6 +106,8 @@ class BackendProcessManager:
             if s["enable_prefix_caching"]
             else "--no-enable-prefix-caching"
         ]
+        if s.get("async_scheduling") is not None:
+            args += ["--async-scheduling" if s["async_scheduling"] else "--no-async-scheduling"]
         if s["language_model_only"]:
             args += ["--language-model-only"]
         if m["trust_remote_code"]:
@@ -218,12 +219,12 @@ class BackendProcessManager:
             pid = self.process.pid
             try:
                 os.killpg(pid, signal.SIGTERM)
-                self.process.wait(timeout=30)
+                self.process.wait(timeout=self.cfg["timeouts"].get("server_shutdown_seconds", 30))
             except ProcessLookupError:
                 pass
             except subprocess.TimeoutExpired:
                 os.killpg(pid, signal.SIGKILL)
-                self.process.wait(timeout=10)
+                self.process.wait(timeout=self.cfg["timeouts"].get("server_kill_seconds", 10))
             finally:
                 self.process = None
         if self.log is not None:

@@ -13,6 +13,11 @@ limits in [EASYSTEER-VALIDATION.md](docs/EASYSTEER-VALIDATION.md).
 
 ## Quick checks
 
+All settings for new runs, including generation and agent templates, are explicit
+in [configs/experiment.yaml](configs/experiment.yaml). See
+[configuration semantics](docs/CONFIGURATION.md) for precedence, immutable run
+snapshots, timeout scopes, and backend capability constraints.
+
 ```bash
 .venvs/runner/bin/tact config check
 .venvs/runner/bin/tact assets-check --deep
@@ -47,3 +52,15 @@ virtual environments, and local credentials remain outside Git. The SWE task
 manifest and split/exclusion metadata are versioned; the requirements-fetch
 cache is generated locally. Runtime assets must be provisioned separately
 before the quick checks above.
+
+## SWE-bench Verified-70
+
+A held-out 70-task cohort (10 functional categories, 7 tasks each) from the official Verified-500 release is available. Selection criteria, per-task difficulty and run commands are in [the dataset guide](data/swebench/verified70/README.md). It inherits the canonical runtime configuration through a dataset-only overlay.
+
+Qwen27B official sampling profile and parameter rationale: [docs/QWEN27-RECOMMENDED-PARAMETERS.md](docs/QWEN27-RECOMMENDED-PARAMETERS.md).
+
+## Active dataset and Qwen-27B baseline (2026-10-11)
+
+The current partition is 127 axis-train / 64 axis-val / 67 eval. Verified70 gold failures are excluded. Previous 71 eval tasks were redistributed 47/24 with functional-type stratification at a 2:1 ratio. See [migration report](reports/repartition-20261011/README.md).
+
+The all-task baseline run is `baseline-qwen27b-all258-20261011`, using the immutable run snapshot with Qwen3.6-27B, native vLLM, GPUs 4–7, TP=4 and port 8027. Live status: `runs/baseline-qwen27b-all258-20261011/status.json`; task trajectories: `runs/baseline-qwen27b-all258-20261011/tasks/`.

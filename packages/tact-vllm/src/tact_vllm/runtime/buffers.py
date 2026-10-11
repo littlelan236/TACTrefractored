@@ -32,6 +32,13 @@ class TactRuntimeBuffers(nn.Module):
         t, r, d = manifest["token_capacity"], manifest["request_capacity"], manifest["hidden_size"]
         self.token_capacity, self.request_capacity = t, r
         n_sites = len(self.sites)
+        self.consumer_check = manifest.get("consumer_check", False)
+        self.consumer_probes = nn.ModuleList()
+        if self.consumer_check:
+            from tact_vllm.runtime.consumer_probe import ConsumerProbe
+            for _ in self.sites:
+                self.consumer_probes.append(ConsumerProbe(
+                    d, manifest.get("consumer_check_rows", 32), device))
         axes = np.zeros((n_sites, 2, d), np.float32)
         center = np.zeros((n_sites, d), np.float32)
         sigma = np.zeros((n_sites, 2), np.float32)
