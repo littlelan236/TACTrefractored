@@ -88,3 +88,38 @@ Thumbs.db
 /vendor/EasySteer/replications/
 /vendor/EasySteer/vectors/
 /vendor/EasySteer/docs/assets/
+
+# Canonical baseline outputs stay local; retain the small split/exclusion inputs.
+/baseline/*
+!/baseline/config/
+/baseline/config/*
+!/baseline/config/splits.json
+!/baseline/config/fit-exclusions-workflow.json
+
+# Keep experiment recipes/controllers, not queue state, validation dumps or logs.
+/experiments/*
+!/experiments/*/
+/experiments/*/*
+!/experiments/*/*.py
+!/experiments/*/README.md
+!/experiments/*/cap.json
+!/experiments/*/gated.json
+!/experiments/*/lda-cap.json
+!/experiments/*/lda-gated.json
+
+# Downloaded benchmark copies; retain metadata, selection and environment recipes.
+/data/swebench/instances.json
+/data/swebench/verified70/instances.json
+/data/swebench/verified70/source-500.json
+/data/swebench/verified70/*.parquet
+/data/swebench/verified200-nas/instances.json
+/data/swebench/verified200-nas/source-selected.json
+/data/swebench/verified200-nas/catalog.json
+/data/swebench/verified200-nas/catalog.csv
+/data/swebench/verified200-nas/download-plan.json
+/data/swebench/*.backup-*.json
+
+# Ad-hoc local snapshots and repair scratch space.
+/tmp/
+/temp/
+/.annotation_progress_snapshot.py

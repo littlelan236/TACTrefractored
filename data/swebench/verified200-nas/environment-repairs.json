@@ -1,0 +1,223 @@
+{
+  "source_evaluation": "gold-proxy-20261015",
+  "tasks": [
+    "astropy__astropy-7606",
+    "django__django-16454",
+    "django__django-16560",
+    "django__django-16569",
+    "django__django-16612",
+    "django__django-16631",
+    "django__django-16642",
+    "django__django-16661",
+    "django__django-16801",
+    "django__django-16899",
+    "django__django-16901",
+    "django__django-17087",
+    "django__django-7530",
+    "psf__requests-1921",
+    "scikit-learn__scikit-learn-14710",
+    "sphinx-doc__sphinx-9711",
+    "sympy__sympy-23262"
+  ],
+  "repairs": {
+    "astropy__astropy-7606": {
+      "environment_overrides": {
+        "wheelhouse": "/home/wangtianyi/tactRefractor/assets/wheels-nas200",
+        "repo_pins": {
+          "astropy/astropy": [
+            "pytest==4.6.11",
+            "pytest-remotedata==0.3.2"
+          ]
+        }
+      }
+    },
+    "django__django-16454": {
+      "environment_overrides": {
+        "wheelhouse": "/home/wangtianyi/tactRefractor/assets/wheels-nas200"
+      }
+    },
+    "django__django-16560": {
+      "environment_overrides": {
+        "wheelhouse": "/home/wangtianyi/tactRefractor/assets/wheels-nas200"
+      }
+    },
+    "django__django-16569": {
+      "environment_overrides": {
+        "wheelhouse": "/home/wangtianyi/tactRefractor/assets/wheels-nas200"
+      }
+    },
+    "django__django-16612": {
+      "environment_overrides": {
+        "wheelhouse": "/home/wangtianyi/tactRefractor/assets/wheels-nas200"
+      }
+    },
+    "django__django-16631": {
+      "environment_overrides": {
+        "wheelhouse": "/home/wangtianyi/tactRefractor/assets/wheels-nas200"
+      }
+    },
+    "django__django-16642": {
+      "environment_overrides": {
+        "wheelhouse": "/home/wangtianyi/tactRefractor/assets/wheels-nas200"
+      }
+    },
+    "django__django-16661": {
+      "environment_overrides": {
+        "wheelhouse": "/home/wangtianyi/tactRefractor/assets/wheels-nas200"
+      }
+    },
+    "django__django-16801": {
+      "environment_overrides": {
+        "wheelhouse": "/home/wangtianyi/tactRefractor/assets/wheels-nas200"
+      }
+    },
+    "django__django-16899": {
+      "environment_overrides": {
+        "wheelhouse": "/home/wangtianyi/tactRefractor/assets/wheels-nas200"
+      }
+    },
+    "django__django-16901": {
+      "environment_overrides": {
+        "wheelhouse": "/home/wangtianyi/tactRefractor/assets/wheels-nas200"
+      }
+    },
+    "django__django-17087": {
+      "environment_overrides": {
+        "wheelhouse": "/home/wangtianyi/tactRefractor/assets/wheels-nas200"
+      }
+    },
+    "django__django-7530": {
+      "environment_overrides": {
+        "wheelhouse": "/home/wangtianyi/tactRefractor/assets/wheels-nas200"
+      }
+    },
+    "psf__requests-1921": {
+      "environment_overrides": {
+        "wheelhouse": "/home/wangtianyi/tactRefractor/assets/wheels-nas200",
+        "variables": {
+          "HTTP_PROXY": "",
+          "HTTPS_PROXY": "",
+          "ALL_PROXY": "",
+          "http_proxy": "",
+          "https_proxy": "",
+          "all_proxy": ""
+        },
+        "repo_pins": {
+          "psf/requests": [
+            "pytest==4.6.11"
+          ]
+        }
+      }
+    },
+    "scikit-learn__scikit-learn-14710": {
+      "evaluation_timeout_seconds": 900,
+      "environment_overrides": {
+        "wheelhouse": "/home/wangtianyi/tactRefractor/assets/wheels-nas200",
+        "variables": {
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1"
+        }
+      }
+    },
+    "sphinx-doc__sphinx-9711": {
+      "environment_overrides": {
+        "wheelhouse": "/home/wangtianyi/tactRefractor/assets/wheels-nas200",
+        "variables": {
+          "PYTEST_ADDOPTS": "-vv -rA --color=no",
+          "TOX_TESTENV_PASSENV": "PYTEST_ADDOPTS"
+        }
+      }
+    },
+    "sympy__sympy-23262": {
+      "environment_overrides": {
+        "wheelhouse": "/home/wangtianyi/tactRefractor/assets/wheels-nas200",
+        "repo_pins": {
+          "sympy/sympy": [
+            "scipy==1.13.1"
+          ]
+        }
+      }
+    }
+  },
+  "wheelhouse": {
+    "path": "/home/wangtianyi/tactRefractor/assets/wheels-nas200",
+    "sha256": {
+      "atomicwrites-1.4.1-py2.py3-none-any.whl": "d62b3a398fe9f9a71304bbc07dbcc77ca91298dc068897b7db61ecf0cafd1985",
+      "attrs-22.2.0-py3-none-any.whl": "29e95c7f6778868dbd49170f98f8818f78f3dc5e0e37c0b1f474e3561b240836",
+      "contourpy-1.3.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl": "68a32389b06b82c2fdd68276148d7b9275b5f5cf13e5417e4252f6d1a34f72a2",
+      "cycler-0.12.1-py3-none-any.whl": "85cef7cff222d8644161529808465972e51340599459b8ac3ccbac5a854e0d30",
+      "exceptiongroup-1.3.1-py3-none-any.whl": "a7a39a3bd276781e98394987d3a5701d0c4edffb633bb7a5144577f82c773598",
+      "fonttools-4.60.2-cp39-cp39-manylinux2014_x86_64.manylinux_2_17_x86_64.whl": "38ce703b60a906e421e12d9e3a7f064883f5e61bb23e8961f4be33cfe578500b",
+      "importlib_metadata-4.8.3-py3-none-any.whl": "65a9576a5b2d58ca44d133c42a241905cc45e34d2c06fd5ba2bafa221e5d7b5e",
+      "iniconfig-1.1.1-py2.py3-none-any.whl": "011e24c64b7f47f6ebd835bb12a743f2fbe9a26d4cecaa7f53bc4f35ee9da8b3",
+      "iniconfig-2.1.0-py3-none-any.whl": "9deba5723312380e77435581c6bf4935c94cbfab9b1ed33ef8d238ea168eb760",
+      "iniconfig-2.3.0-py3-none-any.whl": "f631c04d2c48c52b84d0d0549c99ff3859c98df65b3101406327ecc7d53fbf12",
+      "kiwisolver-1.4.7-cp39-cp39-manylinux_2_12_x86_64.manylinux2010_x86_64.whl": "dda56c24d869b1193fcc763f1284b9126550eaf84b88bbc7256e15028f19188a",
+      "matplotlib-3.9.4-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl": "57aa235109e9eed52e2c2949db17da185383fa71083c00c6c143a60e07e0888c",
+      "more_itertools-8.14.0-py3-none-any.whl": "1bc4f91ee5b1b31ac7ceacc17c09befe6a40a503907baf9c839c229b5095cfd2",
+      "numpy-1.19.5-cp36-cp36m-manylinux2010_x86_64.whl": "a4646724fba402aa7504cd48b4b50e783296b5e10a524c7a6da62e4a8ac9698d",
+      "numpy-1.23.5-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl": "5e05b1c973a9f858c74367553e236f287e749465f773328c8ef31abe18f691e1",
+      "numpy-1.23.5-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl": "d208a0f8729f3fb790ed18a003f3a57895b989b40ea4dce4717e9cf4af62c6bb",
+      "numpy-1.23.5-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl": "33161613d2269025873025b33e879825ec7b1d831317e68f4f2f0f84ed14c719",
+      "numpy-1.24.4-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl": "dd80e219fd4c71fc3699fc1dadac5dcf4fd882bfc6f7ec53d30fa197b8ee22dc",
+      "numpy-1.26.4-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl": "ffa75af20b44f8dba823498024771d5ac50620e6915abac414251bd971b4529f",
+      "numpy-1.26.4-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl": "666dbfb6ec68962c033a450943ded891bed2d54e6755e35e5835d63f4f6931d5",
+      "numpy-1.26.4-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl": "f870204a840a60da0b12273ef34f7051e98c3b5961b61b0c2c1be6dfd64fbcd3",
+      "numpy-2.0.2-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl": "f26b258c385842546006213344c50655ff1555a9338e2e5e02a0756dc3e803dd",
+      "packaging-21.3-py3-none-any.whl": "ef103e05f519cdc783ae24ea4e2e0f508a9c99b2d4969652eed6a2e1ea5bd522",
+      "packaging-26.2-py3-none-any.whl": "5fc45236b9446107ff2415ce77c807cee2862cb6fac22b8a73826d0693b0980e",
+      "packaging-26.3-py3-none-any.whl": "d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c",
+      "pillow-11.3.0-cp39-cp39-manylinux2014_x86_64.manylinux_2_17_x86_64.whl": "6359a3bc43f57d5b375d1ad54a0074318a0844d11b76abccf478c37c986d3cfc",
+      "pip-26.2.1-py3-none-any.whl": "71138adf1f4ca900cdb7d289c21b7494329f2332b6d85f0e1c42108c0384ed3e",
+      "pluggy-0.13.1-py2.py3-none-any.whl": "966c145cd83c96502c3c3868f50408687b38434af77734af1e9ca461a4081d2d",
+      "pluggy-1.0.0-py2.py3-none-any.whl": "74134bbf457f031a36d68416e1509f34bd5ccc019f0bcc952c7b909d06b37bd3",
+      "pluggy-1.5.0-py3-none-any.whl": "44e1ad92c8ca002de6377e165f3e0f1be63266ab4d554740532335b9d75ea669",
+      "pluggy-1.6.0-py3-none-any.whl": "e920276dd6813095e9377c0bc5566d94c932c33b27a3e3945d8389c374dd4746",
+      "py-1.11.0-py2.py3-none-any.whl": "607c53218732647dff4acdfcd50cb62615cedf612e72d1724fb1a0cc6405b378",
+      "pyparsing-3.0.7-py3-none-any.whl": "a6c06a88f252e6c322f65faf8f418b16213b51bdfaece0524c1c1bc30c63c484",
+      "pyparsing-3.3.3-py3-none-any.whl": "ece8c00a69cf01b45d0b1dedabb469c90d8caf996d4fda40f147627a122849a4",
+      "pytest-3.10.1-py2.py3-none-any.whl": "3f193df1cfe1d1609d4c583838bea3d532b18d6160fd3f55c9447fdca30848ec",
+      "pytest-4.6.11-py2.py3-none-any.whl": "a00a7d79cbbdfa9d21e7d0298392a8dd4123316bfac545075e6f8f24c94d8c97",
+      "pytest-6.2.5-py3-none-any.whl": "7310f8d27bc79ced999e760ca304d69f6ba6c6649c0b60fb0e04a4a77cacc134",
+      "pytest-7.0.1-py3-none-any.whl": "9ce3ff477af913ecf6321fe337b93a2c0dcf2a0a1439c43f5452112c1e4280db",
+      "pytest-7.4.4-py3-none-any.whl": "b090cdf5ed60bf4c45261be03239c2c1c22df034fbffe691abe93cd80cea01d8",
+      "pytest_remotedata-0.3.2-py2.py3-none-any.whl": "3be58f09116f3ce80cff9e5076cda528a84ae36d21ca9645abf782e112c281bc",
+      "python_dateutil-2.9.0.post0-py2.py3-none-any.whl": "a8b2bc7bffae282281c8140a97d3aa9c14da0b136dfe83f850eea9a5f7470427",
+      "scipy-1.13.1-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl": "637e98dcf185ba7f8e663e122ebf908c4702420477ae52a04f9908707456ba4d",
+      "setuptools-59.6.0-py3-none-any.whl": "4ce92f1e1f8f01233ee9952c04f6b81d1e02939d6e1b488428154974a4d0783e",
+      "setuptools-75.3.4-py3-none-any.whl": "2dd50a7f42dddfa1d02a36f275dbe716f38ed250224f609d35fb60a09593d93e",
+      "setuptools-82.0.1-py3-none-any.whl": "a59e362652f08dcd477c78bb6e7bd9d80a7995bc73ce773050228a348ce2e5bb",
+      "setuptools-84.0.0-py3-none-any.whl": "51a52592b3b99e102b609654876bd65f19f999935166d1352678931132b0c670",
+      "setuptools_scm-10.3.4-py3-none-any.whl": "82f34c3e3084fc2b57d397200637cc13f2338004052d2fee47baa5f0e902464e",
+      "six-1.17.0-py2.py3-none-any.whl": "4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274",
+      "toml-0.10.2-py2.py3-none-any.whl": "806143ae5bfb6a3c6e736a764057db0e6a0e05e338b5630894a5f779cabb4f9b",
+      "tomli-1.2.3-py3-none-any.whl": "e3069e4be3ead9668e21cb9b074cd948f7b3113fd9c8bba083f48247aab8b11c",
+      "tomli-2.4.1-py3-none-any.whl": "0d85819802132122da43cb86656f8d1f8c6587d54ae7dcaf30e90533028b49fe",
+      "typing_extensions-4.1.1-py3-none-any.whl": "21c85e0fe4b9a155d0799430b0ad741cdce7e359660ccbd8b530613e8df88ce2",
+      "typing_extensions-4.13.2-py3-none-any.whl": "a439e7c04b49fec3e5d3e2beaa21755cadbbdc391694e28ccdd36ca4a1408f8c",
+      "typing_extensions-4.16.0-py3-none-any.whl": "481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8",
+      "vcs_versioning-2.5.0-py3-none-any.whl": "dbf44f6303dc817e5792cb7d0e9cc90e3046ee1e32eaa357b20ad368811313d0",
+      "vtk-9.2.6-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl": "79991dccbc483a8e5d23e5d3ae1e358fee0526fe8f710d07868ecae58c6b9535",
+      "wcwidth-0.2.13-py2.py3-none-any.whl": "3da69048e4540d84af32131829ff948f1e022c1c6bdb8d6102117aac784f6859",
+      "wheel-0.37.1-py2.py3-none-any.whl": "4bdcd7d840138086126cd09254dc6195fb4fc6f01c050a1d7236f2630db1d22a",
+      "wheel-0.45.1-py3-none-any.whl": "708e7481cc80179af0e556bbf0cc00b8444c7321e2700b8d8580231d13017248",
+      "wheel-0.48.0-py3-none-any.whl": "3217dcc807155e45db462d7ef2431f5ddda0d7273b700d05a67b271ceb1287ab",
+      "zipp-3.6.0-py3-none-any.whl": "9fe5ea21568a0a70e50f273397638d39b03353731e6cbbb3fd8502a33fec40bc"
+    }
+  },
+  "unchanged": [
+    "official task rows and splits",
+    "gold patch and test patch",
+    "FAIL_TO_PASS and PASS_TO_PASS",
+    "NAS OCI image identities",
+    "original wheelhouse and default configuration"
+  ],
+  "revision": 2,
+  "notes": {
+    "astropy__astropy-7606": "pytest 4.6.11 preserves empty callable-generated parameter IDs; pytest-remotedata 0.3.2 supports its marker API.",
+    "psf__requests-1921": "Clear inherited proxies; pytest 4.6.11 also supports raises(exception, code_string), used by the unmodified legacy tests.",
+    "scikit-learn__scikit-learn-14710": "Thread limits reduced full evaluation runtime to 6.55 seconds in repair-v1; task budget is 900 seconds."
+  }
+}

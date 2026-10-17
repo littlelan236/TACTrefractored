@@ -66,7 +66,7 @@ def import_labels(root: Path, label_set: str, source: Path):
         if not file.is_file():
             raise ValueError(f"Missing labels: {iid}")
         rows = [json.loads(line) for line in file.read_text(encoding="utf-8").splitlines() if line.strip()]
-        first = 1 if manifest["exclude_step_zero"] else 0
+        first = 0 if manifest.get("all_steps_labeled", False) else (1 if manifest["exclude_step_zero"] else 0)
         expected = set(range(first, task["n_steps"]))
         seen = set()
         for row in rows:

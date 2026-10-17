@@ -32,16 +32,7 @@ def prepare_run(cfg: dict, run_id: str) -> Path:
 
 
 def atomic_agent_class():
-    # Only persistence changes; query/action/control-flow remain upstream.
-    from minisweagent.agents.default import DefaultAgent
-
-    class DurableAgent(DefaultAgent):
-        def save(self, path, *extra_dicts):
-            data = self.serialize(*extra_dicts)
-            if path:
-                write_json(Path(path), data)
-            return data
-
+    from tact.rollout.agent import DurableAgent
     return DurableAgent
 
 
@@ -123,16 +114,39 @@ def generate_predictions(run: Path, cfg: dict) -> list[dict]:
 
 
 def run_rollout(cfg: dict, run: Path) -> dict:
-    rows, _ = select_instances(cfg)
+    rows, partitions = select_instances(cfg)
     factory = ContainerFactory(cfg, read_json(run / "images.json") if (run / "images.json").exists() else None)
     update_status(run / "status.json", "preflight")
     try:
         write_json(run / "images.json", factory.lock_images(rows))
         with process_manager(cfg, run / "serving") as backend:
             update_status(run / "status.json", "rollout")
-            with concurrent.futures.ThreadPoolExecutor(max_workers=cfg["execution"]["rollout_workers"]) as pool:
-                futures = [pool.submit(process_task, cfg, run, row, factory) for row in rows]
-                results = [future.result() for future in concurrent.futures.as_completed(futures)]
+            if cfg["execution"].get("staged_partitions", False):
+                by_id = {row["instance_id"]: row for row in rows}
+                batches = [(name, [by_id[iid] for iid in partitions[name] if iid in by_id])
+                           for name in ("axis-train", "axis-val", "eval")]
+            else:
+                batches = [("selected", rows)]
+            write_json(run / "rollout-schedule.json", {
+                "staged_partitions": cfg["execution"].get("staged_partitions", False),
+                "batches": [{"partition": name, "instance_ids": [r["instance_id"] for r in batch]}
+                            for name, batch in batches],
+            })
+            results = []
+            for partition, batch in batches:
+                if not batch:
+                    continue
+                update_status(run / "status.json", "rollout", partition=partition,
+                              partition_tasks=len(batch), completed_tasks=len(results))
+                print(f"Starting rollout partition {partition}: {len(batch)} tasks", flush=True)
+                if cfg["execution"].get("coordination_group"):
+                    from tact.rollout.coordination import coordinated_batch
+                    results.extend(coordinated_batch(cfg, run, batch, factory, process_task))
+                else:
+                    with concurrent.futures.ThreadPoolExecutor(max_workers=cfg["execution"]["rollout_workers"]) as pool:
+                        futures = [pool.submit(process_task, cfg, run, row, factory) for row in batch]
+                        results.extend(future.result() for future in concurrent.futures.as_completed(futures))
+                print(f"Finished rollout partition {partition}", flush=True)
             backend.validate_run_evidence()
         generate_predictions(run, cfg)
         failures = [r["instance_id"] for r in results if r["exit_status"] not in TERMINAL]

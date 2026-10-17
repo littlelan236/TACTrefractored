@@ -30,7 +30,15 @@ All task Docker containers are created through `tact.environments.ContainerFacto
 The default `.traj.json` is the authoritative rollout artifact. A separate capture model is not used. Stored responses, reasoning, tool calls, usage and provenance are consumed by `TrajectoryReader` and decision-point extraction.
 
 Model-specific hidden-state axes must be generated for the exact checkpoint, tokenizer, template, layer count and hidden size. An axis bundle cannot be used with a different model fingerprint.
-# Registry steering
+
+## Three-method point clouds
+
+`tact fit --all-methods` fits TACT mean difference, LDA contrast and Fisher on
+the same verified train/validation inputs and saves labeled projections. `tact plot`
+exports their point clouds and comparison as PNG/PDF/SVG, CSV/NPZ, and an HTML
+gallery. See [POINT-CLOUDS.md](docs/POINT-CLOUDS.md) for commands, data requirements
+and the preserved historical figures. OT is red, OA green, and CAL purple.
+## Registry steering
 
 The native vLLM registry backend uses the same runner and configuration entry.
 See [registry usage and implementation](docs/REGISTRY-BACKEND.md) and
@@ -38,10 +46,10 @@ See [registry usage and implementation](docs/REGISTRY-BACKEND.md) and
 a fitted, model-bound AxisBundle; synthetic mechanism fixtures are for testing.
 
 
-## Files kept in Git
+## Source and runtime assets
 
-The repository includes project source, configurations, dependency inputs and
-snapshots under `locks/`, regression tests, setup/experiment scripts, and the
+Project source includes configurations, dependency inputs and snapshots
+under `locks/`, regression tests, the five retained pipeline/setup scripts, and the
 actual EasySteer Python runtime overlay with upstream licenses. See
 [vendor sources](vendor/README.md) for pinned upstream revisions and packaging.
 Run dependency installation commands from the repository root; editable entries
@@ -49,7 +57,7 @@ in the serving snapshots use relative project paths.
 
 Model weights, wheel/image caches, generated trajectories, axes, reports,
 virtual environments, and local credentials remain outside Git. The SWE task
-manifest and split/exclusion metadata are versioned; the requirements-fetch
+manifest and split/exclusion metadata are source inputs; the requirements-fetch
 cache is generated locally. Runtime assets must be provisioned separately
 before the quick checks above.
 
@@ -59,8 +67,31 @@ A held-out 70-task cohort (10 functional categories, 7 tasks each) from the offi
 
 Qwen27B official sampling profile and parameter rationale: [docs/QWEN27-RECOMMENDED-PARAMETERS.md](docs/QWEN27-RECOMMENDED-PARAMETERS.md).
 
-## Active dataset and Qwen-27B baseline (2026-10-11)
+## Canonical baseline and current workflow (2026-10-14)
 
-The current partition is 127 axis-train / 64 axis-val / 67 eval. Verified70 gold failures are excluded. Previous 71 eval tasks were redistributed 47/24 with functional-type stratification at a 2:1 ratio. See [migration report](reports/repartition-20261011/README.md).
+The canonical baseline uses Qwen3.5-9B, sourced from
+`baseline-qwen35-9b-forward-apc-coord-gpu4-7-w12-20261012`. It contains 258
+trajectories: 127 axis-train / 64 axis-val / 67 eval. Final annotations cover all
+191 train/val tasks. Hidden extraction and TACT/LDA bundles are complete.
 
-The all-task baseline run is `baseline-qwen27b-all258-20261011`, using the immutable run snapshot with Qwen3.6-27B, native vLLM, GPUs 4–7, TP=4 and port 8027. Live status: `runs/baseline-qwen27b-all258-20261011/status.json`; task trajectories: `runs/baseline-qwen27b-all258-20261011/tasks/`.
+Use `baseline/traj/<task>.traj.json`, `baseline/annotation/<task>.jsonl`,
+`baseline/config/splits.json` and `baseline/manifest.json`. The canonical
+configuration is `baseline/config/resolved-config.json`; the general default
+`configs/experiment.yaml` currently selects a different, Qwen3.6-35B-A3B model.
+
+See [the complete workflow guide](docs/BASELINE-WORKFLOW.md) for baseline
+rollout/harness, annotation prerequisites, enrichment, hidden extraction, axes,
+TACT steering and LDA queue. [Scripts index](scripts/README.md) lists the five
+retained scripts; [workspace layout](docs/WORKSPACE-LAYOUT.md) explains retention.
+
+Original TACT/LDA CAP/GATE runs each contain 67 results under
+`runs/{tact,lda}-easysteer-eval-20261013-{cap,gated}/`. Their saved configurations
+and chosen evaluation summaries are authoritative. The old 27B baseline is a
+historical run, not the current canonical baseline.
+
+At inventory, `experiments/` was empty. Historical analysis/config/controller
+paths may therefore be absent even though formal run data remains. Restore the
+required source configs before relaunching the LDA queue. Updating these docs
+does not start or resume jobs.
+
+Split history is documented in the [repartition report](reports/repartition-20261011/README.md).

@@ -1,24 +1,48 @@
 # Implementation status
 
-Completed in the first refactor slice:
+Updated: 2026-10-14. This describes implemented capabilities and saved products,
+not a claim that any job is currently running.
 
-- Independent project tree, physical model/wheel assets, hashes and clean venvs.
-- Strict single experiment configuration and immutable resolved config.
-- Native vLLM serving process manager with explicit model identity and no steering fields.
-- Shared Docker `ContainerFactory`, bootstrap policy, wheelhouse mount, package probe and timeout checks.
-- Common mini-swe-agent rollout runner with fresh attempts and explicit infrastructure failures.
-- Scoped SWE-bench 4.1.0 harness adapter and shared evaluation bootstrap.
-- Trajectory reader, annotation export/import, decision-point reconstruction, dynamic latent extraction, model-bound axis fitting and reports.
-- Unit tests for configuration, trajectory usage, retries, environment policy, site semantics and axis fitting.
+## Implemented
 
-Not included:
+- Strict experiment resolution and immutable run configuration/provenance.
+- Native vLLM baseline and registry/EasySteer steering backends, model-bound axes.
+- Shared task ContainerFactory, dependency/bootstrap policy, images and timeouts.
+- Agent rollouts, fresh infrastructure retries, resume and shared-task coordination.
+- Scoped SWE-bench 4.1.0 harness evaluation and trajectory usage/reporting.
+- DeepSeek trajectory annotation implementation, state handoff and script loop cutoff.
+- Serving-tokenizer enrichment, annotated-prefix hidden extraction and verification.
+- TACT mean-difference, LDA contrast and Fisher axis fitting capabilities.
+- Canonical workflow fitting TACT/LDA and launching TACT CAP/GATE, plus LDA queue.
+- Optional action-cycle rollout intervention, off by default.
+- Project and pinned vendor regression tests; recorded historical backend validation.
 
-- Registry implementation and current validation are described in
-  [REGISTRY-BACKEND.md](REGISTRY-BACKEND.md) and [REGISTRY-VALIDATION.md](REGISTRY-VALIDATION.md).
-- No EasySteer integration.
-- CUDA Graph registry mechanism tests use synthetic axes; they do not establish
-  TACT research effectiveness.
-- A one-task registry SWE smoke completed rollout and harness wiring; it was
-  deliberately limited to two agent steps and ended `LimitsExceeded`/`MissingPatch`.
+## Canonical products
 
-The baseline backend still requires a model smoke on an available GPU set before a full SWE rollout. The native serving lock is separate from the runner and analysis locks.
+- Qwen3.5-9B baseline: 258 trajectories; split 127 train / 64 val / 67 eval.
+- Final train/val labels: 191 tasks and 15,560 labels.
+- Enrichment: 15,559 recoverable labeled states, one unavailable state.
+- Hidden: 191 NPZ files, verification complete; TACT and LDA bundles exist.
+- Original TACT and LDA CAP/GATE: 67 rollout results in each arm.
+- Additional TACT/LDA additive runs exist; paused loop-intervention trials are separate.
+
+See [baseline workflow](BASELINE-WORKFLOW.md) for paths, commands and stage scope.
+Harness failure counts and resolve rates must be read from the chosen evaluation
+summary; rollout completion does not guarantee grading completion or resolution.
+
+## Current boundaries
+
+- Research preparation requires canonical trajectories and annotations beforehand;
+  `--stage all` does not perform baseline rollout or API annotation.
+- LDA queue SOURCE/TARGET IDs are configured in script source, not CLI flags.
+- Enrichment replaces existing hidden and prepared-label products.
+- EasySteer architecture and scheduling boundaries are documented in
+  [EASYSTEER-BACKEND.md](EASYSTEER-BACKEND.md).
+- Synthetic graph/mechanism tests establish implementation behavior, not benchmark gains.
+- The 2026-10-14 script cleanup retained five pipeline/setup scripts. Historical
+  smoke, dataset-preparation and analysis scripts are no longer current entries.
+- `experiments/` was empty at inventory; do not assume historical config/statistics
+  paths exist. Actual formal run data remains under `runs/`.
+
+Registry and EasySteer validation reports retain dated evidence from earlier
+sessions; their historic test counts do not constitute a new test run today.

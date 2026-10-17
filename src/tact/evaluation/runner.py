@@ -25,6 +25,17 @@ def install_harness_adapter(cfg: dict, factory: ContainerFactory, rows: list[dic
     instances = {r["instance_id"]: r for r in rows}
     original_script = TestSpec.eval_script
     original_get = sb_python.requests.get
+    original_requirements = sb_python.get_requirements_by_commit
+    # Requirements metadata is advisory for the project's locked prebuilt SWE
+    # images. If all remote candidates fail, use the image environment and keep
+    # the failure visible in the evaluation log instead of aborting spec build.
+    def cached_requirements(repo, commit):
+        try:
+            return original_requirements(repo, commit)
+        except (ValueError, OSError, RuntimeError, KeyError) as exc:
+            print(f"[tact] requirements metadata unavailable for {repo}@{commit}; "
+                  f"using locked image environment: {exc}", flush=True)
+            return ""
 
     # Keep exact downloaded metadata content in the project, then prefer it offline.
     cache = Path(cfg["environment"].get("requirements_cache",
@@ -75,7 +86,9 @@ def install_harness_adapter(cfg: dict, factory: ContainerFactory, rows: list[dic
     official.cleanup_container = lambda client, container, logger: factory.close(container) if container else None
     official.RUN_EVALUATION_LOG_DIR = output / "harness"
     sb_python.requests.get = cached_get
-    TestSpec.eval_script = property(lambda self: factory.policy.wrap_eval(original_script.fget(self)))
+    sb_python.get_requirements_by_commit = cached_requirements
+    TestSpec.eval_script = property(lambda self: factory.policy_for(instances[self.instance_id]).wrap_eval(
+        original_script.fget(self)))
 
     def execute_eval(container, cmd, timeout):
         started = time.monotonic()
@@ -120,8 +133,11 @@ def evaluate(cfg: dict, run: Path, eval_id: str, gold: bool = False) -> dict:
             pred = predictions.get(iid)
             if not pred or not pred.get("model_patch"):
                 return iid, {"outcome": "MissingPatch", "completed": False, "resolved": False}
+            timeout = row.get("evaluation_timeout_seconds", cfg["timeouts"]["evaluation_seconds"])
+            if type(timeout) is not int or timeout <= 0:
+                raise ValueError(f"Invalid evaluation timeout for {iid}: {timeout}")
             result = official.run_instance(specs[iid], pred, False, False, factory.client,
-                                            eval_id, cfg["timeouts"]["evaluation_seconds"])
+                                            eval_id, timeout)
             outcome = "RESOLVED" if result["resolved"] else "UNRESOLVED"
             if not result["completed"]:
                 outcome = "EvaluationFailed"

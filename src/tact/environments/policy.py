@@ -66,7 +66,7 @@ try:
 except ImportError:
     from pip._vendor.packaging.requirements import Requirement
 constraints=open('/tmp/tact-constraints.txt').read().splitlines()
-packages=json.loads(subprocess.check_output([sys.executable,'-m','pip','list','--format=json']))
+packages=json.loads(subprocess.check_output([sys.executable,'-m','pip','list','--format=json']).decode('utf-8'))
 versions={p['name'].lower().replace('_','-'):p['version'] for p in packages}
 checks=[]
 for text in constraints:

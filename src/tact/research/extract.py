@@ -6,6 +6,11 @@ from pathlib import Path
 from tact.artifacts import read_json, sha256, write_json
 
 
+def reusable_prefix_length(previous: list[int], current: list[int]) -> int:
+    """Reuse only an exact causal prefix; otherwise replay from token zero."""
+    return len(previous) if previous and len(current) > len(previous) and current[:len(previous)] == previous else 0
+
+
 def extract(cfg: dict, directory: Path):
     import numpy as np
     import torch
@@ -46,10 +51,14 @@ def extract(cfg: dict, directory: Path):
             continue
         states = []
         with torch.inference_mode():
+            cache, previous_ids = None, []
             for decision in read_json(path):
                 ids = decision["prefix_token_ids"]
-                cache, result = None, None
-                for start in range(0, len(ids), chunk):
+                reuse = reusable_prefix_length(previous_ids, ids)
+                if not reuse:
+                    cache = None
+                result = None
+                for start in range(reuse, len(ids), chunk):
                     inputs = torch.tensor([ids[start:start + chunk]], dtype=torch.long, device=device)
                     final = start + chunk >= len(ids)
                     result = model(input_ids=inputs, past_key_values=cache, use_cache=True,
@@ -59,7 +68,9 @@ def extract(cfg: dict, directory: Path):
                 if hidden.shape != (desc["layer_count"], desc["hidden_size"]) or not np.isfinite(hidden).all():
                     raise ValueError(f"Invalid model hidden-state convention for {iid}")
                 states.append(hidden.astype(np.float16))
-                del cache, result
+                previous_ids = ids
+                del result
+            del cache
         if not states:
             raise ValueError(f"No decision states: {iid}")
         with output.with_suffix(".tmp").open("wb") as f:

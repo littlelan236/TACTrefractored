@@ -25,7 +25,7 @@ serving:
   reasoning_parser: qwen3
   # Additional implementation settings, also owned by this file.
   max_num_batched_tokens: 8192
-  gpu_memory_utilization: 0.9
+  gpu_memory_utilization: 0.5
   enable_prefix_caching: false
   language_model_only: true
   startup_seconds: 1200
@@ -53,6 +53,11 @@ generation:
   preserve_thinking: true
 
 agent:
+  loop_intervention:
+    enabled: false
+    max_period: 5
+    min_repeats: 2
+    prompt: "Your current actions are stuck in an ineffective loop. Please explore alternative approaches."
   step_limit: 250
   max_consecutive_format_errors: 10
   cost_limit: 0
@@ -87,6 +92,8 @@ timeouts:
   server_kill_seconds: 10
 
 execution:
+  coordination_group: null
+  staged_partitions: false
   rollout_workers: 8
   harness_workers: 8
   infrastructure_retry_limit: 3

@@ -20,11 +20,47 @@ def test_registry_cannot_steer_without_bound_axes():
         resolve_config(overrides=["serving.backend=registry_vllm", "steering.strategy=cap"])
 
 
-def test_registry_rejects_unsupported_cache_and_external_execution():
-    with pytest.raises(ValueError, match="prefix"):
-        resolve_config(overrides=["serving.backend=registry_vllm", "serving.enable_prefix_caching=true"])
+def test_registry_prefix_cache_selects_explicit_clean_history_policy():
+    cfg = resolve_config(overrides=["serving.backend=registry_vllm",
+                                   "serving.enable_prefix_caching=true"])
+    assert cfg["registry"]["cache_policy"] == "clean_history_v1"
+    assert cfg["registry"]["scheduler"] == "tact_vllm.adapters.scheduler.TactScheduler"
+    # Cache-disabled snapshots keep the legacy registry identity.
+    original = resolve_config(overrides=["serving.backend=registry_vllm"])
+    assert "cache_policy" not in original["registry"]
+
+
+def test_registry_rejects_external_execution():
     with pytest.raises(ValueError, match="managed"):
         resolve_config(overrides=["serving.backend=registry_vllm", "serving.management=external"])
+
+
+def test_registry_cache_launch_is_isolated_from_native_and_easysteer(monkeypatch, tmp_path):
+    import subprocess
+
+    from tact.backends.native_vllm import BackendProcessManager
+    from tact.backends.registry_vllm import RegistryProcessManager
+
+    def check_output(args, **kwargs):
+        return "[9]" if "AutoTokenizer" in args[2] else "/tmp/include\n"
+
+    monkeypatch.setattr(subprocess, "check_output", check_output)
+    for enabled in (False, True):
+        cfg = resolve_config(overrides=["serving.backend=registry_vllm",
+                                       f"serving.enable_prefix_caching={str(enabled).lower()}"])
+        directory = tmp_path / str(enabled)
+        directory.mkdir()
+        args, env = RegistryProcessManager(cfg, directory).launch_spec()
+        assert ("--scheduler-cls" in args) == enabled
+        assert env["VLLM_PLUGINS"] == "tact_registry"
+        if enabled:
+            assert args[args.index("--scheduler-cls") + 1] == cfg["registry"]["scheduler"]
+            assert args[args.index("--mamba-cache-mode") + 1] == "align"
+    baseline = resolve_config(overrides=["serving.enable_prefix_caching=true"])
+    args, env = BackendProcessManager(baseline, tmp_path).launch_spec()
+    assert "--scheduler-cls" not in args and "--mamba-cache-mode" not in args
+    assert env["VLLM_PLUGINS"] == ""
+    assert "registry" not in baseline
 
 
 def test_nested_model_identity_paths_are_not_flattened(tmp_path):

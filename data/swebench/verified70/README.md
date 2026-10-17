@@ -1,5 +1,15 @@
 # SWE-bench Verified-70
 
+> 2026-10-14 maintenance update: the historical Verified70 pull/verify/list
+> provisioning utilities were removed from `scripts/`. Source snapshots,
+> `catalog.json`/`catalog.csv`, image metadata and existing gold reports remain.
+> The commands below are package CLI entries and require already-provisioned
+> task images; they are not image-download commands. Inspect catalogs directly
+> for categories/difficulty. The canonical cohort is now 127 train / 64 val /
+> 67 eval; use [baseline splits](../../../baseline/config/splits.json).
+> See [current workflow](../../../docs/BASELINE-WORKFLOW.md) for maintained usage.
+
+
 来源：官方 `princeton-nlp/SWE-bench_Verified` test，500 条中的固定 70 条。
 Revision：`c104f840cc67f8b6eec6f759ebc8b2693d585d4a`。筛选日期：2026-10-11。
 
@@ -30,18 +40,13 @@ gold patch 的文件数、增删行数及每条选入理由在 catalog.json / ca
 
 ```bash
 .venvs/runner/bin/tact --config data/swebench/verified70/benchmark.yaml config check
-.venvs/runner/bin/python scripts/prepare_verified70.py pull-images --workers 4
-.venvs/runner/bin/python scripts/prepare_verified70.py verify
 .venvs/runner/bin/tact --config data/swebench/verified70/benchmark.yaml gold --run-id verified70-gold
 .venvs/runner/bin/tact --config data/swebench/verified70/benchmark.yaml run --run-id verified70-baseline
 ```
 
 按类型/难度查看任务：
 
-```bash
-.venvs/runner/bin/python scripts/prepare_verified70.py list --category orm_database
-.venvs/runner/bin/python scripts/prepare_verified70.py list --difficulty '1-4 hours'
-```
+
 
 子集运行可使用 CLI 的 `--set 'benchmark.selection=[id1,id2]'`，其余配置继承 canonical experiment.yaml。
 `source-500.json`/parquet 是固定 revision 的原始本地快照；运行只消费选定的 instances.json。

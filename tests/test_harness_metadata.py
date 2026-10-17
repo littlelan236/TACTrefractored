@@ -35,11 +35,16 @@ def test_missing_candidate_continues_official_requirements_search(monkeypatch, t
     cfg = {"environment": {"requirements_cache": str(tmp_path / "cache")},
            "timeouts": {"metadata_request_seconds": 1}, "project_root": str(tmp_path)}
     factory = SimpleNamespace(policy=SimpleNamespace(wrap_eval=lambda script: script))
+    # The adapter replaces this cached callable with a non-cached wrapper.
+    # Retain the upstream cache handle and restore the callable after the test.
+    original_requirements = sb_python.get_requirements_by_commit
+    monkeypatch.setattr(sb_python, "get_requirements_by_commit", original_requirements)
+    original_requirements.cache_clear()
     install_harness_adapter(cfg, factory, [], tmp_path / "preflight")
-    sb_python.get_requirements_by_commit.cache_clear()
+    original_requirements.cache_clear()
     try:
         assert sb_python.get_requirements_by_commit(repo, commit).strip() == "numpy==1.20"
         assert calls == [prefix + "missing.txt", prefix + "requirements.txt"]
         assert len(list(Path(cfg["environment"]["requirements_cache"]).glob("*.txt"))) == 1
     finally:
-        sb_python.get_requirements_by_commit.cache_clear()
+        original_requirements.cache_clear()

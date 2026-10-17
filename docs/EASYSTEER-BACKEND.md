@@ -40,7 +40,7 @@ performance. Production has only native replay counters and request-end evidence
 
 ## Semantic differences from registry
 
-This backend follows `TACT-EASYSTEER-PLAN.md`:
+The implemented backend uses the following semantics:
 
 - Every newly generated `</think>` that is subsequently consumed by forward is
   selected. Prompt/history occurrences are excluded. This is deliberately
@@ -100,14 +100,16 @@ fixtures were updated for the added graph family and the wheel-overlay source
 layout. Run from project root with `PYTHONPATH=$PWD/vendor/EasySteer` when tests
 import the upstream experiment helpers.
 
-`scripts/easysteer_model_smoke.py` forces multiple close tokens and validates
-both selected sites, including final norm. Output includes actual replay
-counters for each worker. At least two output tokens are required to consume a
-generated close; the final sampled token is not processed again after termination.
+Historical model/HTTP smoke and serving-performance drivers were removed
+from `scripts/` during the 2026-10-14 cleanup. The dated results remain in
+[EASYSTEER-VALIDATION.md](EASYSTEER-VALIDATION.md) and the corresponding reports;
+they are historical evidence, not current executable script instructions.
+The package backend and pinned vendor regression tests remain available through
+the commands above. Use [the pipeline guide](BASELINE-WORKFLOW.md) for actual
+baseline and fitted-axis CAP/GATE experiments.
 
-`scripts/easysteer_http_smoke.py` exercises the original HTTP API with baseline,
-CAP/GATE, and rejected invalid CAP scale. `scripts/easysteer_performance.py`
-measures warm end-to-end serving separately from cold payload admission.
+A generated think-close applies only if consumed by a subsequent forward;
+the final sampled token is not processed again after termination.
 
 ## Support boundaries
 

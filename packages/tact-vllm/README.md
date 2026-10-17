@@ -6,6 +6,17 @@ does not implement an HTTP server. Constructor/device initialization portions
 are adapted from the audited vLLM 0.30.0 source; the remaining model, loading,
 attention, MoE, cache, parser and server behavior is inherited.
 
+With `serving.enable_prefix_caching=true`, the Registry launcher also selects
+the package's `TactScheduler`. This engine-local composition wraps the audited
+vLLM cache coordinator; no installed vLLM file is edited. Its `clean_history_v1`
+policy keeps the running request's full state but blocks shared prefix
+publication after the first generated `</think>` when decoder-output steering
+is active. Prompt/history close tokens are ignored, and the next request
+recomputes the uncached tail without steering before it is shared. The policy
+supports the audited Qwen3.5 hybrid attention/Mamba layout with
+`mamba_cache_mode=align`; transfer, streaming, preemption/resumption and
+speculative modes are rejected.
+
 Install into the project's serving environment:
 
 ```bash

@@ -17,6 +17,8 @@ def main():
     parser.add_argument("--set-id")
     parser.add_argument("--label-set")
     parser.add_argument("--bundle-id")
+    parser.add_argument("--all-methods", action="store_true")
+    parser.add_argument("--compare-bundle-id", action="append", default=[])
     args = parser.parse_args()
     from tact.config import load_resolved
     cfg = load_resolved(args.run / "resolved-config.json")
@@ -48,13 +50,17 @@ def main():
             extract(cfg, root / "artifacts/latents" / args.set_id)
             result = {"complete": True}
         elif args.stage == "fit":
-            from tact.research.axes import fit_axes
-            result = {"path": str(fit_axes(cfg, root / "artifacts/latents" / args.set_id,
-                       root / "artifacts/labels" / args.label_set, args.bundle_id))}
+            from tact.research.axes import fit_all_axes, fit_axes
+            inputs = (cfg, root / "artifacts/latents" / args.set_id,
+                      root / "artifacts/labels" / args.label_set, args.bundle_id)
+            if args.all_methods:
+                result = {"paths": [str(p) for p in fit_all_axes(*inputs)]}
+            else:
+                result = {"path": str(fit_axes(*inputs))}
         else:
             from tact.research.plots import plot_bundle
-            plot_bundle(root / "artifacts/axes" / args.bundle_id)
-            result = {"complete": True}
+            result = plot_bundle(root / "artifacts/axes" / args.bundle_id,
+                [root / "artifacts/axes" / name for name in args.compare_bundle_id])
     print(json.dumps(result, ensure_ascii=False, indent=2))
     raise SystemExit(0 if result.get("complete", True) else 1)
 

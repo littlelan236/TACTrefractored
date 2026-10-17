@@ -71,7 +71,15 @@ class Generation(Strict):
     preserve_thinking: bool = True
 
 
+class LoopIntervention(Strict):
+    enabled: bool = False
+    max_period: int = Field(default=5, ge=1, le=5)
+    min_repeats: int = Field(default=2, ge=2)
+    prompt: str = Field(default="Your current actions are stuck in an ineffective loop. Please explore alternative approaches.", min_length=1, pattern=r"\S")
+
+
 class Agent(Strict):
+    loop_intervention: LoopIntervention = Field(default_factory=LoopIntervention)
     step_limit: int = Field(default=250, gt=0)
     max_consecutive_format_errors: int = Field(default=10, gt=0)
     cost_limit: float = Field(default=0, ge=0)
@@ -110,6 +118,8 @@ class Timeouts(Strict):
 
 
 class Execution(Strict):
+    coordination_group: str | None = None
+    staged_partitions: bool = False
     rollout_workers: int = Field(default=8, gt=0)
     harness_workers: int = Field(default=8, gt=0)
     infrastructure_retry_limit: int = Field(default=3, ge=0)

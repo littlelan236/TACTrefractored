@@ -43,6 +43,7 @@ class ManagedContainer:
             factory, container, context, instance, spec
         )
         self.started = False
+        self.policy = factory.policy_for(instance)
 
     def __getattr__(self, name):
         return getattr(self.raw, name)
@@ -53,7 +54,7 @@ class ManagedContainer:
         self.raw.start()
         self.started = True
         try:
-            bootstrap = self.factory.policy.bootstrap(self.instance["repo"])
+            bootstrap = self.policy.bootstrap(self.instance["repo"])
             result = self.factory.execute(self, bootstrap,
                                           self.factory.cfg["timeouts"]["bootstrap_seconds"])
             (self.context.output_dir / "bootstrap.log").write_text(result["output"])
@@ -67,7 +68,7 @@ class ManagedContainer:
 
     def exec_run(self, cmd, **kwargs):
         # Official harness copy/patch helpers call this API directly.
-        env = self.factory.policy.variables()
+        env = self.policy.variables()
         supplied = kwargs.pop("environment", None) or {}
         if not isinstance(supplied, dict):
             supplied = dict(entry.split("=", 1) for entry in supplied)
@@ -88,8 +89,24 @@ class ContainerFactory:
         self.client = docker.DockerClient(base_url=cfg["environment"]["docker_host"],
                                           timeout=cfg["timeouts"]["container_start_seconds"])
         self.policy = EnvironmentPolicy(cfg)
+        self._task_policies = {}
         self.images = dict(images or {})
         self._lock = threading.Lock()
+
+    def policy_for(self, instance: dict) -> EnvironmentPolicy:
+        overrides = instance.get("environment_overrides")
+        if not overrides:
+            return self.policy
+        from tact.config import Environment
+
+        iid = instance["instance_id"]
+        with self._lock:
+            if iid not in self._task_policies:
+                environment = dict(self.cfg["environment"])
+                environment.update(overrides)
+                validated = Environment.model_validate(environment).model_dump()
+                self._task_policies[iid] = EnvironmentPolicy({**self.cfg, "environment": validated})
+            return self._task_policies[iid]
 
     def event(self, context: TaskContext, event: str, **extra):
         context.output_dir.mkdir(parents=True, exist_ok=True)
@@ -102,6 +119,15 @@ class ContainerFactory:
     def lock_images(self, instances: list[dict]) -> dict:
         for row in instances:
             iid = row["instance_id"]
+            if row.get("nas_image"):
+                from tact.environments.nas_images import NasImageStore
+
+                identity = NasImageStore(row).identity()
+                if iid in self.images and self.images[iid]["image_id"] != identity["image_id"]:
+                    raise ValueError(f"NAS image identity changed for {iid}")
+                # Lock immutable OCI identities without loading the whole cohort.
+                self.images[iid] = identity
+                continue
             if iid not in self.images:
                 img = self.client.images.get(image_name(row))
                 self.images[iid] = {"image_id": img.id, "requested": image_name(row),
@@ -111,20 +137,34 @@ class ContainerFactory:
         return dict(self.images)
 
     def spec(self, instance: dict) -> dict:
-        e = self.cfg["environment"]
+        policy = self.policy_for(instance)
+        e = policy.environment
         self.lock_images([instance])
         return {"image_id": self.images[instance["instance_id"]]["image_id"],
                 "user": e["user"], "platform": e["platform"], "cwd": e["cwd"],
-                "environment": self.policy.variables(),
+                "environment": policy.variables(),
                 "volumes": {e["wheelhouse"]: {"bind": "/opt/tact-wheels", "mode": "ro"}},
                 "command": ["sleep", str(self.cfg["timeouts"]["container_lifetime_seconds"])],
-                "policy_hash": self.policy.identity(instance["repo"])["policy_hash"]}
+                "policy_hash": policy.identity(instance["repo"])["policy_hash"]}
 
     def create(self, instance: dict, context: TaskContext) -> ManagedContainer:
+        if not instance.get("nas_image"):
+            return self._create(instance, context)
+        from tact.environments.nas_images import NasImageStore
+
+        store = NasImageStore(instance)
+        # Keep the inter-process lock until Docker has a container reference,
+        # so another worker cannot evict an image between load and creation.
+        with store.creation_guard(self.client):
+            store.ensure(self.client, self.cfg["environment"]["docker_executable"],
+                         self.cfg["environment"]["docker_host"])
+            return self._create(instance, context)
+
+    def _create(self, instance: dict, context: TaskContext) -> ManagedContainer:
         spec = self.spec(instance)
         context.output_dir.mkdir(parents=True, exist_ok=True)
         write_json(context.output_dir / "container-spec.json", {**spec, "spec_hash": hash_json(spec)})
-        write_json(context.output_dir / "environment-policy.json", self.policy.identity(instance["repo"]))
+        write_json(context.output_dir / "environment-policy.json", self.policy_for(instance).identity(instance["repo"]))
         container = self.client.containers.create(
             image=spec["image_id"], user=spec["user"], platform=spec["platform"],
             working_dir=spec["cwd"], environment=spec["environment"], volumes=spec["volumes"],

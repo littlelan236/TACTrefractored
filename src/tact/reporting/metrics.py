@@ -22,6 +22,7 @@ def report(cfg: dict, run: Path, eval_id: str | None = None) -> dict:
         cumulative = [TrajectoryReader(p).usage() for p in attempts]
         tasks.append({"instance_id": iid, "exit_status": result.get("exit_status", "pending"),
                       "selected_attempt": result.get("attempt_id"),
+                      "reused_from": result.get("reused_from"),
                       "steps": sum(1 for _ in final.steps()) if final else 0,
                       "tool_calls": sum(len(s["tool_calls"]) for s in final.steps()) if final else 0,
                       "final_attempt_usage": usage,

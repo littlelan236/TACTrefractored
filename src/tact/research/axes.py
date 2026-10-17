@@ -8,6 +8,8 @@ from tact.artifacts import identifier, read_json, sha256, write_json
 from tact.contracts import validate_axis_manifest
 
 CLASSES = ("OVERTHINKING", "OVERACTING", "CALIBRATED")
+METHODS = ("tact_mean_difference", "lda_contrast", "fisher")
+METHOD_SUFFIXES = dict(zip(METHODS, ("tact", "lda_contrast", "fisher")))
 
 
 def orthogonal_pair(ot, oa):
@@ -68,6 +70,8 @@ def fit_pair(problems, site: int, research: dict):
     ot = per_problem_difference(problems, CLASSES[0], site)
     oa = per_problem_difference(problems, CLASSES[1], site)
     method = research["fit_method"]
+    if method not in METHODS:
+        raise ValueError(f"Unknown fit method: {method}")
     if method != "tact_mean_difference":
         from scipy.linalg import svd
         x = np.concatenate(list(blocks.values()))
@@ -99,7 +103,8 @@ def fit_pair(problems, site: int, research: dict):
     return ot, oa, center, sigmas
 
 
-def fit_axes(cfg: dict, latent: Path, labels: Path, bundle_id: str) -> Path:
+def fit_axes(cfg: dict, latent: Path, labels: Path, bundle_id: str, *,
+             output_directory: Path | None = None) -> Path:
     import numpy as np
     root = Path(cfg["project_root"])
     manifest = read_json(latent / "manifest.json")
@@ -132,7 +137,10 @@ def fit_axes(cfg: dict, latent: Path, labels: Path, bundle_id: str) -> Path:
             seen.add(row["step"])
         first = int(cfg["research"]["exclude_step_zero_from_fit"])
         reader_count = sum(1 for m in read_json(source)["messages"] if m.get("role") == "assistant")
-        if seen != set(range(first, reader_count)):
+        expected_steps = set(task.get("annotation_steps", range(first, reader_count)))
+        if any(type(s) is not int or s < first or s >= reader_count for s in expected_steps):
+            raise ValueError(f"Invalid annotation prefix steps: {iid}")
+        if seen != expected_steps:
             raise ValueError(f"Label coverage incomplete: {iid}")
         file = latent / f"{iid}.npz"
         if sha256(file) != verification["files"][iid]:
@@ -149,7 +157,8 @@ def fit_axes(cfg: dict, latent: Path, labels: Path, bundle_id: str) -> Path:
             positions = {step: index for index, step in enumerate(steps)}
             if keep:
                 parts[split][iid] = {"hidden": hidden[[positions[r["step"]] for r in keep]].astype(np.float32),
-                                    "labels": np.array([r["label"] for r in keep])}
+                                    "labels": np.array([r["label"] for r in keep]),
+                                    "steps": np.array([r["step"] for r in keep], dtype=np.int32)}
         audit.append({"instance_id": iid, "partition": split, "kept_labels": len(keep),
                       "label_sha256": sha256(label_path), "latent_sha256": sha256(file)})
     for split, problems in parts.items():
@@ -158,7 +167,9 @@ def fit_axes(cfg: dict, latent: Path, labels: Path, bundle_id: str) -> Path:
             raise ValueError(f"All three classes required in {split}: {dict(counts)}")
     if set(parts["axis-train"]) & set(parts["axis-val"]):
         raise ValueError("Training/validation overlap")
-    output = root / "artifacts/axes" / identifier(bundle_id)
+    output = Path(output_directory) if output_directory is not None else root / "artifacts/axes" / identifier(bundle_id)
+    if not output.resolve().is_relative_to(root.resolve()):
+        raise ValueError("Axis output must stay inside project")
     if output.exists():
         raise FileExistsError(output)
     output.mkdir(parents=True)
@@ -189,5 +200,54 @@ def fit_axes(cfg: dict, latent: Path, labels: Path, bundle_id: str) -> Path:
               "input_hashes": cfg["input_hashes"], "research_config": cfg["research"],
               "axes_sha256": sha256(output / "axes.npz"), "complete": True}
     validate_axis_manifest(bundle, desc)
+    bundle["run_id"] = manifest["run_id"]
+    bundle["projection_files"] = save_projections(output, parts, arrays)
     write_json(output / "manifest.json", bundle)
     return output
+
+
+def save_projections(output: Path, parts: dict, arrays: dict) -> dict:
+    """Freeze all labeled rows projected onto train-fitted axes, without refitting."""
+    import numpy as np
+
+    scales = np.stack([arrays["sigma_ot"], arrays["sigma_oa"]], axis=-1).astype(np.float64)
+    if not np.isfinite(scales).all() or (scales <= 0).any():
+        raise ValueError("Point-cloud calibration scales must be finite and positive")
+    directions = np.stack([arrays["v_ot"], arrays["v_oa_perp"]], axis=-1).astype(np.float64)
+    center = arrays["mu_cal"].astype(np.float64)
+    files = {}
+    for split, problems in parts.items():
+        projections, labels, instances, steps = [], [], [], []
+        for iid, data in sorted(problems.items()):
+            xy = np.einsum("nld,ldk->nlk", data["hidden"].astype(np.float64) - center,
+                           directions) / scales
+            if not np.isfinite(xy).all():
+                raise ValueError(f"Non-finite projections: {iid}")
+            projections.append(xy)
+            labels.extend(data["labels"].tolist())
+            instances.extend([iid] * len(xy))
+            steps.extend(data["steps"].tolist())
+        path = output / f"{split}-projections.npz"
+        np.savez_compressed(path, projection=np.concatenate(projections),
+                            site_index=np.arange(len(center), dtype=np.int32),
+                            label=np.array(labels), instance_id=np.array(instances),
+                            step=np.array(steps, dtype=np.int32))
+        files[split] = {"path": path.name, "sha256": sha256(path), "rows": len(labels)}
+    return files
+
+
+def fit_all_axes(cfg: dict, latent: Path, labels: Path, bundle_id: str) -> list[Path]:
+    """Fit the three existing definitions on the same validated train/val inputs."""
+    import copy
+
+    names = [identifier(f"{bundle_id}-{METHOD_SUFFIXES[m]}") for m in METHODS]
+    for name in names:
+        path = Path(cfg["project_root"]) / "artifacts/axes" / name
+        if path.exists():
+            raise FileExistsError(path)
+    outputs = []
+    for method, name in zip(METHODS, names):
+        method_cfg = copy.deepcopy(cfg)
+        method_cfg["research"]["fit_method"] = method
+        outputs.append(fit_axes(method_cfg, latent, labels, name))
+    return outputs

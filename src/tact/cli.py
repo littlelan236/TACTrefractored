@@ -46,10 +46,19 @@ def main():
             p.add_argument("--set-id", required=True)
         if command == "fit":
             p.add_argument("--label-set", required=True)
+            p.add_argument("--all-methods", action="store_true",
+                           help="Fit TACT, LDA contrast and Fisher on the same inputs")
+        if command == "plot":
+            p.add_argument("--compare-bundle-id", action="append", default=[],
+                           help="Add another fit method using the same model and labeled rows")
         if command in ["fit", "plot"]:
             p.add_argument("--bundle-id", required=True)
     p = sub.add_parser("assets-check")
     p.add_argument("--deep", action="store_true")
+    p = sub.add_parser("nas-images")
+    p.add_argument("action", choices=["status", "check", "load"])
+    p.add_argument("--deep", action="store_true")
+    p.add_argument("--limit", type=int, default=8, help="Maximum images to preload (default: 8)")
     args = parser.parse_args()
     try:
         if args.command == "assets-check":
@@ -74,6 +83,12 @@ def main():
             cfg = load_resolved(run / "resolved-config.json")
         else:
             cfg = resolve_config(args.config, args.set)
+            if args.command == "nas-images":
+                from tact.environments.nas_images import nas_images
+                if args.limit <= 0:
+                    raise ValueError("--limit must be positive")
+                print(json.dumps(nas_images(cfg, args.action, args.deep, args.limit), indent=2))
+                return
             if args.command == "config":
                 print(json.dumps(cfg if args.action == "show" else {"valid": True,
                     "tasks": len(cfg["selected_ids"]), "model": cfg["model_descriptor"],
@@ -104,6 +119,10 @@ def main():
             value = getattr(args, field, None)
             if value:
                 extra += ["--" + field.replace("_", "-"), identifier(value)]
+        if getattr(args, "all_methods", False):
+            extra.append("--all-methods")
+        for value in getattr(args, "compare_bundle_id", []):
+            extra += ["--compare-bundle-id", identifier(value)]
         code = run_stage(cfg, run, stage, extra)
         print(f"stage={stage} exit={code}; logs={run / 'logs' / (stage + '.log')}")
         raise SystemExit(code)

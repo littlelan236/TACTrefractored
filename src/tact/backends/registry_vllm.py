@@ -12,14 +12,16 @@ ARCHITECTURES = {
     "Qwen3_5ForConditionalGeneration": "TactQwen3_5ForConditionalGeneration",
     "Qwen3_5MoeForConditionalGeneration": "TactQwen3_5MoeForConditionalGeneration",
 }
+CACHE_POLICY = "clean_history_v1"
+CACHE_SCHEDULER = "tact_vllm.adapters.scheduler.TactScheduler"
 
 
 def validate_registry(cfg):
     desc, steering, serving = cfg["model_descriptor"], cfg["steering"], cfg["serving"]
     if len(desc["architectures"]) != 1 or desc["architectures"][0] not in ARCHITECTURES:
         raise ValueError("Registry TACT supports audited Qwen3_5 dense/MoE architectures")
-    if serving["enable_prefix_caching"] or not serving["language_model_only"]:
-        raise ValueError("Registry TACT requires text-only serving without prefix caching")
+    if not serving["language_model_only"]:
+        raise ValueError("Registry TACT requires text-only serving")
     if serving["management"] != "managed":
         raise ValueError("Registry external services are not yet attested; use managed")
     if not serving["registry_evidence"]:
@@ -40,6 +42,8 @@ def validate_registry(cfg):
         "axis_manifest_sha256": sha256(Path(steering["axes"]) / "manifest.json")
         if bundle
         else None,
+        **({"cache_policy": CACHE_POLICY, "scheduler": CACHE_SCHEDULER}
+           if serving["enable_prefix_caching"] else {}),
     }
 
 
@@ -85,6 +89,7 @@ class RegistryProcessManager(BackendProcessManager):
             "hidden_size": cfg["model_descriptor"]["hidden_size"],
             "sites": registry["sites"],
             "close_id": close[0],
+            "cache_policy": registry.get("cache_policy", "disabled"),
             "consumer_check": cfg["serving"].get("steering_consumer_check", False),
             "consumer_check_rows": cfg["serving"].get("steering_consumer_check_rows", 32),
             "consumer_log_limit": cfg["serving"].get("steering_consumer_log_limit", 20000),
@@ -117,6 +122,8 @@ class RegistryProcessManager(BackendProcessManager):
             "--compilation-config",
             json.dumps({"pass_config": {"enable_sp": False}}),
         ]
+        if cfg["serving"]["enable_prefix_caching"]:
+            args += ["--scheduler-cls", CACHE_SCHEDULER, "--mamba-cache-mode", "align"]
         return args, env
 
     def service_identity(self, args):
@@ -157,6 +164,19 @@ class RegistryProcessManager(BackendProcessManager):
         if (consumer_enabled and self.cfg["steering"]["strategy"] != "none"
                 and (not consumer or any(not r["all_elements_equal"] for r in consumer))):
             raise RuntimeError("Registry producer/consumer check missing or mismatched")
+        cache_records = []
+        if self.cfg["serving"]["enable_prefix_caching"]:
+            cache_path = self.evidence_directory / "scheduler.jsonl"
+            if not cache_path.is_file():
+                raise RuntimeError("Registry clean-history scheduler evidence is missing")
+            cache_records = [json.loads(line) for line in cache_path.read_text().splitlines()]
+            attested = [r for r in cache_records if r["type"] == "cache_loaded"]
+            if len(attested) != 1 or attested[0]["policy"] != CACHE_POLICY:
+                raise RuntimeError("Registry clean-history scheduler was not attested")
+            for event in cache_records:
+                end = event.get("clean_prefix_end")
+                if end is not None and event.get("max_shared_tokens", 0) > end:
+                    raise RuntimeError("Registry published a prefix beyond its clean boundary")
         write_json(
             self.directory / "verification.json",
             {
@@ -167,6 +187,9 @@ class RegistryProcessManager(BackendProcessManager):
                 "full_replay_dispatches": len(replay),
                 "full_replay_workers": replay_workers,
                 "validated": True,
+                "cache_policy": self.cfg["registry"].get("cache_policy", "disabled"),
+                "cache_admissions": [r for r in cache_records if r["type"] == "cache_admitted"],
+                "cache_freezes": [r for r in cache_records if r["type"] == "cache_freeze"],
                 "note": "Numerical mechanism validation is separate from task outcome validation",
             },
         )

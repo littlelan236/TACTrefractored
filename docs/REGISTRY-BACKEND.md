@@ -40,6 +40,35 @@ research pipeline. A different checkpoint needs its own bundle.
 if none occurred. Short prefills can remain eager/piecewise. Readiness alone
 does not prove replay. `eager` is available for mechanism comparisons.
 
+## Clean-history prefix caching
+
+Registry can enable prefix caching without changing the installed vLLM package:
+
+```bash
+.venvs/runner/bin/python -m tact \
+  --set serving.backend=registry_vllm \
+  --set serving.enable_prefix_caching=true \
+  config check
+```
+
+When enabled, the launcher selects
+`tact_vllm.adapters.scheduler.TactScheduler` and `mamba_cache_mode=align`.
+The Registry-only scheduler delegates allocation, copying, eviction and
+attention/Mamba state handling to the audited vLLM managers. It gates shared
+cache publication after the first generated `</think>` whenever a
+decoder-output steering site is active. The live request retains its complete
+private cache, while cross-request hits can reuse only the clean prefix before
+that boundary. Prompt/history occurrences of `</think>` do not create a
+boundary. A later request recomputes the uncached history and can publish that
+clean tail for subsequent reuse.
+
+The policy is conservative: decoder-output steering freezes later shared
+publication even when a particular correction is numerically zero.
+Final-norm-only steering does not alter a fixed-token cache and remains
+shareable. KV/EC transfer, streaming input, preemption/resumption and
+speculative decoding remain unsupported. Boundary and freeze events are in
+`runs/<run>/serving/evidence/<session>/scheduler.jsonl`.
+
 ## Implementation
 
 - `packages/tact-vllm/src/tact_vllm/models/qwen3_5.py`: explicit dense/MoE

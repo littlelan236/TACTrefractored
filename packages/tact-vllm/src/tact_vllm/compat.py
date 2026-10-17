@@ -34,7 +34,14 @@ def check_runtime(cfg):
     if cfg.speculative_config or cfg.lora_config or cfg.quant_config:
         errors.append("speculative/LoRA/quantization")
     if cfg.cache_config.enable_prefix_caching:
-        errors.append("prefix caching")
+        from tact_vllm.runtime.cache_policy import CLEAN_HISTORY_SCHEDULER
+
+        if cfg.scheduler_config.scheduler_cls != CLEAN_HISTORY_SCHEDULER:
+            errors.append("prefix caching without the TACT clean-history scheduler")
+        if cfg.cache_config.mamba_cache_mode != "align":
+            errors.append("prefix caching without mamba_cache_mode=align")
+        if cfg.kv_transfer_config is not None or cfg.ec_transfer_config is not None:
+            errors.append("KV/EC transfer with clean-history caching")
     if cfg.compilation_config.pass_config.enable_sp:
         errors.append("sequence parallelism")
     if not cfg.model_config.multimodal_config.language_model_only:

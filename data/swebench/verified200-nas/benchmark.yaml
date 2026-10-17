@@ -1,0 +1,8 @@
+# Independent held-out NAS cohort; all runtime defaults remain canonical.
+benchmark:
+  instances: data/swebench/verified200-nas/instances.json
+  splits: data/swebench/verified200-nas/splits.json
+  exclusions: data/swebench/verified200-nas/exclusions.json
+  selection: eval
+research:
+  fit_exclusions: data/swebench/verified200-nas/fit-exclusions.json
